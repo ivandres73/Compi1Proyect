@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>
+	<type>fa</type>
+	<automaton>
+		<!--The list of states.-->
+		<state id="0" name="q0">
+			<x>122.0</x>
+			<y>160.0</y>
+			<initial/>
+		</state>
+		<state id="1" name="q1">
+			<x>257.0</x>
+			<y>170.0</y>
+			<label>Token::Iden</label>
+			<final/>
+		</state>
+		<!--The list of transitions.-->
+		<transition>
+			<from>0</from>
+			<to>0</to>
+			<read>[0-9]</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>0</to>
+			<read>[a-z]</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>0</to>
+			<read>[A-Z]</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>0</to>
+			<read>_</read>
+		</transition>
+		<note>
+			<text>Name: Iden</text>
+			<x>125.0</x>
+			<y>29.0</y>
+		</note>
+	</automaton>
+</structure>
