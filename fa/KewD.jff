@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>
+	<type>fa</type>
+	<automaton>
+		<!--The list of states.-->
+		<state id="0" name="q0">
+			<x>274.0</x>
+			<y>221.0</y>
+			<initial/>
+		</state>
+		<state id="1" name="q1">
+			<x>361.0</x>
+			<y>137.0</y>
+		</state>
+		<state id="2" name="q2">
+			<x>537.0</x>
+			<y>133.0</y>
+			<label>Token::KwDiv</label>
+			<final/>
+		</state>
+		<state id="7" name="q7">
+			<x>537.0</x>
+			<y>231.0</y>
+			<label>Token::KwDe</label>
+			<final/>
+		</state>
+		<state id="15" name="q15">
+			<x>514.0</x>
+			<y>542.0</y>
+			<label>%Iden</label>
+		</state>
+		<!--The list of transitions.-->
+		<transition>
+			<from>0</from>
+			<to>7</to>
+			<read>E</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>i</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>v</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>7</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>I</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>V</read>
+		</transition>
+		<note>
+			<text>Name: KewD</text>
+			<x>115.0</x>
+			<y>129.0</y>
+		</note>
+	</automaton>
+</structure>
