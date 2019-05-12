@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>
+	<type>fa</type>
+	<automaton>
+		<!--The list of states.-->
+		<state id="0" name="q0">
+			<x>274.0</x>
+			<y>221.0</y>
+			<initial/>
+		</state>
+		<state id="1" name="q1">
+			<x>346.0</x>
+			<y>158.0</y>
+		</state>
+		<state id="2" name="q2">
+			<x>430.0</x>
+			<y>157.0</y>
+		</state>
+		<state id="3" name="q3">
+			<x>518.0</x>
+			<y>157.0</y>
+		</state>
+		<state id="4" name="q4">
+			<x>597.0</x>
+			<y>157.0</y>
+		</state>
+		<state id="5" name="q5">
+			<x>673.0</x>
+			<y>159.0</y>
+			<label>Token::KwInicio</label>
+			<final/>
+		</state>
+		<state id="15" name="q15">
+			<x>514.0</x>
+			<y>542.0</y>
+			<label>%Iden</label>
+		</state>
+		<!--The list of transitions.-->
+		<transition>
+			<from>4</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>i</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>I</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read>i</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read>I</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>n</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>N</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>c</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>C</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>5</to>
+			<read>o</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>5</to>
+			<read>O</read>
+		</transition>
+		<note>
+			<text>Name: KewI</text>
+			<x>115.0</x>
+			<y>129.0</y>
+		</note>
+	</automaton>
+</structure>
