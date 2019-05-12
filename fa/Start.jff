@@ -15,7 +15,7 @@
 		<state id="2" name="q2">
 			<x>309.0</x>
 			<y>384.0</y>
-			<label>Token::endfile</label>
+			<label>Token::EndFile</label>
 			<final/>
 		</state>
 		<state id="3" name="%Comments">
@@ -54,8 +54,8 @@
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>4</to>
-			<read>0</read>
+			<to>8</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>1</from>
@@ -63,14 +63,9 @@
 			<read/>
 		</transition>
 		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>2</to>
-			<read>-EOF</read>
+			<from>1</from>
+			<to>6</to>
+			<read>-"</read>
 		</transition>
 		<transition>
 			<from>1</from>
@@ -79,8 +74,18 @@
 		</transition>
 		<transition>
 			<from>0</from>
+			<to>1</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
 			<to>0</to>
 			<read>-SPACE</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>4</to>
+			<read>0</read>
 		</transition>
 		<transition>
 			<from>1</from>
@@ -88,19 +93,19 @@
 			<read>[1-9]</read>
 		</transition>
 		<transition>
-			<from>1</from>
-			<to>8</to>
-			<read/>
+			<from>0</from>
+			<to>0</to>
+			<read>-TAB</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>2</to>
+			<read>-EOF</read>
 		</transition>
 		<transition>
 			<from>1</from>
 			<to>7</to>
-			<read>'</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>6</to>
-			<read>-"</read>
+			<read>-'</read>
 		</transition>
 		<note>
 			<text>Name: Start</text>
