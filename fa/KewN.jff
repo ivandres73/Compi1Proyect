@@ -13,6 +13,10 @@
 			<label>Token::KwNo</label>
 			<final/>
 		</state>
+		<state id="2" name="q2">
+			<x>410.0</x>
+			<y>219.0</y>
+		</state>
 		<state id="15" name="q15">
 			<x>460.0</x>
 			<y>510.0</y>
@@ -20,19 +24,44 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>0</from>
+			<from>2</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
 			<to>1</to>
-			<read>O</read>
+			<read>-EOF</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>1</to>
+			<read>-SPACE</read>
 		</transition>
 		<transition>
 			<from>0</from>
-			<to>1</to>
+			<to>2</to>
 			<read>o</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>2</to>
+			<read>O</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>1</to>
+			<read>-TAB</read>
 		</transition>
 		<transition>
 			<from>0</from>
 			<to>15</to>
 			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>1</to>
+			<read>-EOL</read>
 		</transition>
 		<note>
 			<text>Name: KewN</text>

@@ -24,10 +24,14 @@
 			<y>157.0</y>
 		</state>
 		<state id="5" name="q5">
-			<x>673.0</x>
-			<y>159.0</y>
+			<x>792.0</x>
+			<y>153.0</y>
 			<label>Token::KwInicio</label>
 			<final/>
+		</state>
+		<state id="6" name="q6">
+			<x>690.0</x>
+			<y>158.0</y>
 		</state>
 		<state id="15" name="q15">
 			<x>514.0</x>
@@ -36,11 +40,26 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
+			<from>0</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
 			<from>4</from>
 			<to>15</to>
 			<read/>
 		</transition>
 		<transition>
+			<from>4</from>
+			<to>6</to>
+			<read>O</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>6</to>
+			<read>o</read>
+		</transition>
+		<transition>
 			<from>1</from>
 			<to>2</to>
 			<read>i</read>
@@ -59,6 +78,36 @@
 			<from>3</from>
 			<to>4</to>
 			<read>I</read>
+		</transition>
+		<transition>
+			<from>6</from>
+			<to>5</to>
+			<read>-EOF</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>6</from>
+			<to>5</to>
+			<read>-SPACE</read>
+		</transition>
+		<transition>
+			<from>6</from>
+			<to>5</to>
+			<read>-TAB</read>
+		</transition>
+		<transition>
+			<from>6</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>15</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -71,24 +120,9 @@
 			<read>N</read>
 		</transition>
 		<transition>
-			<from>3</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>15</to>
-			<read/>
+			<from>6</from>
+			<to>5</to>
+			<read>-EOL</read>
 		</transition>
 		<transition>
 			<from>2</from>
@@ -101,14 +135,9 @@
 			<read>C</read>
 		</transition>
 		<transition>
-			<from>4</from>
-			<to>5</to>
-			<read>o</read>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>5</to>
-			<read>O</read>
+			<from>1</from>
+			<to>15</to>
+			<read/>
 		</transition>
 		<note>
 			<text>Name: KewI</text>
