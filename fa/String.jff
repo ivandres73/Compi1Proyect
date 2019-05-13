@@ -30,38 +30,13 @@
 		</transition>
 		<transition>
 			<from>2</from>
-			<to>4</to>
-			<read>-"</read>
+			<to>2</to>
+			<read>-[a-z]</read>
 		</transition>
 		<transition>
 			<from>0</from>
 			<to>0</to>
 			<read>[a-z]</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>0</to>
-			<read>[A-Z]</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>2</to>
-			<read>-[a-z]</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>2</to>
-			<read>-OTHER</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>2</to>
-			<read>-[0-9]</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>0</to>
-			<read>OTHER</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -74,9 +49,34 @@
 			<read>-[A-Z]</read>
 		</transition>
 		<transition>
+			<from>2</from>
+			<to>4</to>
+			<read>-"</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>0</to>
+			<read>[A-Z]</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>2</to>
+			<read>-Other</read>
+		</transition>
+		<transition>
 			<from>0</from>
 			<to>2</to>
 			<read>-EOL</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>2</to>
+			<read>-[0-9]</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>0</to>
+			<read>Other</read>
 		</transition>
 		<note>
 			<text>Name: String</text>

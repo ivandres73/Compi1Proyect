@@ -33,31 +33,35 @@
 			<x>690.0</x>
 			<y>158.0</y>
 		</state>
-		<state id="15" name="q15">
+		<state id="15" name="%Iden">
 			<x>514.0</x>
 			<y>542.0</y>
-			<label>%Iden</label>
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>0</from>
+			<from>1</from>
 			<to>15</to>
 			<read/>
 		</transition>
 		<transition>
-			<from>4</from>
+			<from>3</from>
 			<to>15</to>
 			<read/>
 		</transition>
 		<transition>
-			<from>4</from>
-			<to>6</to>
-			<read>O</read>
+			<from>2</from>
+			<to>3</to>
+			<read>c</read>
 		</transition>
 		<transition>
-			<from>4</from>
-			<to>6</to>
-			<read>o</read>
+			<from>2</from>
+			<to>3</to>
+			<read>C</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>15</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>1</from>
@@ -70,14 +74,9 @@
 			<read>I</read>
 		</transition>
 		<transition>
-			<from>3</from>
-			<to>4</to>
-			<read>i</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>4</to>
-			<read>I</read>
+			<from>6</from>
+			<to>5</to>
+			<read>-TAB</read>
 		</transition>
 		<transition>
 			<from>6</from>
@@ -85,7 +84,7 @@
 			<read>-EOF</read>
 		</transition>
 		<transition>
-			<from>3</from>
+			<from>6</from>
 			<to>15</to>
 			<read/>
 		</transition>
@@ -95,19 +94,14 @@
 			<read>-SPACE</read>
 		</transition>
 		<transition>
-			<from>6</from>
-			<to>5</to>
-			<read>-TAB</read>
+			<from>3</from>
+			<to>4</to>
+			<read>i</read>
 		</transition>
 		<transition>
-			<from>6</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>15</to>
-			<read/>
+			<from>3</from>
+			<to>4</to>
+			<read>I</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -125,17 +119,22 @@
 			<read>-EOL</read>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>3</to>
-			<read>c</read>
+			<from>4</from>
+			<to>6</to>
+			<read>O</read>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>3</to>
-			<read>C</read>
+			<from>4</from>
+			<to>6</to>
+			<read>o</read>
 		</transition>
 		<transition>
-			<from>1</from>
+			<from>4</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
 			<to>15</to>
 			<read/>
 		</transition>

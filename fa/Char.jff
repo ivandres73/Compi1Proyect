@@ -3,34 +3,69 @@
 	<automaton>
 		<!--The list of states.-->
 		<state id="0" name="q0">
-			<x>210.0</x>
-			<y>200.0</y>
+			<x>269.0</x>
+			<y>313.0</y>
 			<initial/>
 		</state>
 		<state id="1" name="q1">
-			<x>386.0</x>
-			<y>201.0</y>
+			<x>445.0</x>
+			<y>314.0</y>
 		</state>
 		<state id="2" name="q2">
-			<x>514.0</x>
-			<y>202.0</y>
+			<x>573.0</x>
+			<y>315.0</y>
 			<label>Token::CharConst</label>
 			<final/>
 		</state>
 		<state id="3" name="q3">
-			<x>357.0</x>
-			<y>328.0</y>
+			<x>416.0</x>
+			<y>441.0</y>
 			<label>throw "Char literal can't be a single quote"</label>
 		</state>
 		<state id="4" name="%Start">
-			<x>633.0</x>
-			<y>328.0</y>
+			<x>692.0</x>
+			<y>441.0</y>
+		</state>
+		<state id="5" name="q5">
+			<x>217.0</x>
+			<y>492.0</y>
+			<label>throw "Char literal can't be empty"</label>
 		</state>
 		<!--The list of transitions.-->
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>[A-Z]</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>5</to>
+			<read>-'</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>Other</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>-'</read>
+		</transition>
 		<transition>
 			<from>3</from>
 			<to>4</to>
 			<read>-'</read>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>4</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>[0-9]</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -39,28 +74,8 @@
 		</transition>
 		<transition>
 			<from>0</from>
-			<to>1</to>
-			<read>[0-9]</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>-'</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>OTHER</read>
-		</transition>
-		<transition>
-			<from>0</from>
 			<to>3</to>
-			<read>'</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>[A-Z]</read>
+			<read>-'</read>
 		</transition>
 		<note>
 			<text>Name: Char</text>

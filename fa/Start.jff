@@ -22,7 +22,7 @@
 			<x>528.0</x>
 			<y>47.0</y>
 		</state>
-		<state id="4" name="&amp;BinHex">
+		<state id="4" name="%BinHex">
 			<x>602.0</x>
 			<y>90.0</y>
 		</state>
@@ -59,7 +59,17 @@
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>9</to>
+			<to>5</to>
+			<read>[1-9]</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>4</to>
+			<read>0</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
 			<read/>
 		</transition>
 		<transition>
@@ -68,29 +78,24 @@
 			<read>-"</read>
 		</transition>
 		<transition>
-			<from>1</from>
-			<to>3</to>
-			<read>/</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read/>
-		</transition>
-		<transition>
 			<from>0</from>
 			<to>0</to>
 			<read>-SPACE</read>
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>4</to>
-			<read>0</read>
+			<to>7</to>
+			<read>-'</read>
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>5</to>
-			<read>[1-9]</read>
+			<to>9</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>3</to>
+			<read>-/</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -102,23 +107,18 @@
 			<to>2</to>
 			<read>-EOF</read>
 		</transition>
-		<transition>
-			<from>1</from>
-			<to>7</to>
-			<read>-'</read>
-		</transition>
 		<note>
 			<text>Name: Start</text>
 			<x>74.0</x>
 			<y>51.0</y>
 		</note>
 		<note>
-			<text>Proto.nextToken: Token getNextToken()</text>
+			<text>Proto.nextToken: Token exprLex::getNextToken()</text>
 			<x>81.0</x>
 			<y>86.0</y>
 		</note>
 		<note>
-			<text>Proto.toString: const char* toString(Token tk)</text>
+			<text>Proto.toString: const char* exprLex::toString(Token tk)</text>
 			<x>85.0</x>
 			<y>119.0</y>
 		</note>

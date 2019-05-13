@@ -132,19 +132,19 @@
 			<read>]</read>
 		</transition>
 		<transition>
+			<from>0</from>
+			<to>3</to>
+			<read>,</read>
+		</transition>
+		<transition>
 			<from>9</from>
-			<to>8</to>
-			<read>=</read>
+			<to>7</to>
+			<read>-</read>
 		</transition>
 		<transition>
 			<from>0</from>
-			<to>1</to>
-			<read>[</read>
-		</transition>
-		<transition>
-			<from>15</from>
-			<to>17</to>
-			<read/>
+			<to>13</to>
+			<read>*</read>
 		</transition>
 		<transition>
 			<from>15</from>
@@ -158,53 +158,18 @@
 		</transition>
 		<transition>
 			<from>0</from>
-			<to>6</to>
-			<read>)</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>15</to>
-			<read>&gt;</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>12</to>
-			<read>-</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>5</to>
-			<read>(</read>
-		</transition>
-		<transition>
-			<from>18</from>
-			<to>19</to>
-			<read>=</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>9</to>
-			<read>&lt;</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>13</to>
-			<read>*</read>
-		</transition>
-		<transition>
-			<from>0</from>
 			<to>18</to>
 			<read>=</read>
 		</transition>
 		<transition>
 			<from>0</from>
-			<to>4</to>
-			<read>:</read>
+			<to>11</to>
+			<read>+</read>
 		</transition>
 		<transition>
-			<from>9</from>
-			<to>10</to>
-			<read/>
+			<from>0</from>
+			<to>9</to>
+			<read>&lt;</read>
 		</transition>
 		<transition>
 			<from>20</from>
@@ -213,23 +178,53 @@
 		</transition>
 		<transition>
 			<from>0</from>
+			<to>15</to>
+			<read>&gt;</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>4</to>
+			<read>:</read>
+		</transition>
+		<transition>
+			<from>0</from>
 			<to>14</to>
 			<read>^</read>
 		</transition>
 		<transition>
-			<from>0</from>
-			<to>11</to>
-			<read>+</read>
+			<from>15</from>
+			<to>17</to>
+			<read/>
 		</transition>
 		<transition>
-			<from>9</from>
-			<to>7</to>
+			<from>0</from>
+			<to>12</to>
 			<read>-</read>
 		</transition>
 		<transition>
+			<from>18</from>
+			<to>19</to>
+			<read>=</read>
+		</transition>
+		<transition>
 			<from>0</from>
-			<to>3</to>
-			<read>,</read>
+			<to>5</to>
+			<read>(</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>6</to>
+			<read>)</read>
+		</transition>
+		<transition>
+			<from>9</from>
+			<to>8</to>
+			<read>=</read>
+		</transition>
+		<transition>
+			<from>9</from>
+			<to>10</to>
+			<read/>
 		</transition>
 		<note>
 			<text>Name: Oper</text>

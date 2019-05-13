@@ -31,16 +31,30 @@
 			<label>Token::KwDe</label>
 			<final/>
 		</state>
-		<state id="15" name="q15">
+		<state id="15" name="%Iden">
 			<x>514.0</x>
 			<y>542.0</y>
-			<label>%Iden</label>
 		</state>
 		<!--The list of transitions.-->
 		<transition>
+			<from>0</from>
+			<to>4</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>4</to>
+			<read>E</read>
+		</transition>
+		<transition>
 			<from>4</from>
 			<to>7</to>
-			<read>-TAB</read>
+			<read>-EOL</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>15</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>1</from>
@@ -53,14 +67,14 @@
 			<read>V</read>
 		</transition>
 		<transition>
-			<from>4</from>
-			<to>7</to>
-			<read>-EOF</read>
+			<from>3</from>
+			<to>2</to>
+			<read>-SPACE</read>
 		</transition>
 		<transition>
-			<from>4</from>
-			<to>7</to>
-			<read>-SPACE</read>
+			<from>3</from>
+			<to>2</to>
+			<read>-EOF</read>
 		</transition>
 		<transition>
 			<from>3</from>
@@ -70,40 +84,10 @@
 		<transition>
 			<from>3</from>
 			<to>2</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>4</to>
-			<read>e</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>4</to>
-			<read>E</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>2</to>
-			<read>-EOF</read>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>2</to>
 			<read>-EOL</read>
 		</transition>
 		<transition>
-			<from>0</from>
+			<from>3</from>
 			<to>15</to>
 			<read/>
 		</transition>
@@ -120,10 +104,25 @@
 		<transition>
 			<from>4</from>
 			<to>7</to>
-			<read>-EOL</read>
+			<read>-EOF</read>
 		</transition>
 		<transition>
-			<from>3</from>
+			<from>4</from>
+			<to>7</to>
+			<read>-SPACE</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>7</to>
+			<read>-TAB</read>
+		</transition>
+		<transition>
+			<from>4</from>
 			<to>15</to>
 			<read/>
 		</transition>

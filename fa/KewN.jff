@@ -17,27 +17,11 @@
 			<x>410.0</x>
 			<y>219.0</y>
 		</state>
-		<state id="15" name="q15">
+		<state id="15" name="%Iden">
 			<x>460.0</x>
 			<y>510.0</y>
-			<label>%Iden</label>
 		</state>
 		<!--The list of transitions.-->
-		<transition>
-			<from>2</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>1</to>
-			<read>-EOF</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>1</to>
-			<read>-SPACE</read>
-		</transition>
 		<transition>
 			<from>0</from>
 			<to>2</to>
@@ -54,7 +38,22 @@
 			<read>-TAB</read>
 		</transition>
 		<transition>
+			<from>2</from>
+			<to>1</to>
+			<read>-EOF</read>
+		</transition>
+		<transition>
 			<from>0</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>1</to>
+			<read>-SPACE</read>
+		</transition>
+		<transition>
+			<from>2</from>
 			<to>15</to>
 			<read/>
 		</transition>
