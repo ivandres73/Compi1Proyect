@@ -16,8 +16,8 @@
 			<y>338.0</y>
 		</state>
 		<state id="3" name="%Dec">
-			<x>289.0</x>
-			<y>391.0</y>
+			<x>299.0</x>
+			<y>392.0</y>
 		</state>
 		<state id="4" name="q4">
 			<x>569.0</x>
@@ -33,16 +33,6 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>1</from>
-			<to>1</to>
-			<read>isxdigit?</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>4</to>
-			<read/>
-		</transition>
-		<transition>
 			<from>0</from>
 			<to>2</to>
 			<read>b</read>
@@ -55,12 +45,17 @@
 		<transition>
 			<from>0</from>
 			<to>3</to>
-			<read>[1-9]</read>
+			<read>-0</read>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>2</to>
-			<read>[0-1]</read>
+			<from>1</from>
+			<to>1</to>
+			<read>isxdigit?</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>3</to>
+			<read>[1-9]</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -76,6 +71,16 @@
 			<from>2</from>
 			<to>5</to>
 			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>4</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>2</to>
+			<read>[0-1]</read>
 		</transition>
 		<note>
 			<text>Name: BinHex</text>

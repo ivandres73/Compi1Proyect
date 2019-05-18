@@ -8,8 +8,8 @@
 			<initial/>
 		</state>
 		<state id="1" name="q1">
-			<x>420.0</x>
-			<y>289.0</y>
+			<x>454.0</x>
+			<y>288.0</y>
 			<label>Token::DecConst</label>
 			<final/>
 		</state>

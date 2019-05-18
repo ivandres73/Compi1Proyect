@@ -18,33 +18,29 @@
 			<label>Token::EndFile</label>
 			<final/>
 		</state>
-		<state id="3" name="%Comments">
-			<x>528.0</x>
-			<y>47.0</y>
+		<state id="3" name="%BinHex">
+			<x>661.0</x>
+			<y>69.0</y>
 		</state>
-		<state id="4" name="%BinHex">
-			<x>602.0</x>
-			<y>90.0</y>
+		<state id="4" name="%Dec">
+			<x>669.0</x>
+			<y>131.0</y>
 		</state>
-		<state id="5" name="%Dec">
-			<x>636.0</x>
-			<y>150.0</y>
+		<state id="5" name="%String">
+			<x>676.0</x>
+			<y>195.0</y>
 		</state>
-		<state id="6" name="%String">
-			<x>645.0</x>
-			<y>211.0</y>
+		<state id="6" name="%Char">
+			<x>673.0</x>
+			<y>260.0</y>
 		</state>
-		<state id="7" name="%Char">
-			<x>647.0</x>
-			<y>278.0</y>
+		<state id="7" name="%Comments">
+			<x>592.0</x>
+			<y>23.0</y>
 		</state>
 		<state id="8" name="%KewIden">
 			<x>641.0</x>
 			<y>351.0</y>
-		</state>
-		<state id="9" name="%Oper">
-			<x>628.0</x>
-			<y>434.0</y>
 		</state>
 		<!--The list of transitions.-->
 		<transition>
@@ -54,28 +50,18 @@
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>8</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>5</to>
-			<read>[1-9]</read>
+			<to>6</to>
+			<read>-'</read>
 		</transition>
 		<transition>
 			<from>1</from>
 			<to>4</to>
-			<read>0</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read/>
+			<read>[1-9]</read>
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>6</to>
-			<read>-"</read>
+			<to>2</to>
+			<read>-EOF</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -84,18 +70,18 @@
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>7</to>
-			<read>-'</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>9</to>
+			<to>8</to>
 			<read/>
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>3</to>
-			<read>-/</read>
+			<to>5</to>
+			<read>-"</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -103,9 +89,14 @@
 			<read>-TAB</read>
 		</transition>
 		<transition>
-			<from>0</from>
-			<to>2</to>
-			<read>-EOF</read>
+			<from>1</from>
+			<to>3</to>
+			<read>-0</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>7</to>
+			<read>-/</read>
 		</transition>
 		<note>
 			<text>Name: Start</text>

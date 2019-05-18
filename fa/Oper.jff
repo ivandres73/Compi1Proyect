@@ -127,9 +127,19 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
+			<from>9</from>
+			<to>7</to>
+			<read>-</read>
+		</transition>
+		<transition>
 			<from>0</from>
-			<to>2</to>
-			<read>]</read>
+			<to>14</to>
+			<read>^</read>
+		</transition>
+		<transition>
+			<from>20</from>
+			<to>21</to>
+			<read>=</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -137,18 +147,33 @@
 			<read>,</read>
 		</transition>
 		<transition>
-			<from>9</from>
-			<to>7</to>
-			<read>-</read>
+			<from>0</from>
+			<to>5</to>
+			<read>)</read>
 		</transition>
 		<transition>
-			<from>0</from>
-			<to>13</to>
-			<read>*</read>
+			<from>9</from>
+			<to>10</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>15</from>
-			<to>16</to>
+			<to>17</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>6</to>
+			<read>(</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>15</to>
+			<read>&gt;</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>18</to>
 			<read>=</read>
 		</transition>
 		<transition>
@@ -157,8 +182,23 @@
 			<read>!</read>
 		</transition>
 		<transition>
+			<from>9</from>
+			<to>8</to>
+			<read>=</read>
+		</transition>
+		<transition>
 			<from>0</from>
-			<to>18</to>
+			<to>13</to>
+			<read>*</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>2</to>
+			<read>]</read>
+		</transition>
+		<transition>
+			<from>18</from>
+			<to>19</to>
 			<read>=</read>
 		</transition>
 		<transition>
@@ -172,29 +212,9 @@
 			<read>&lt;</read>
 		</transition>
 		<transition>
-			<from>20</from>
-			<to>21</to>
-			<read>=</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>15</to>
-			<read>&gt;</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>4</to>
-			<read>:</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>14</to>
-			<read>^</read>
-		</transition>
-		<transition>
 			<from>15</from>
-			<to>17</to>
-			<read/>
+			<to>16</to>
+			<read>=</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -202,29 +222,9 @@
 			<read>-</read>
 		</transition>
 		<transition>
-			<from>18</from>
-			<to>19</to>
-			<read>=</read>
-		</transition>
-		<transition>
 			<from>0</from>
-			<to>5</to>
-			<read>(</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>6</to>
-			<read>)</read>
-		</transition>
-		<transition>
-			<from>9</from>
-			<to>8</to>
-			<read>=</read>
-		</transition>
-		<transition>
-			<from>9</from>
-			<to>10</to>
-			<read/>
+			<to>4</to>
+			<read>:</read>
 		</transition>
 		<note>
 			<text>Name: Oper</text>

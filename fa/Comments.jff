@@ -29,9 +29,9 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>-EOL</read>
+			<from>4</from>
+			<to>5</to>
+			<read>-/</read>
 		</transition>
 		<transition>
 			<from>3</from>
@@ -44,9 +44,24 @@
 			<read>-/</read>
 		</transition>
 		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>-EOF</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>2</to>
+			<read>-EOF</read>
+		</transition>
+		<transition>
 			<from>4</from>
-			<to>5</to>
-			<read>-/</read>
+			<to>3</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>3</to>
+			<read>-*</read>
 		</transition>
 		<transition>
 			<from>1</from>
@@ -59,14 +74,14 @@
 			<read>-Other</read>
 		</transition>
 		<transition>
-			<from>4</from>
-			<to>3</to>
-			<read/>
+			<from>1</from>
+			<to>2</to>
+			<read>-EOL</read>
 		</transition>
 		<transition>
-			<from>0</from>
-			<to>3</to>
-			<read>-*</read>
+			<from>4</from>
+			<to>2</to>
+			<read>-EOF</read>
 		</transition>
 		<note>
 			<text>Name: Comments</text>
