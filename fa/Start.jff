@@ -50,8 +50,13 @@
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>6</to>
-			<read>-'</read>
+			<to>7</to>
+			<read>-/</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>1</from>
@@ -64,24 +69,14 @@
 			<read>-EOF</read>
 		</transition>
 		<transition>
+			<from>1</from>
+			<to>3</to>
+			<read>-0</read>
+		</transition>
+		<transition>
 			<from>0</from>
 			<to>0</to>
 			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>8</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>5</to>
-			<read>-"</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read/>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -90,13 +85,18 @@
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>3</to>
-			<read>-0</read>
+			<to>5</to>
+			<read>-"</read>
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>7</to>
-			<read>-/</read>
+			<to>8</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>6</to>
+			<read>-'</read>
 		</transition>
 		<note>
 			<text>Name: Start</text>

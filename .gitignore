@@ -2,6 +2,15 @@ build/*
 .vscode
 */.vscode
 */build/*
+.antlr
+*/.antlr
 
 #testing purposes
 *.txt
+*/*.txt
+
+#copy of lex files
+parser/lexer.h
+parser/lexer.cpp
+parser/exprLex.h
+parser/exprLex.cpp
