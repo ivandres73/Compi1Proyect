@@ -29,38 +29,8 @@
 		<!--The list of transitions.-->
 		<transition>
 			<from>2</from>
-			<to>2</to>
-			<read>-[a-z]</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>0</to>
-			<read>[0-9]</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>3</to>
+			<to>4</to>
 			<read>-"</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>0</to>
-			<read>[a-z]</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>0</to>
-			<read>[A-Z]</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>1</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>2</to>
-			<read>-[0-9]</read>
 		</transition>
 		<transition>
 			<from>3</from>
@@ -68,9 +38,9 @@
 			<read>"</read>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>2</to>
-			<read>-[A-Z]</read>
+			<from>0</from>
+			<to>3</to>
+			<read>-"</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -83,9 +53,9 @@
 			<read>-Other</read>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>4</to>
-			<read>-"</read>
+			<from>3</from>
+			<to>1</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>0</from>

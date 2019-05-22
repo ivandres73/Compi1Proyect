@@ -31,7 +31,23 @@
 			<label>Token::BinConst</label>
 			<final/>
 		</state>
+		<state id="6" name="q6">
+			<x>304.0</x>
+			<y>124.0</y>
+			<label>Token::DecConst</label>
+			<final/>
+		</state>
 		<!--The list of transitions.-->
+		<transition>
+			<from>1</from>
+			<to>1</to>
+			<read>isxdigit?</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>5</to>
+			<read/>
+		</transition>
 		<transition>
 			<from>0</from>
 			<to>2</to>
@@ -45,31 +61,16 @@
 		<transition>
 			<from>0</from>
 			<to>3</to>
-			<read>-0</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>1</to>
-			<read>isxdigit?</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>3</to>
 			<read>[1-9]</read>
 		</transition>
 		<transition>
 			<from>0</from>
-			<to>1</to>
-			<read>x</read>
+			<to>3</to>
+			<read>-0</read>
 		</transition>
 		<transition>
 			<from>0</from>
-			<to>1</to>
-			<read>X</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>5</to>
+			<to>6</to>
 			<read/>
 		</transition>
 		<transition>
@@ -81,6 +82,16 @@
 			<from>2</from>
 			<to>2</to>
 			<read>[0-1]</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>x</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>X</read>
 		</transition>
 		<note>
 			<text>Name: BinHex</text>

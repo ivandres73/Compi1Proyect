@@ -56,8 +56,8 @@
 			<final/>
 		</state>
 		<state id="9" name="q9">
-			<x>940.0</x>
-			<y>457.0</y>
+			<x>904.0</x>
+			<y>440.0</y>
 		</state>
 		<state id="10" name="q10">
 			<x>1079.0</x>
@@ -111,21 +111,37 @@
 			<label>Token::EqualTo</label>
 			<final/>
 		</state>
-		<state id="20" name="q20">
-			<x>445.0</x>
-			<y>216.0</y>
-		</state>
 		<state id="21" name="q21">
-			<x>382.0</x>
-			<y>105.0</y>
+			<x>1055.0</x>
+			<y>312.0</y>
 			<label>Token::NotEqual</label>
 			<final/>
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>15</from>
-			<to>17</to>
+			<from>0</from>
+			<to>15</to>
+			<read>&gt;</read>
+		</transition>
+		<transition>
+			<from>9</from>
+			<to>10</to>
 			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>4</to>
+			<read>:</read>
+		</transition>
+		<transition>
+			<from>15</from>
+			<to>16</to>
+			<read>=</read>
+		</transition>
+		<transition>
+			<from>9</from>
+			<to>21</to>
+			<read>&gt;</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -139,23 +155,48 @@
 		</transition>
 		<transition>
 			<from>0</from>
-			<to>20</to>
-			<read>&lt;</read>
-		</transition>
-		<transition>
-			<from>15</from>
-			<to>16</to>
-			<read>=</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>4</to>
-			<read>:</read>
+			<to>11</to>
+			<read>+</read>
 		</transition>
 		<transition>
 			<from>9</from>
 			<to>7</to>
 			<read>-</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>12</to>
+			<read>-</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>19</to>
+			<read>=</read>
+		</transition>
+		<transition>
+			<from>15</from>
+			<to>17</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>13</to>
+			<read>*</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>3</to>
+			<read>,</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>9</to>
+			<read>&lt;</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>14</to>
+			<read>^</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -166,56 +207,6 @@
 			<from>0</from>
 			<to>5</to>
 			<read>)</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>15</to>
-			<read>&gt;</read>
-		</transition>
-		<transition>
-			<from>9</from>
-			<to>10</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>19</to>
-			<read>=</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>14</to>
-			<read>^</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>3</to>
-			<read>,</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>11</to>
-			<read>+</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>9</to>
-			<read>&lt;</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>13</to>
-			<read>*</read>
-		</transition>
-		<transition>
-			<from>20</from>
-			<to>21</to>
-			<read>&gt;</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>12</to>
-			<read>-</read>
 		</transition>
 		<note>
 			<text>Name: Oper</text>

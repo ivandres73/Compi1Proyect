@@ -39,8 +39,8 @@
 			<y>23.0</y>
 		</state>
 		<state id="8" name="%KewIden">
-			<x>641.0</x>
-			<y>351.0</y>
+			<x>674.0</x>
+			<y>338.0</y>
 		</state>
 		<!--The list of transitions.-->
 		<transition>
@@ -50,8 +50,23 @@
 		</transition>
 		<transition>
 			<from>1</from>
+			<to>8</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>6</to>
+			<read>-'</read>
+		</transition>
+		<transition>
+			<from>1</from>
 			<to>7</to>
 			<read>-/</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>0</to>
+			<read>-SPACE</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -62,21 +77,6 @@
 			<from>1</from>
 			<to>4</to>
 			<read>[1-9]</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>-EOF</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>3</to>
-			<read>-0</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>0</to>
-			<read>-SPACE</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -90,13 +90,13 @@
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>8</to>
-			<read/>
+			<to>2</to>
+			<read>-EOF</read>
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>6</to>
-			<read>-'</read>
+			<to>3</to>
+			<read>-0</read>
 		</transition>
 		<note>
 			<text>Name: Start</text>

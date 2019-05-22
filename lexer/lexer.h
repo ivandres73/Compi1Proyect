@@ -212,7 +212,6 @@ enum class StateId {
     KewY_q0,
     Oper_q0,
     Oper_q15,
-    Oper_q20,
     Oper_q9,
     String_q0,
     String_q2,
