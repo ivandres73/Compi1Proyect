@@ -9,7 +9,6 @@ enum class StateId {
     BinHex_q2,
     Char_q0,
     Char_q1,
-    Char_q3,
     Char_q5,
     Comments_q0,
     Comments_q1,

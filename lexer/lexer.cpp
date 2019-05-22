@@ -95,25 +95,23 @@ Token exprLex::getNextToken() {
                 break;
             // Char
             case StateId::Char_q0:
-                if ((ch >= 'A') && (ch <= 'Z')) {
+                if ((ch >= 'a') && (ch <= 'z')) {
+                    text += ch;
+                    state = StateId::Char_q1;
+                    ch = getNextChar();
+                } else if ((ch >= '0') && (ch <= '9')) {
                     text += ch;
                     state = StateId::Char_q1;
                     ch = getNextChar();
                 } else if (ch == '\'') {
                     state = StateId::Char_q5;
                     ch = getNextChar();
-                } else if ((ch >= '0') && (ch <= '9')) {
+                } else if ((ch >= 'A') && (ch <= 'Z')) {
                     text += ch;
                     state = StateId::Char_q1;
-                    ch = getNextChar();
-                } else if ((ch >= 'a') && (ch <= 'z')) {
-                    text += ch;
-                    state = StateId::Char_q1;
-                    ch = getNextChar();
-                } else if (ch == '\'') {
-                    state = StateId::Char_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::Char_q1;
                     ch = getNextChar();
                 }
@@ -126,19 +124,15 @@ Token exprLex::getNextToken() {
                     state = StateId::Oper_q0;
                 }
                 break;
-            case StateId::Char_q3:
+            case StateId::Char_q5:
                 if (ch == '\'') {
-                    state = StateId::Start_q0;
+                    text += ch;
+                    state = StateId::Char_q1;
                     ch = getNextChar();
                 } else {
-                    // Trying next automaton 'Oper'
-                    state = StateId::Oper_q0;
-                    throw "Char literal can't be a single quote";
+                    state = StateId::Start_q0;
+                    throw "Char literal can't be empty";
                 }
-                break;
-            case StateId::Char_q5:
-                state = StateId::Start_q0;
-                throw "Char literal can't be empty";
                 break;
             // Comments
             case StateId::Comments_q0:
@@ -3247,11 +3241,11 @@ Token exprLex::getNextToken() {
                 break;
             // String
             case StateId::String_q0:
-                if (ch == '"') {
-                    state = StateId::String_q3;
-                    ch = getNextChar();
-                } else if (ch == '\n') {
+                if (ch == '\n') {
                     state = StateId::String_q2;
+                    ch = getNextChar();
+                } else if (ch == '"') {
+                    state = StateId::String_q3;
                     ch = getNextChar();
                 } else {
                     text += ch;
