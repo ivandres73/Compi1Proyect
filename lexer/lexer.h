@@ -212,11 +212,11 @@ enum class StateId {
     KewY_q0,
     Oper_q0,
     Oper_q15,
-    Oper_q18,
     Oper_q20,
     Oper_q9,
     String_q0,
     String_q2,
+    String_q3,
 };
 
 enum class Token {
@@ -284,6 +284,7 @@ enum class Token {
     LessThan,
     Mul,
     NotEqual,
+    OpenBra,
     OpenParens,
     StringConst,
     Sub,

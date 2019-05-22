@@ -3,31 +3,30 @@
 	<automaton>
 		<!--The list of states.-->
 		<state id="0" name="q0">
-			<x>321.0</x>
-			<y>538.0</y>
+			<x>283.0</x>
+			<y>351.0</y>
 			<initial/>
 		</state>
 		<state id="1" name="q1">
-			<x>679.0</x>
-			<y>541.0</y>
+			<x>641.0</x>
+			<y>354.0</y>
 			<label>Token::StringConst</label>
 			<final/>
 		</state>
 		<state id="2" name="q2">
-			<x>431.0</x>
-			<y>348.0</y>
+			<x>393.0</x>
+			<y>161.0</y>
 			<label>throw "String literal must be inline"</label>
 		</state>
+		<state id="3" name="q3">
+			<x>464.0</x>
+			<y>394.0</y>
+		</state>
 		<state id="4" name="%Start">
-			<x>622.0</x>
-			<y>351.0</y>
+			<x>584.0</x>
+			<y>164.0</y>
 		</state>
 		<!--The list of transitions.-->
-		<transition>
-			<from>0</from>
-			<to>0</to>
-			<read>[0-9]</read>
-		</transition>
 		<transition>
 			<from>2</from>
 			<to>2</to>
@@ -36,22 +35,17 @@
 		<transition>
 			<from>0</from>
 			<to>0</to>
-			<read>[a-z]</read>
+			<read>[0-9]</read>
 		</transition>
 		<transition>
 			<from>0</from>
-			<to>1</to>
+			<to>3</to>
 			<read>-"</read>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>2</to>
-			<read>-[A-Z]</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>4</to>
-			<read>-"</read>
+			<from>0</from>
+			<to>0</to>
+			<read>[a-z]</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -59,9 +53,24 @@
 			<read>[A-Z]</read>
 		</transition>
 		<transition>
+			<from>3</from>
+			<to>1</to>
+			<read/>
+		</transition>
+		<transition>
 			<from>2</from>
 			<to>2</to>
-			<read>-Other</read>
+			<read>-[0-9]</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>0</to>
+			<read>"</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>2</to>
+			<read>-[A-Z]</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -71,7 +80,12 @@
 		<transition>
 			<from>2</from>
 			<to>2</to>
-			<read>-[0-9]</read>
+			<read>-Other</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>4</to>
+			<read>-"</read>
 		</transition>
 		<transition>
 			<from>0</from>
