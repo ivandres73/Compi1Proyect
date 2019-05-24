@@ -14,7 +14,7 @@ private:
     string text;
     ifstream& in;
     void reportError(char ch) {
-        cout << "error with " << ch << " at line " << line << endl;
+        cout << "\033[1;31merror with \033[0m" << ch << "\033[1;31m at line \033[0m" << line << endl;
     }
     char getNextChar() {
         char ch = in.get();
