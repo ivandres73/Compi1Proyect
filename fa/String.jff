@@ -29,6 +29,16 @@
 		<!--The list of transitions.-->
 		<transition>
 			<from>0</from>
+			<to>3</to>
+			<read>-"</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>0</to>
+			<read>"</read>
+		</transition>
+		<transition>
+			<from>0</from>
 			<to>2</to>
 			<read>-EOL</read>
 		</transition>
@@ -38,19 +48,9 @@
 			<read>-Other</read>
 		</transition>
 		<transition>
-			<from>0</from>
-			<to>3</to>
-			<read>-"</read>
-		</transition>
-		<transition>
 			<from>3</from>
 			<to>1</to>
 			<read/>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>0</to>
-			<read>"</read>
 		</transition>
 		<transition>
 			<from>2</from>
@@ -66,11 +66,6 @@
 			<text>Name: String</text>
 			<x>123.0</x>
 			<y>79.0</y>
-		</note>
-		<note>
-			<text>It stays on infinite loop with """ (three double quotes)</text>
-			<x>76.0</x>
-			<y>36.0</y>
 		</note>
 	</automaton>
 </structure>

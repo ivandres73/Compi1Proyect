@@ -31,6 +31,11 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read>-EOF</read>
+		</transition>
+		<transition>
 			<from>2</from>
 			<to>15</to>
 			<read/>
@@ -42,13 +47,8 @@
 		</transition>
 		<transition>
 			<from>3</from>
-			<to>4</to>
-			<read>-EOF</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>4</to>
-			<read>-TAB</read>
+			<to>15</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>1</from>
@@ -58,7 +58,7 @@
 		<transition>
 			<from>3</from>
 			<to>4</to>
-			<read>-EOL</read>
+			<read>-TAB</read>
 		</transition>
 		<transition>
 			<from>2</from>
@@ -69,11 +69,6 @@
 			<from>2</from>
 			<to>3</to>
 			<read>O</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>15</to>
-			<read/>
 		</transition>
 		<transition>
 			<from>0</from>

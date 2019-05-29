@@ -37,6 +37,16 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
+			<from>3</from>
+			<to>2</to>
+			<read>-EOF</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
 			<from>0</from>
 			<to>4</to>
 			<read>e</read>
@@ -47,14 +57,9 @@
 			<read>E</read>
 		</transition>
 		<transition>
-			<from>4</from>
-			<to>7</to>
-			<read>-EOL</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>15</to>
-			<read/>
+			<from>3</from>
+			<to>2</to>
+			<read>-SPACE</read>
 		</transition>
 		<transition>
 			<from>1</from>
@@ -67,14 +72,9 @@
 			<read>V</read>
 		</transition>
 		<transition>
-			<from>3</from>
-			<to>2</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>2</to>
-			<read>-EOF</read>
+			<from>4</from>
+			<to>15</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>3</from>
@@ -83,13 +83,23 @@
 		</transition>
 		<transition>
 			<from>3</from>
-			<to>2</to>
-			<read>-EOL</read>
-		</transition>
-		<transition>
-			<from>3</from>
 			<to>15</to>
 			<read/>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>7</to>
+			<read>-EOF</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>7</to>
+			<read>-SPACE</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>7</to>
+			<read>-TAB</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -102,27 +112,7 @@
 			<read>I</read>
 		</transition>
 		<transition>
-			<from>4</from>
-			<to>7</to>
-			<read>-EOF</read>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>7</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>7</to>
-			<read>-TAB</read>
-		</transition>
-		<transition>
-			<from>4</from>
+			<from>1</from>
 			<to>15</to>
 			<read/>
 		</transition>

@@ -23,30 +23,11 @@
 			<x>439.0</x>
 			<y>371.0</y>
 		</state>
-		<state id="5" name="%Start">
-			<x>547.0</x>
-			<y>380.0</y>
-		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>4</from>
-			<to>5</to>
-			<read>-/</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>4</to>
-			<read>-*</read>
-		</transition>
-		<transition>
 			<from>0</from>
-			<to>1</to>
-			<read>-/</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>-EOF</read>
+			<to>3</to>
+			<read>-*</read>
 		</transition>
 		<transition>
 			<from>3</from>
@@ -59,8 +40,18 @@
 			<read/>
 		</transition>
 		<transition>
-			<from>0</from>
-			<to>3</to>
+			<from>1</from>
+			<to>2</to>
+			<read>-EOF</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>2</to>
+			<read>-EOF</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
 			<read>-*</read>
 		</transition>
 		<transition>
@@ -74,6 +65,11 @@
 			<read>-Other</read>
 		</transition>
 		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>-/</read>
+		</transition>
+		<transition>
 			<from>1</from>
 			<to>2</to>
 			<read>-EOL</read>
@@ -81,7 +77,7 @@
 		<transition>
 			<from>4</from>
 			<to>2</to>
-			<read>-EOF</read>
+			<read>-/</read>
 		</transition>
 		<note>
 			<text>Name: Comments</text>

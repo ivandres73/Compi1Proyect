@@ -23,6 +23,11 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
+			<from>2</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
 			<from>0</from>
 			<to>2</to>
 			<read>o</read>
@@ -35,7 +40,7 @@
 		<transition>
 			<from>2</from>
 			<to>1</to>
-			<read>-TAB</read>
+			<read>-SPACE</read>
 		</transition>
 		<transition>
 			<from>2</from>
@@ -43,24 +48,14 @@
 			<read>-EOF</read>
 		</transition>
 		<transition>
+			<from>2</from>
+			<to>1</to>
+			<read>-TAB</read>
+		</transition>
+		<transition>
 			<from>0</from>
 			<to>15</to>
 			<read/>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>1</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>1</to>
-			<read>-EOL</read>
 		</transition>
 		<note>
 			<text>Name: KewN</text>

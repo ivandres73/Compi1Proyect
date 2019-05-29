@@ -20,28 +20,23 @@
 		<!--The list of transitions.-->
 		<transition>
 			<from>0</from>
+			<to>1</to>
+			<read>-EOF</read>
+		</transition>
+		<transition>
+			<from>0</from>
 			<to>2</to>
 			<read/>
 		</transition>
 		<transition>
 			<from>0</from>
 			<to>1</to>
-			<read>-EOL</read>
+			<read>-SPACE</read>
 		</transition>
 		<transition>
 			<from>0</from>
 			<to>1</to>
 			<read>-TAB</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>-EOF</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>-SPACE</read>
 		</transition>
 		<note>
 			<text>Name: KewY</text>

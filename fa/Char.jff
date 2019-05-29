@@ -28,19 +28,14 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>[a-z]</read>
-		</transition>
-		<transition>
 			<from>5</from>
-			<to>4</to>
-			<read/>
+			<to>1</to>
+			<read>'</read>
 		</transition>
 		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>[0-9]</read>
+			<from>1</from>
+			<to>2</to>
+			<read>-'</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -53,29 +48,14 @@
 			<read>Other</read>
 		</transition>
 		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>-'</read>
-		</transition>
-		<transition>
 			<from>5</from>
-			<to>1</to>
-			<read>'</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>[A-Z]</read>
+			<to>4</to>
+			<read/>
 		</transition>
 		<note>
 			<text>Name: Char</text>
 			<x>174.0</x>
 			<y>124.0</y>
-		</note>
-		<note>
-			<text>It crashes with ''' (three quotes)</text>
-			<x>311.0</x>
-			<y>155.0</y>
 		</note>
 	</automaton>
 </structure>
