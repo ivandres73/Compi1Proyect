@@ -1,7 +1,7 @@
 grammar MiniLPP;
 
  program:
-    subtypes_section var_section subprogram_decl* 'inicio' statements+ 'fin'
+    subtypes_section var_section subprogram_decl 'inicio' statements+ 'fin'
     ;
 
 subtypes_section:
@@ -19,6 +19,11 @@ var_section:
     ;
 
 subprogram_decl:
+    subprogram_header 'Endline' var_section 'inicio' /*seguiria statement */
+    |/*eps */
+    ;
+
+subprogram_header:
 
     ;
 
@@ -27,11 +32,11 @@ statements:
     ;
 
 var_decl:
-    type 'Iden' more_var
+    type 'Iden' more_var 'Endline'
     ;
 
 more_var:
-    ',' 'Iden' more_var
+    'comma' 'Iden' more_var
     |/*eps */
     ;
 

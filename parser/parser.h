@@ -26,6 +26,10 @@ private:
         return tk == param1;
     }
 
+    void syntaxError(const char* t) {
+        cout << "\033[1;31merror: \033[0m" << "expected a " << t << " in line " << lex.getLine() << endl;
+    }
+
 public:
     parser(exprLex& lex) : lex(lex) { }
     void parse();

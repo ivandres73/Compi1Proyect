@@ -30,4 +30,5 @@ public:
     const char* toString(Token);
     Token getNextToken();
     string getText() { return text; }
+    int getLine() { return line; }
 };

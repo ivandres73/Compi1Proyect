@@ -3,9 +3,8 @@
 void parser::parse() {
     tk = lex.getNextToken();
     program();
-    if (tk != Token::EndFile) {
+    if (tk != Token::EndFile)
         throw "something's wrong\n";
-    }
 }
 
 void parser::program() {
@@ -14,7 +13,6 @@ void parser::program() {
 }
 
 void parser::subtypes_section() {
-    cout << "subtypes_section\n";
     if (tk == Token::KwTipo) {
         subtype_decl();
         subtypes_section();
@@ -33,13 +31,17 @@ void parser::subtype_decl() {
                 type();
                 if (tk == Token::EndLine)
                     tk = lex.getNextToken();
-            }
-        }
-    }
+                else
+                    syntaxError("end of line");
+            } else
+                syntaxError("ES");
+        } else
+            syntaxError("type");
+    } else
+            syntaxError("TIPO");    
 }
 
 void parser::var_section() {
-    cout << "var_section\n";
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena, Token::KwBooleano, Token::KwCaracter)) {
         var_decl();
         var_section();
@@ -59,27 +61,29 @@ void parser::statements() {
 void parser::var_decl() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena, Token::KwBooleano, Token::KwCaracter)) {
         type();
-        cout << "var_decl\n";
         if (tk == Token::Iden) {
-            cout << lex.getText() << endl;
             tk = lex.getNextToken();
             more_var();
-            cout << lex.toString(tk) << endl;
-        }
-    }
+            if (tk == Token::EndLine) {
+                tk = lex.getNextToken();
+            }
+        } else
+            syntaxError("identifier");
+    } else
+        syntaxError("type");
 }
 
 void parser::more_var() {
-    if (tk == Token::Colon) {
+    if (tk == Token::Comma) {
         tk = lex.getNextToken();
         if (tk == Token::Iden) {
             tk = lex.getNextToken();
             more_var();
-        }
+        } else
+            syntaxError("identifier");
     } else {
         /* epsilon */
     }
-    
 }
 
 void parser::type() {
@@ -93,4 +97,6 @@ void parser::type() {
         tk = lex.getNextToken();
     else if (tk == Token::KwCaracter)
         tk = lex.getNextToken();
+    else
+        syntaxError("type");
 }
