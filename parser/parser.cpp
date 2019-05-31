@@ -10,6 +10,7 @@ void parser::parse() {
 void parser::program() {
     subtypes_section();
     var_section();
+    subprogram_decl();
 }
 
 void parser::subtypes_section() {
@@ -51,7 +52,16 @@ void parser::var_section() {
 }
 
 void parser::subprogram_decl() {
-
+    if (tk ==Token::KwFuncion) {//agregar despues los firsts de procedure_header
+        tk = lex.getNextToken();
+        if (tk == Token::EndFile) {
+            tk = lex.getNextToken();
+            var_section();
+            if (tk == Token::KwInicio) {
+                tk = lex.getNextToken();
+            }
+        }
+    }
 }
 
 void parser::statements() {

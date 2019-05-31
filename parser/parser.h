@@ -11,6 +11,12 @@ private:
     void subtype_decl();
     void var_section();
     void subprogram_decl();
+    void subprogram_header();
+    void function_header();
+    void argument_list();
+    void argument_decl();
+    void more_args();
+    void procedure_header();
     void statements();
     void var_decl();
     void more_var();
