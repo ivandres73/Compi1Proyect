@@ -20,6 +20,10 @@ private:
     void procedure_header();
     void statements();
     void statement();
+    void if_statement();
+    void if_stmt();
+    void more_if_stmt();
+    void more_if_stmt_p();
     void string_args();
     void more_string_args();
     void more_statements();

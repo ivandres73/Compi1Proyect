@@ -185,7 +185,7 @@ void parser::more_args_p() {
 }
 
 void parser::statements() {
-    if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba))
+    if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba, Token::KwLea, Token::KwSi))
         statement();
     else {
         /*epsilon*/
@@ -193,6 +193,7 @@ void parser::statements() {
 }
 
 void parser::statement() {
+    cout << lex.toString(tk) << ": " << lex.getText() << endl;
     if (tk == Token::Iden) {
         lvalue();
         if (tk == Token::Assign) {
@@ -211,10 +212,117 @@ void parser::statement() {
         tk = lex.getNextToken();
         string_args();
         more_statements();
+    } else if (tk == Token::KwLea) {
+        tk = lex.getNextToken();
+        lvalue();
+        more_statements();
+    } else if (tk == Token::KwSi) {
+        if_statement();
+        more_statements();
+    } else
+        syntaxError("statement");
+}
+
+void parser::if_statement() {
+    if (tk == Token::KwSi) {
+        tk = lex.getNextToken();
+        expr();
+        if (tk == Token::EndLine) {
+            tk = lex.getNextToken();
+            if (tk == Token::KwEntonces) {
+                tk = lex.getNextToken();
+                cout << "entonces\n";
+                if (tk == Token::EndLine) {
+                    tk = lex.getNextToken();
+                    if_stmt();
+                } else
+                    syntaxError("end of line");
+            } else
+                syntaxError("entonces");
+        } else
+            syntaxError("end of line");
+    } else
+        syntaxError("SI");
+}
+
+void parser::if_stmt() {
+    cout << "soy " << lex.toString(tk) << endl;
+    if (tk == Token::Iden) {
+        lvalue();
+        if (tk == Token::Assign) {
+            tk = lex.getNextToken();
+            expr();
+            more_if_stmt();
+        }
+    } else if (tk == Token::KwLlamar) {
+        tk = lex.getNextToken();
+        if (tk == Token::Iden) {
+            tk = lex.getNextToken();
+            args_call();
+            more_if_stmt();
+        }
+    } else if (tk == Token::KwEscriba) {
+        tk = lex.getNextToken();
+        string_args();
+        more_if_stmt();
+    } else if (tk == Token::KwLea) {
+        tk = lex.getNextToken();
+        lvalue();
+        more_if_stmt();
+    } else if (tk == Token::KwSi) {
+        if_statement();
+        more_if_stmt();
+    } else
+        syntaxError("statement");
+}
+
+void parser::more_if_stmt() {
+    if (tk == Token::EndLine) {
+        cout << "otro if stmt\n";
+        tk = lex.getNextToken();
+        more_if_stmt_p();
     }
 }
 
+void parser::more_if_stmt_p() {
+    if (tk == Token::Iden) {
+        lvalue();
+        if (tk == Token::Assign) {
+            tk = lex.getNextToken();
+            expr();
+            more_if_stmt();
+        }
+    } else if (tk == Token::KwLlamar) {
+        tk = lex.getNextToken();
+        if (tk == Token::Iden) {
+            tk = lex.getNextToken();
+            args_call();
+            more_if_stmt();
+        }
+    } else if (tk == Token::KwEscriba) {
+        tk = lex.getNextToken();
+        string_args();
+        more_if_stmt();
+    } else if (tk == Token::KwLea) {
+        tk = lex.getNextToken();
+        lvalue();
+        more_if_stmt();
+    } else if (tk == Token::KwSi) {
+        if_statement();
+        more_if_stmt();
+    } else if (tk == Token::KwFin) {
+        cout << "cerrando if\n";
+        tk = lex.getNextToken();
+        if (tk == Token::KwSi)
+            tk = lex.getNextToken();
+        else
+            syntaxError("SI");
+    } else
+        syntaxError("fin si");
+}
+
 void parser::string_args() {
+    cout << "string args: " << lex.toString(tk) << endl;
     if (tk == Token::StringConst) {
         tk = lex.getNextToken();
         more_string_args();
@@ -230,14 +338,15 @@ void parser::more_string_args() {
         tk = lex.getNextToken();
         string_args();
     } else {
-        /*epsilon*/
+        /*epsilon*/cout << "opcion epsilon\n";
     }
 }
 
 void parser::more_statements() {
+    cout << lex.toString(tk) << endl;
     if (tk == Token::EndLine) {
         tk = lex.getNextToken();
-        statement();
+        statements();
     } else {
         /*epsilon*/
     }

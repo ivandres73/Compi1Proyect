@@ -63,8 +63,35 @@ statements:
 
 statement:
     lvalue 'assign' expr more_statements
-    'llamar' 'Iden' args_call more_statements
+    |'llamar' 'Iden' args_call more_statements
     |'escriba' string_args more_statements
+    |'lea' lvalue more_statements
+    |if_statement more_statements
+    ;
+
+if_statement:
+    'si' expr 'EndLine' 'entonces' 'EndLine' if_stmt
+    ;
+
+if_stmt:
+    lvalue 'assign' expr more_if_stmt
+    |'llamar' 'Iden' args_call more_if_stmt
+    |'escriba' string_args more_if_stmt
+    |'lea' lvalue more_if_stmt
+    |if_statement more_if_stmt
+    ;
+
+more_if_stmt:
+    'EndLine' more_if_stmt_p
+    ;
+
+more_if_stmt_p:
+    lvalue 'assign' expr more_if_stmt
+    |'llamar' 'Iden' args_call more_if_stmt
+    |'escriba' string_args more_if_stmt
+    |'lea' lvalue more_if_stmt
+    |if_statement more_if_stmt
+    |'fin' 'si'
     ;
 
 string_args:
@@ -78,7 +105,7 @@ more_string_args:
     ;
 
 more_statements:
-    'EndLine' statement
+    'EndLine' statements
     |/*eps */
     ;
 
