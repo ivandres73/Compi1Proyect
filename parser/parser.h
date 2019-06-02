@@ -16,6 +16,7 @@ private:
     void argument_list();
     void argument_decl();
     void more_args();
+    void more_args_p();
     void procedure_header();
     void statements();
     void var_decl();

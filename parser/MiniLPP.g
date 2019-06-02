@@ -19,7 +19,7 @@ var_section:
     ;
 
 subprogram_decl:
-    subprogram_header 'Endline' var_section 'inicio' /*seguiria statements 'fin' 'Endline' */
+    subprogram_header 'Endline' var_section 'inicio' statements 'Endline' 'fin' 'Endline'
     |/*eps */
     ;
 
@@ -44,9 +44,13 @@ argument_decl:
     ;
 
 more_args:
-    'comma' type 'Iden' more_args
-    |'comma' 'var' type 'Iden' more_args
+    'comma' more_args_p
     |/*eps */
+    ;
+
+more_args_p:
+    type 'Iden' more_args
+    |'var' type 'Iden' more_args
     ;
 
 procedure_header:

@@ -52,14 +52,114 @@ void parser::var_section() {
 }
 
 void parser::subprogram_decl() {
-    if (tk ==Token::KwFuncion) {//agregar despues los firsts de procedure_header
-        tk = lex.getNextToken();
-        if (tk == Token::EndFile) {
+    if (tk == Token::KwFuncion) {//agregar despues los firsts de procedure_header
+        subprogram_header();
+        if (tk == Token::EndLine) {
             tk = lex.getNextToken();
             var_section();
             if (tk == Token::KwInicio) {
                 tk = lex.getNextToken();
+                statements();
+                if (tk == Token::EndLine) {
+                    tk = lex.getNextToken();
+                    if (tk == Token::KwFin) {
+                        tk = lex.getNextToken();
+                        if (tk == Token::EndLine)
+                            tk = lex.getNextToken();
+                        else
+                            syntaxError("end of line");
+                    } else {
+                        syntaxError("fin");
+                    }
+                } else
+                    syntaxError("end of line");
+            } else
+                syntaxError("inicio");
+        } else {
+            cout << lex.toString(tk);
+            cout << "-" << lex.getText();
+            syntaxError("end of line");
+        }
+    } else {
+        /*epsilon*/
+    }
+}
+
+void parser::subprogram_header() {
+    if (tk == Token::KwFuncion) {
+        function_header();
+    }//agregar else de procedure_header
+}
+
+void parser::function_header() {
+    if (tk == Token::KwFuncion) {
+        tk = lex.getNextToken();
+        if (tk == Token::Iden) {
+            tk = lex.getNextToken();
+            argument_list();
+            if (tk == Token::Colon) {
+                tk = lex.getNextToken();
+                type();
             }
+        }
+    }
+}
+
+void parser::argument_list() {
+    if (tk == Token::OpenParens) {
+        tk = lex.getNextToken();
+        argument_decl();
+        if (tk == Token::CloseParens) {
+            cout << lex.toString(tk) << "consumido como parentesis\n";
+            tk = lex.getNextToken();
+        }
+    } else {
+        /*epsilon*/
+    }
+}
+
+void parser::argument_decl() {
+    if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena, Token::KwBooleano, Token::KwCaracter)) {
+        type();
+        cout << "reconoci un argumento\n";
+        if (tk == Token::Iden) {
+            lex.getNextToken();
+            more_args();
+        }
+    } else if (tk == Token::KwVar) {
+        tk = lex.getNextToken();
+        type();
+        if (tk == Token::Iden) {
+            tk = lex.getNextToken();
+            more_args();
+        }
+    } else {
+        /*epsilon*/
+    }
+}
+
+void parser::more_args() {
+    if (tk == Token::Comma) {
+        tk = lex.getNextToken();
+        more_args_p();
+    } else {
+        /*epsilon*/
+    }
+}
+
+void parser::more_args_p() {
+    if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena, Token::KwBooleano, Token::KwCaracter)) {
+        type();
+        if (tk == Token::Iden) {
+            tk = lex.getNextToken();
+            more_args();
+        }
+    } else if (tk == Token::KwVar) {
+        tk = lex.getNextToken();
+        type();
+        if (tk == Token::Iden) {
+            tk = lex.getNextToken();
+            more_args();
         }
     }
 }
@@ -74,9 +174,8 @@ void parser::var_decl() {
         if (tk == Token::Iden) {
             tk = lex.getNextToken();
             more_var();
-            if (tk == Token::EndLine) {
+            if (tk == Token::EndLine)
                 tk = lex.getNextToken();
-            }
         } else
             syntaxError("identifier");
     } else
