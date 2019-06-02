@@ -20,8 +20,9 @@ private:
     void procedure_header();
     void statements();
     void statement();
+    void string_args();
+    void more_string_args();
     void more_statements();
-    void more_statements_p();
     void lvalue();
     void lvalue_p();
     void rvalue();

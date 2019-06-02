@@ -185,8 +185,7 @@ void parser::more_args_p() {
 }
 
 void parser::statements() {
-    cout << "en statements" << lex.toString(tk) << ", " << lex.getText() << endl;
-    if (tk == Token::Iden)
+    if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba))
         statement();
     else {
         /*epsilon*/
@@ -201,26 +200,46 @@ void parser::statement() {
             expr();
             more_statements();
         }
+    } else if (tk == Token::KwLlamar) {
+        tk = lex.getNextToken();
+        if (tk == Token::Iden) {
+            tk = lex.getNextToken();
+            args_call();
+            more_statements();
+        }
+    } else if (tk == Token::KwEscriba) {
+        tk = lex.getNextToken();
+        string_args();
+        more_statements();
+    }
+}
+
+void parser::string_args() {
+    if (tk == Token::StringConst) {
+        tk = lex.getNextToken();
+        more_string_args();
+    } else if (tokenIs(Token::Iden, Token::IntConst, Token::CharConst, Token::StringConst, Token::KwVerdadero, Token::KwFalso
+                , Token::Sub, Token::KwNo, Token::OpenParens)) {
+        expr();
+        more_string_args();
+    }
+}
+
+void parser::more_string_args() {
+    if (tk == Token::Comma) {
+        tk = lex.getNextToken();
+        string_args();
+    } else {
+        /*epsilon*/
     }
 }
 
 void parser::more_statements() {
     if (tk == Token::EndLine) {
         tk = lex.getNextToken();
-        more_statements_p();
+        statement();
     } else {
         /*epsilon*/
-    }
-}
-
-void parser::more_statements_p() {//funcion hace lo mismo que statement
-    if (tk == Token::Iden) {
-        lvalue();
-        if (tk == Token::Assign) {
-            tk = lex.getNextToken();
-            expr();
-            more_statements();
-        }
     }
 }
 
@@ -237,6 +256,8 @@ void parser::lvalue_p() {
         expr();
         if (tk == Token::CloseBra)
             tk = lex.getNextToken();
+        else
+            syntaxError("Close Parens");
     } else {
         /*epsilon*/
     }   
@@ -268,13 +289,14 @@ void parser::args_call() {
         arg_decl();
         if (tk == Token::CloseParens)
             tk = lex.getNextToken();
+        else
+            syntaxError("Close Parens");
     }
 }
 
 void parser::arg_decl() {
     if (tokenIs(Token::Iden, Token::IntConst, Token::CharConst, Token::StringConst, Token::KwVerdadero, Token::KwFalso
-                , Token::Sub, Token::KwNo, Token::OpenParens)) {
-        tk = lex.getNextToken();
+                , Token::Sub, Token::KwNo, Token::OpenParens)) {        expr();
         more_arg_decl();
     } else {
         /*epsilon*/
@@ -284,8 +306,7 @@ void parser::arg_decl() {
 void parser::more_arg_decl() {
     if (tk == Token::Comma) {
         tk = lex.getNextToken();
-        expr();
-        more_arg_decl();
+        arg_decl();
     } else {
         /*epsilon*/
     }

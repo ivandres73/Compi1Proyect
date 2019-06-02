@@ -63,16 +63,23 @@ statements:
 
 statement:
     lvalue 'assign' expr more_statements
-    'llamar' 'Iden'
+    'llamar' 'Iden' args_call more_statements
+    |'escriba' string_args more_statements
     ;
 
-more_statements:
-    'EndLine' more_statements_p
+string_args:
+    'StringConst' more_string_args
+    |expr more_string_args
+    ;
+
+more_string_args:
+    'comma' string_args
     |/*eps */
     ;
 
-more_statements_p:
-    lvalue 'assign' expr more_statements
+more_statements:
+    'EndLine' statement
+    |/*eps */
     ;
 
 lvalue:
@@ -96,6 +103,7 @@ rvalue_p:
 
 args_call:
     'OpenParens' arg_decl 'CloseParens'
+    |/*epsilon */
     ;
 
 arg_decl:
@@ -104,7 +112,7 @@ arg_decl:
     ;
 
 more_arg_decl:
-    'comma' expr more_arg_decl
+    'comma' arg_decl
     |/*eps */
     ;
 
@@ -112,7 +120,7 @@ expr:
     rvalue
     |constant
     //|expr bin_op expr
-    |'sub' expr //va a haber conflicto con los firsts(bin_op)
+    |'sub' expr //conflicto con los firsts(bin_op)
     |'no' expr
     |'openParens' expr 'closeParens'
     ;
@@ -142,7 +150,7 @@ array_type:
 constant:
     'intConst'
     |'charConst'
-    |'StringConst'
+    //|'StringConst' conflicto con more_strings_args_p
     |bool_const
     ;
 
