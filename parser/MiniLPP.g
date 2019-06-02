@@ -38,7 +38,6 @@ procedure_header:
 
 argument_list:
     'OpenParens' argument_decl 'CloseParens'
-    |/*eps */
     ;
 
 argument_decl:
@@ -58,7 +57,39 @@ more_args_p:
     ;
 
 statements:
+    statement
+    |/*eps */
+    ;
 
+statement:
+    lvalue 'assign' expr more_statements
+    ;
+
+more_statements:
+    'EndLine' more_statements_p
+    |/*eps */
+    ;
+
+more_statements_p:
+    lvalue 'assign' expr more_statements
+    ;
+
+lvalue:
+    'Iden' lvalue_p
+    ;
+
+lvalue_p:
+    'OpenBra' expr 'CloseBra'//acepta ID[verdadero] ??
+    |/*eps */
+    ;
+
+expr:
+    lvalue
+    |constant
+    //|expr bin_op expr
+    |'sub' expr //va a haber conflicto con los firsts(bin_op)
+    |'no' expr
+    |'openParens' expr 'closeParens'
     ;
 
 var_decl:
@@ -81,4 +112,16 @@ type:
 
 array_type:
     'arreglo' 'openBra' 'intConst' 'closeBra' 'de' type
+    ;
+
+constant:
+    'intConst'
+    |'charConst'
+    |'StringConst'
+    |bool_const
+    ;
+
+bool_const:
+    'verdadero'
+    |'falso'
     ;

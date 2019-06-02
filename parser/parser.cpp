@@ -184,7 +184,98 @@ void parser::more_args_p() {
 }
 
 void parser::statements() {
+    if (tk == Token::Iden)
+        statement();
+    else {
+        /*epsilon*/
+    }
+    
+}
 
+void parser::statement() {
+    if (tk == Token::Iden) {
+        lvalue();
+        if (tk == Token::Assign) {
+            tk = lex.getNextToken();
+            expr();
+            more_statements();
+        }
+    }
+}
+
+void parser::more_statements() {
+    if (tk == Token::EndLine) {
+        tk = lex.getNextToken();
+        more_statements_p();
+    } else {
+        /*epsilon*/
+    }
+}
+
+void parser::more_statements_p() {//funcion hace lo mismo que statement
+    if (tk == Token::Iden) {
+        lvalue();
+        if (tk == Token::Assign) {
+            tk = lex.getNextToken();
+            expr();
+            more_statements();
+        }
+    }
+}
+
+void parser::lvalue() {
+    if (tk == Token::Iden) {
+        tk = lex.getNextToken();
+        lvalue_p();
+    }
+}
+
+void parser::lvalue_p() {
+    if (tk == Token::OpenBra) {
+        tk = lex.getNextToken();
+        expr();
+        if (tk == Token::CloseBra)
+            tk = lex.getNextToken();
+    } else {
+        /*epsilon*/
+    }   
+}
+
+void parser::expr() {
+    if (tk == Token::Iden)
+        lvalue();
+    else if (tokenIs(Token::IntConst, Token::CharConst, Token::StringConst, Token::KwVerdadero, Token::KwFalso))
+        constant();
+    else if (tk == Token::Sub) {
+        tk = lex.getNextToken();
+        expr();
+    } else if (tk == Token::KwNo) {
+        tk = lex.getNextToken();
+        expr();
+    } else if (tk == Token::OpenParens) {
+        tk = lex.getNextToken();
+        expr();
+        if (tk == Token::CloseParens)
+            tk = lex.getNextToken();
+    }
+}
+
+void parser::constant() {
+    if (tk == Token::IntConst)
+        tk = lex.getNextToken();
+    else if (tk == Token::CharConst)
+        tk = lex.getNextToken();
+    else if (tk == Token::StringConst)
+        tk = lex.getNextToken();
+    else if (tokenIs(Token::KwVerdadero, Token::KwFalso))
+        bool_const();
+}
+
+void parser::bool_const() {
+    if (tk == Token::KwFalso)
+        tk = lex.getNextToken();
+    if (tk == Token::KwVerdadero)
+        tk = lex.getNextToken();
 }
 
 void parser::var_decl() {

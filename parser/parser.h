@@ -19,10 +19,18 @@ private:
     void more_args_p();
     void procedure_header();
     void statements();
+    void statement();
+    void more_statements();
+    void more_statements_p();
+    void lvalue();
+    void lvalue_p();
+    void expr();
     void var_decl();
     void more_var();
     void type();
     void array_type();
+    void constant();
+    void bool_const();
 
     template <typename T, typename... Ts>
     bool tokenIs(T param1, Ts... otherParams) {
