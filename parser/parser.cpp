@@ -75,11 +75,8 @@ void parser::subprogram_decl() {
                     syntaxError("end of line");
             } else
                 syntaxError("inicio");
-        } else {
-            cout << lex.toString(tk);
-            cout << "-" << lex.getText();
+        } else
             syntaxError("end of line");
-        }
     } else {
         /*epsilon*/
     }
@@ -110,7 +107,6 @@ void parser::argument_list() {
         tk = lex.getNextToken();
         argument_decl();
         if (tk == Token::CloseParens) {
-            cout << lex.toString(tk) << "consumido como parentesis\n";
             tk = lex.getNextToken();
         }
     } else {
@@ -121,9 +117,8 @@ void parser::argument_list() {
 void parser::argument_decl() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena, Token::KwBooleano, Token::KwCaracter)) {
         type();
-        cout << "reconoci un argumento\n";
         if (tk == Token::Iden) {
-            lex.getNextToken();
+            tk = lex.getNextToken();
             more_args();
         }
     } else if (tk == Token::KwVar) {
