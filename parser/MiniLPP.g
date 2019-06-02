@@ -19,7 +19,7 @@ var_section:
     ;
 
 subprogram_decl:
-    subprogram_header 'Endline' var_section 'inicio' statements 'Endline' 'fin' 'Endline'
+    subprogram_header 'Endline' var_section 'inicio' statements 'Endline' 'fin' 'Endline' subprogram_decl
     |/*eps */
     ;
 
@@ -30,6 +30,10 @@ subprogram_header:
 
 function_header:
     'funcion' 'Iden' argument_list 'colon' type
+    ;
+
+procedure_header:
+    'procedimiento' 'Iden' argument_list
     ;
 
 argument_list:
@@ -51,10 +55,6 @@ more_args:
 more_args_p:
     type 'Iden' more_args
     |'var' type 'Iden' more_args
-    ;
-
-procedure_header:
-
     ;
 
 statements:

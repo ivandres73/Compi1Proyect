@@ -52,7 +52,7 @@ void parser::var_section() {
 }
 
 void parser::subprogram_decl() {
-    if (tk == Token::KwFuncion) {//agregar despues los firsts de procedure_header
+    if (tokenIs(Token::KwFuncion, Token::KwProcedimiento)) {
         subprogram_header();
         if (tk == Token::EndLine) {
             tk = lex.getNextToken();
@@ -64,9 +64,10 @@ void parser::subprogram_decl() {
                     tk = lex.getNextToken();
                     if (tk == Token::KwFin) {
                         tk = lex.getNextToken();
-                        if (tk == Token::EndLine)
+                        if (tk == Token::EndLine) {
                             tk = lex.getNextToken();
-                        else
+                            subprogram_decl();
+                        } else
                             syntaxError("end of line");
                     } else {
                         syntaxError("fin");
@@ -83,9 +84,12 @@ void parser::subprogram_decl() {
 }
 
 void parser::subprogram_header() {
-    if (tk == Token::KwFuncion) {
+    if (tk == Token::KwFuncion)
         function_header();
-    }//agregar else de procedure_header
+    else if (tk == Token::KwProcedimiento)
+        procedure_header();
+    else
+        syntaxError("funcion o procedimiento");
 }
 
 void parser::function_header() {
@@ -97,18 +101,34 @@ void parser::function_header() {
             if (tk == Token::Colon) {
                 tk = lex.getNextToken();
                 type();
-            }
-        }
-    }
+            } else
+                syntaxError("colon");
+        } else
+            syntaxError("identifier");
+    } else
+        syntaxError("funcion");
+}
+
+void parser::procedure_header() {
+    if (tk == Token::KwProcedimiento) {
+        tk = lex.getNextToken();
+        if (tk == Token::Iden) {
+            tk = lex.getNextToken();
+            argument_list();
+        } else
+            syntaxError("identifier");
+    } else
+        syntaxError("procedimiento");
 }
 
 void parser::argument_list() {
     if (tk == Token::OpenParens) {
         tk = lex.getNextToken();
         argument_decl();
-        if (tk == Token::CloseParens) {
+        if (tk == Token::CloseParens)
             tk = lex.getNextToken();
-        }
+        else
+            syntaxError("close parens");
     } else {
         /*epsilon*/
     }
@@ -120,14 +140,16 @@ void parser::argument_decl() {
         if (tk == Token::Iden) {
             tk = lex.getNextToken();
             more_args();
-        }
+        } else
+            syntaxError("identifier");
     } else if (tk == Token::KwVar) {
         tk = lex.getNextToken();
         type();
         if (tk == Token::Iden) {
             tk = lex.getNextToken();
             more_args();
-        }
+        } else
+            syntaxError("identifier");
     } else {
         /*epsilon*/
     }
@@ -148,15 +170,18 @@ void parser::more_args_p() {
         if (tk == Token::Iden) {
             tk = lex.getNextToken();
             more_args();
-        }
+        } else
+            syntaxError("identifier");
     } else if (tk == Token::KwVar) {
         tk = lex.getNextToken();
         type();
         if (tk == Token::Iden) {
             tk = lex.getNextToken();
             more_args();
-        }
-    }
+        } else
+            syntaxError("identifier");
+    } else
+        syntaxError("type");
 }
 
 void parser::statements() {
@@ -171,6 +196,8 @@ void parser::var_decl() {
             more_var();
             if (tk == Token::EndLine)
                 tk = lex.getNextToken();
+            else
+                syntaxError("end of line");
         } else
             syntaxError("identifier");
     } else
