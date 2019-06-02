@@ -272,7 +272,8 @@ void parser::args_call() {
 }
 
 void parser::arg_decl() {
-    if (tk == Token::Iden) {
+    if (tokenIs(Token::Iden, Token::IntConst, Token::CharConst, Token::StringConst, Token::KwVerdadero, Token::KwFalso
+                , Token::Sub, Token::KwNo, Token::OpenParens)) {
         tk = lex.getNextToken();
         more_arg_decl();
     } else {
@@ -283,10 +284,8 @@ void parser::arg_decl() {
 void parser::more_arg_decl() {
     if (tk == Token::Comma) {
         tk = lex.getNextToken();
-        if (tk == Token::Iden) {
-            tk = lex.getNextToken();
-            more_arg_decl();
-        }
+        expr();
+        more_arg_decl();
     } else {
         /*epsilon*/
     }

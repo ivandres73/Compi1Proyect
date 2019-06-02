@@ -63,6 +63,7 @@ statements:
 
 statement:
     lvalue 'assign' expr more_statements
+    'llamar' 'Iden'
     ;
 
 more_statements:
@@ -98,12 +99,12 @@ args_call:
     ;
 
 arg_decl:
-     'Iden' more_arg_decl
+    expr more_arg_decl
     |/*eps */
     ;
 
 more_arg_decl:
-    'comma' 'Iden' more_arg_decl
+    'comma' expr more_arg_decl
     |/*eps */
     ;
 
