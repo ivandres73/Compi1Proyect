@@ -59,9 +59,9 @@ void parser::subprogram_decl() {
             var_section();
             if (tk == Token::KwInicio) {
                 tk = lex.getNextToken();
-                statements();
                 if (tk == Token::EndLine) {
                     tk = lex.getNextToken();
+                    statements();
                     if (tk == Token::KwFin) {
                         tk = lex.getNextToken();
                         if (tk == Token::EndLine) {
@@ -70,6 +70,7 @@ void parser::subprogram_decl() {
                         } else
                             syntaxError("end of line");
                     } else {
+                        cout << lex.toString(tk) << ", " << lex.getText() << endl;
                         syntaxError("fin");
                     }
                 } else
@@ -184,12 +185,12 @@ void parser::more_args_p() {
 }
 
 void parser::statements() {
+    cout << "en statements" << lex.toString(tk) << ", " << lex.getText() << endl;
     if (tk == Token::Iden)
         statement();
     else {
         /*epsilon*/
-    }
-    
+    }   
 }
 
 void parser::statement() {
@@ -241,9 +242,59 @@ void parser::lvalue_p() {
     }   
 }
 
+void parser::rvalue() {
+    if (tk == Token::Iden) {
+        tk = lex.getNextToken();
+        rvalue_p();
+    }
+}
+
+void parser::rvalue_p() {
+    if (tk == Token::OpenBra) {
+        tk = lex.getNextToken();
+        expr();
+        if (tk == Token::CloseBra)
+            tk = lex.getNextToken();
+    } else if(tk == Token::OpenParens)
+        args_call();
+    else {
+        /*epsilon*/
+    } 
+}
+
+void parser::args_call() {
+    if (tk == Token::OpenParens) {
+        tk = lex.getNextToken();
+        arg_decl();
+        if (tk == Token::CloseParens)
+            tk = lex.getNextToken();
+    }
+}
+
+void parser::arg_decl() {
+    if (tk == Token::Iden) {
+        tk = lex.getNextToken();
+        more_arg_decl();
+    } else {
+        /*epsilon*/
+    }
+}
+
+void parser::more_arg_decl() {
+    if (tk == Token::Comma) {
+        tk = lex.getNextToken();
+        if (tk == Token::Iden) {
+            tk = lex.getNextToken();
+            more_arg_decl();
+        }
+    } else {
+        /*epsilon*/
+    }
+}
+
 void parser::expr() {
     if (tk == Token::Iden)
-        lvalue();
+        rvalue();
     else if (tokenIs(Token::IntConst, Token::CharConst, Token::StringConst, Token::KwVerdadero, Token::KwFalso))
         constant();
     else if (tk == Token::Sub) {

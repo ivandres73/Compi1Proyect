@@ -19,7 +19,7 @@ var_section:
     ;
 
 subprogram_decl:
-    subprogram_header 'Endline' var_section 'inicio' statements 'Endline' 'fin' 'Endline' subprogram_decl
+    subprogram_header 'Endline' var_section 'inicio' 'Endline' statements 'fin' 'Endline' subprogram_decl
     |/*eps */
     ;
 
@@ -83,8 +83,32 @@ lvalue_p:
     |/*eps */
     ;
 
+rvalue:
+    'Iden' rvalue_p
+    ;
+
+rvalue_p:
+    'OpenBra' expr 'CloseBra'
+    |args_call
+    |/*eps */
+    ;
+
+args_call:
+    'OpenParens' arg_decl 'CloseParens'
+    ;
+
+arg_decl:
+     'Iden' more_arg_decl
+    |/*eps */
+    ;
+
+more_arg_decl:
+    'comma' 'Iden' more_arg_decl
+    |/*eps */
+    ;
+
 expr:
-    lvalue
+    rvalue
     |constant
     //|expr bin_op expr
     |'sub' expr //va a haber conflicto con los firsts(bin_op)

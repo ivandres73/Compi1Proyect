@@ -24,6 +24,11 @@ private:
     void more_statements_p();
     void lvalue();
     void lvalue_p();
+    void rvalue();
+    void rvalue_p();
+    void args_call();
+    void arg_decl();
+    void more_arg_decl();
     void expr();
     void var_decl();
     void more_var();
