@@ -55,20 +55,20 @@ Token exprLex::getNextToken() {
                     text += ch;
                     state = StateId::BinHex_q2;
                     ch = getNextChar();
-                } else if ((ch >= '1') && (ch <= '9')) {
-                    text += ch;
-                    state = StateId::Dec_q0;
-                    ch = getNextChar();
-                } else if (ch == '0') {
-                    state = StateId::Dec_q0;
-                    ch = getNextChar();
                 } else if ((ch == 'x') || (ch == 'X')) {
                     text += ch;
                     state = StateId::BinHex_q1;
                     ch = getNextChar();
+                } else if (ch == '0') {
+                    state = StateId::Dec_q0;
+                    ch = getNextChar();
+                } else if ((ch >= '1') && (ch <= '9')) {
+                    text += ch;
+                    state = StateId::Dec_q0;
+                    ch = getNextChar();
                 } else {
                     ungetChar(ch);
-                    return Token::DecConst;
+                    return Token::IntConst;
                 }
                 break;
             case StateId::BinHex_q1:
@@ -78,7 +78,7 @@ Token exprLex::getNextToken() {
                     ch = getNextChar();
                 } else {
                     ungetChar(ch);
-                    return Token::HexConst;
+                    return Token::IntConst;
                 }
                 break;
             case StateId::BinHex_q2:
@@ -88,7 +88,7 @@ Token exprLex::getNextToken() {
                     ch = getNextChar();
                 } else {
                     ungetChar(ch);
-                    return Token::BinConst;
+                    return Token::IntConst;
                 }
                 break;
             // Char
@@ -170,7 +170,7 @@ Token exprLex::getNextToken() {
                     ch = getNextChar();
                 } else {
                     ungetChar(ch);
-                    return Token::DecConst;
+                    return Token::IntConst;
                 }
                 break;
             // Iden
@@ -2168,6 +2168,7 @@ const char* exprLex::toString(Token tk) {
         case Token::KwY: return "KwY";
         case Token::KwVar: return "KwVar";
         case Token::KwVerdadero: return "KwVerdadero";
+        case Token::KwTipo: return "KwTipo";
         case Token::CloseBra: return "CloseBra";
         case Token::KwSino: return "KwSino";
         case Token::KwSecuencial: return "KwSecuencial";
@@ -2180,43 +2181,35 @@ const char* exprLex::toString(Token tk) {
         case Token::KwRetorne: return "KwRetorne";
         case Token::KwProcedimiento: return "KwProcedimiento";
         case Token::KwO: return "KwO";
-        case Token::KwMientras: return "KwMientras";
+        case Token::KwComo: return "KwComo";
+        case Token::StringConst: return "StringConst";
+        case Token::NotEqual: return "NotEqual";
+        case Token::KwDe: return "KwDe";
+        case Token::KwHaga: return "KwHaga";
+        case Token::GreatEqual: return "GreatEqual";
+        case Token::KwCerrar: return "KwCerrar";
         case Token::KwCadena: return "KwCadena";
+        case Token::KwDiv: return "KwDiv";
         case Token::Iden: return "Iden";
-        case Token::KwArchivo: return "KwArchivo";
-        case Token::KwPara: return "KwPara";
-        case Token::KwNo: return "KwNo";
-        case Token::KwCaso: return "KwCaso";
-        case Token::EndLine: return "EndLine";
         case Token::KwArreglo: return "KwArreglo";
         case Token::KwEscriba: return "KwEscriba";
         case Token::CloseParens: return "CloseParens";
         case Token::KwFinal: return "KwFinal";
-        case Token::BinConst: return "BinConst";
-        case Token::KwSi: return "KwSi";
-        case Token::EndFile: return "EndFile";
-        case Token::KwEscritura: return "KwEscritura";
-        case Token::KwComo: return "KwComo";
-        case Token::DecConst: return "DecConst";
-        case Token::KwCaracter: return "KwCaracter";
-        case Token::KwAbrir: return "KwAbrir";
-        case Token::KwEntonces: return "KwEntonces";
-        case Token::GreatEqual: return "GreatEqual";
-        case Token::KwCerrar: return "KwCerrar";
-        case Token::KwTipo: return "KwTipo";
-        case Token::HexConst: return "HexConst";
+        case Token::IntConst: return "IntConst";
+        case Token::KwEscribir: return "KwEscribir";
         case Token::CharConst: return "CharConst";
-        case Token::KwDiv: return "KwDiv";
-        case Token::StringConst: return "StringConst";
-        case Token::NotEqual: return "NotEqual";
-        case Token::KwHaga: return "KwHaga";
-        case Token::KwDe: return "KwDe";
-        case Token::KwBooleano: return "KwBooleano";
+        case Token::KwArchivo: return "KwArchivo";
         case Token::KwEntero: return "KwEntero";
+        case Token::KwBooleano: return "KwBooleano";
         case Token::KwEs: return "KwEs";
         case Token::KwLlamar: return "KwLlamar";
         case Token::KwInicio: return "KwInicio";
-        case Token::KwEscribir: return "KwEscribir";
+        case Token::KwSi: return "KwSi";
+        case Token::EndFile: return "EndFile";
+        case Token::KwEscritura: return "KwEscritura";
+        case Token::KwCaracter: return "KwCaracter";
+        case Token::KwAbrir: return "KwAbrir";
+        case Token::KwEntonces: return "KwEntonces";
         case Token::KwFuncion: return "KwFuncion";
         case Token::KwLectura: return "KwLectura";
         case Token::KwFalso: return "KwFalso";
@@ -2225,6 +2218,11 @@ const char* exprLex::toString(Token tk) {
         case Token::KwHasta: return "KwHasta";
         case Token::KwLeer: return "KwLeer";
         case Token::KwMod: return "KwMod";
+        case Token::KwMientras: return "KwMientras";
+        case Token::KwPara: return "KwPara";
+        case Token::KwCaso: return "KwCaso";
+        case Token::EndLine: return "EndLine";
+        case Token::KwNo: return "KwNo";
         default: return "Unknown";
     }
 }

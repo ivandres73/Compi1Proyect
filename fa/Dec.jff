@@ -10,19 +10,19 @@
 		<state id="1" name="q1">
 			<x>454.0</x>
 			<y>288.0</y>
-			<label>Token::DecConst</label>
+			<label>Token::IntConst</label>
 			<final/>
 		</state>
 		<!--The list of transitions.-->
 		<transition>
 			<from>0</from>
-			<to>1</to>
-			<read/>
+			<to>0</to>
+			<read>isdigit?</read>
 		</transition>
 		<transition>
 			<from>0</from>
-			<to>0</to>
-			<read>isdigit?</read>
+			<to>1</to>
+			<read/>
 		</transition>
 		<note>
 			<text>Name: Dec</text>

@@ -76,4 +76,9 @@ type:
     |'cadena'
     |'booleano'
     |'caracter'
+    |array_type
+    ;
+
+array_type:
+    'arreglo' 'openBra' 'intConst' 'closeBra' 'de' type
     ;
