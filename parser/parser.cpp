@@ -129,9 +129,8 @@ void parser::argument_list() {
             tk = lex.getNextToken();
         else
             syntaxError("close parens");
-    } else {
-        /*epsilon*/
-    }
+    } else
+        syntaxError("open parens");
 }
 
 void parser::argument_decl() {
