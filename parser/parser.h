@@ -22,6 +22,7 @@ private:
     void var_decl();
     void more_var();
     void type();
+    void array_type();
 
     template <typename T, typename... Ts>
     bool tokenIs(T param1, Ts... otherParams) {

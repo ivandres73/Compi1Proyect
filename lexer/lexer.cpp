@@ -2049,22 +2049,16 @@ Token exprLex::getNextToken() {
                 break;
             // Oper
             case StateId::Oper_q0:
-                if (ch == '>') {
+                if (ch == '-') {
+                    text += ch;
+                    return Token::Sub;
+                } else if (ch == '>') {
                     text += ch;
                     state = StateId::Oper_q15;
                     ch = getNextChar();
                 } else if (ch == ':') {
                     text += ch;
                     return Token::Colon;
-                } else if (ch == '(') {
-                    text += ch;
-                    return Token::OpenParens;
-                } else if (ch == '+') {
-                    text += ch;
-                    return Token::Add;
-                } else if (ch == '-') {
-                    text += ch;
-                    return Token::Sub;
                 } else if (ch == '=') {
                     text += ch;
                     return Token::EqualTo;
@@ -2074,6 +2068,21 @@ Token exprLex::getNextToken() {
                 } else if (ch == ',') {
                     text += ch;
                     return Token::Comma;
+                } else if (ch == '(') {
+                    text += ch;
+                    return Token::OpenParens;
+                } else if (ch == '[') {
+                    text += ch;
+                    return Token::OpenBra;
+                } else if (ch == ')') {
+                    text += ch;
+                    return Token::CloseParens;
+                } else if (ch == ']') {
+                    text += ch;
+                    return Token::CloseBra;
+                } else if (ch == '+') {
+                    text += ch;
+                    return Token::Add;
                 } else if (ch == '<') {
                     text += ch;
                     state = StateId::Oper_q9;
@@ -2081,12 +2090,6 @@ Token exprLex::getNextToken() {
                 } else if (ch == '^') {
                     text += ch;
                     return Token::Xor;
-                } else if (ch == ']') {
-                    text += ch;
-                    return Token::CloseBra;
-                } else if (ch == ')') {
-                    text += ch;
-                    return Token::CloseParens;
                 } else {
                     reportError(ch);
                     ch = getNextChar();
@@ -2103,15 +2106,15 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::Oper_q9:
-                if (ch == '>') {
+                if (ch == '-') {
+                    text += ch;
+                    return Token::Assign;
+                } else if (ch == '>') {
                     text += ch;
                     return Token::NotEqual;
                 } else if (ch == '=') {
                     text += ch;
                     return Token::LessEqual;
-                } else if (ch == '-') {
-                    text += ch;
-                    return Token::Assign;
                 } else {
                     ungetChar(ch);
                     return Token::LessThan;
@@ -2156,15 +2159,16 @@ Token exprLex::getNextToken() {
 }
 const char* exprLex::toString(Token tk) {
     switch (tk) {
-        case Token::Assign: return "Assign";
         case Token::LessEqual: return "LessEqual";
+        case Token::Assign: return "Assign";
         case Token::GreatThan: return "GreatThan";
         case Token::Xor: return "Xor";
+        case Token::OpenBra: return "OpenBra";
+        case Token::OpenParens: return "OpenParens";
         case Token::Mul: return "Mul";
+        case Token::Colon: return "Colon";
         case Token::EqualTo: return "EqualTo";
         case Token::Sub: return "Sub";
-        case Token::OpenParens: return "OpenParens";
-        case Token::Colon: return "Colon";
         case Token::KwY: return "KwY";
         case Token::KwVar: return "KwVar";
         case Token::KwVerdadero: return "KwVerdadero";

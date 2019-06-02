@@ -228,6 +228,32 @@ void parser::type() {
         tk = lex.getNextToken();
     else if (tk == Token::KwCaracter)
         tk = lex.getNextToken();
+    else if (tk == Token::KwArreglo)
+        array_type();
     else
         syntaxError("type");
+}
+
+void parser::array_type() {
+    if (tk == Token::KwArreglo) {
+        tk = lex.getNextToken();
+        if (tk == Token::OpenBra) {
+            tk = lex.getNextToken();
+            if (tk == Token::IntConst) {
+                tk = lex.getNextToken();
+                if (tk == Token::CloseBra) {
+                    tk = lex.getNextToken();
+                    if (tk == Token::KwDe) {
+                        tk = lex.getNextToken();
+                        type();
+                    } else
+                        syntaxError("DE");
+                } else
+                    syntaxError("Close bracket");
+            } else
+                syntaxError("int constant");
+        } else
+            syntaxError("Open bracket");
+    } else
+        syntaxError("arreglo");
 }

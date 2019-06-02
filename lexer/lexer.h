@@ -220,15 +220,16 @@ enum class StateId {
 };
 
 enum class Token {
-    Assign,
     LessEqual,
+    Assign,
     GreatThan,
     Xor,
+    OpenBra,
+    OpenParens,
     Mul,
+    Colon,
     EqualTo,
     Sub,
-    OpenParens,
-    Colon,
     KwY,
     KwVar,
     KwVerdadero,
