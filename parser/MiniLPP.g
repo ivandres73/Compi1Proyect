@@ -69,6 +69,7 @@ statement:
     |if_statement more_statements
     |'mientras' expr optional_eol 'haga' optional_eol statement 'fin' 'mientras' more_statements
     |'repita' 'EndLine' statement 'hasta' expr more_statements
+    |'para' lvalue 'assign' expr 'hasta' expr 'haga' 'EndLine' statement 'fin' 'para' more_statements
     ;
 
 if_statement:
@@ -83,6 +84,7 @@ if_stmt:
     |if_statement more_if_stmt
     |'mientras' expr optional_eol 'haga' optional_eol statement 'fin' 'mientras' more_if_stmt
     |'repita' 'EndLine' statement 'hasta' expr more_if_stmt
+    |'para' lvalue 'assign' expr 'hasta' expr 'haga' 'EndLine' statement 'fin' 'para' more_if_stmt
     ;
 
 more_if_stmt:
@@ -97,6 +99,7 @@ more_if_stmt_p:
     |if_statement more_if_stmt
     |'mientras' expr optional_eol 'haga' optional_eol statement 'fin' 'mientras' more_if_stmt
     |'repita' 'EndLine' statement 'hasta' expr more_if_stmt
+    |'para' lvalue 'assign' expr 'hasta' expr 'haga' 'EndLine' statement 'fin' 'para' more_if_stmt
     |else_if_block 'fin' 'si'
     |'fin' 'si'
     ;

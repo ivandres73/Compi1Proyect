@@ -188,7 +188,7 @@ void parser::more_args_p() {
 void parser::statements() {
     if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba,
                 Token::KwLea, Token::KwSi, Token::KwMientras,
-                Token::KwRepita))
+                Token::KwRepita, Token::KwPara))
         statement();
     else {
         /*epsilon*/
@@ -255,6 +255,37 @@ void parser::statement() {
                 syntaxError("hasta");
         } else
             syntaxError("end of line");
+    } else if (tk == Token::KwPara) {
+        tk = lex.getNextToken();
+        lvalue();
+        if (tk == Token::Assign) {
+            tk = lex.getNextToken();
+            expr();
+            if (tk == Token::KwHasta) {
+                tk = lex.getNextToken();
+                expr();
+                if (tk == Token::KwHaga) {
+                    tk = lex.getNextToken();
+                    if (tk == Token::EndLine) {
+                        tk = lex.getNextToken();
+                        statement();
+                        if (tk == Token::KwFin) {
+                            tk = lex.getNextToken();
+                            if (tk == Token::KwPara) {
+                                tk = lex.getNextToken();
+                                more_statements();
+                            } else
+                                syntaxError("para");
+                        } else
+                            syntaxError("fin");
+                    } else
+                        syntaxError("end of line");
+                } else
+                    syntaxError("haga");
+            } else
+                syntaxError("hasta");
+        } else
+            syntaxError("assign operator");
     } else
         syntaxError("statement");
 }
@@ -332,6 +363,37 @@ void parser::if_stmt() {
                 syntaxError("hasta");
         } else
             syntaxError("end of line");
+    } else if (tk == Token::KwPara) {
+        tk = lex.getNextToken();
+        lvalue();
+        if (tk == Token::Assign) {
+            tk = lex.getNextToken();
+            expr();
+            if (tk == Token::KwHasta) {
+                tk = lex.getNextToken();
+                expr();
+                if (tk == Token::KwHaga) {
+                    tk = lex.getNextToken();
+                    if (tk == Token::EndLine) {
+                        tk = lex.getNextToken();
+                        statement();
+                        if (tk == Token::KwFin) {
+                            tk = lex.getNextToken();
+                            if (tk == Token::KwPara) {
+                                tk = lex.getNextToken();
+                                more_if_stmt();
+                            } else
+                                syntaxError("para");
+                        } else
+                            syntaxError("fin");
+                    } else
+                        syntaxError("end of line");
+                } else
+                    syntaxError("haga");
+            } else
+                syntaxError("hasta");
+        } else
+            syntaxError("assign operator");
     } else
         syntaxError("statement inside if");
 }
@@ -404,6 +466,37 @@ void parser::more_if_stmt_p() {
                 syntaxError("hasta");
         } else
             syntaxError("end of line");
+    } else if (tk == Token::KwPara) {
+        tk = lex.getNextToken();
+        lvalue();
+        if (tk == Token::Assign) {
+            tk = lex.getNextToken();
+            expr();
+            if (tk == Token::KwHasta) {
+                tk = lex.getNextToken();
+                expr();
+                if (tk == Token::KwHaga) {
+                    tk = lex.getNextToken();
+                    if (tk == Token::EndLine) {
+                        tk = lex.getNextToken();
+                        statement();
+                        if (tk == Token::KwFin) {
+                            tk = lex.getNextToken();
+                            if (tk == Token::KwPara) {
+                                tk = lex.getNextToken();
+                                more_statements();
+                            } else
+                                syntaxError("para");
+                        } else
+                            syntaxError("fin");
+                    } else
+                        syntaxError("end of line");
+                } else
+                    syntaxError("haga");
+            } else
+                syntaxError("hasta");
+        } else
+            syntaxError("assign operator");
     } else if (tk == Token::KwSino) {
         else_if_block();
         if (tk == Token::KwFin) {
@@ -456,7 +549,8 @@ void parser::else_if_block_p() {
             syntaxError("entonces");
     } else if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba,
                        Token::KwLea, Token::KwSi, Token::EndLine,
-                       Token::KwMientras, Token::KwRepita)) {
+                       Token::KwMientras, Token::KwRepita,
+                       Token::KwPara)) {
         optional_eol();
         statement();
     } else
