@@ -96,15 +96,22 @@ more_if_stmt_p:
     ;
 
 else_if_block:
-    'sino' 'si' expr 'EndLine' 'entonces' 'EndLine' statement more_else_if_block
-    |/*eps */
+    'sino' else_if_block_p
+    |/*eps */ //only gets validated after first call(which is good)
     ;
 
 more_else_if_block:
     'EndLine' else_if_block
     ;
 
-else_block:
+else_if_block_p:
+    'si' expr 'EndLine' 'entonces' 'EndLine' statement more_else_if_block
+    |optional_eol statement
+    ;
+
+optional_eol:
+    'EndLine'
+    |/*eps */
     ;
 
 string_args:

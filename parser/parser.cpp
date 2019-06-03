@@ -312,6 +312,7 @@ void parser::more_if_stmt_p() {
         more_if_stmt();
     } else if (tk == Token::KwSino) {
         else_if_block();
+        cout << "aqui\n";
         if (tk == Token::KwFin) {
             tk = lex.getNextToken();
             if (tk == Token::KwSi)
@@ -331,21 +332,8 @@ void parser::more_if_stmt_p() {
 void parser::else_if_block() {
     if (tk == Token::KwSino) {
         tk = lex.getNextToken();
-        if (tk == Token::KwSi) {
-            tk = lex.getNextToken();
-            expr();
-            if (tk == Token::EndLine) {
-                tk = lex.getNextToken();
-                if (tk == Token::KwEntonces) {
-                    tk = lex.getNextToken();
-                    if (tk == Token::EndLine) {
-                        tk = lex.getNextToken();
-                        statement();
-                        more_else_if_block();
-                    }
-                }
-            }
-        }
+        cout << "sino\n";
+        else_if_block_p();
     } else {
         /*epsilon*/
     }
@@ -356,6 +344,37 @@ void parser::more_else_if_block() {
     if (tk == Token::EndLine) {
         tk = lex.getNextToken();
         else_if_block();
+    }
+}
+
+void parser::else_if_block_p() {
+    if (tk == Token::KwSi) {
+        tk = lex.getNextToken();
+        expr();
+        if (tk == Token::EndLine) {
+            tk = lex.getNextToken();
+            if (tk == Token::KwEntonces) {
+                tk = lex.getNextToken();
+                if (tk == Token::EndLine) {
+                    tk = lex.getNextToken();
+                    statement();
+                    more_else_if_block();
+                }
+            }
+        }
+    } else if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba, Token::KwLea, Token::KwSi
+                       , Token::EndLine)) {
+        cout << "tengo un: " << lex.toString(tk) << endl;
+        optional_eol();
+        statement();
+    }
+}
+
+void parser::optional_eol() {
+    if (tk == Token::EndLine)
+        tk = lex.getNextToken();
+    else {
+        /*epsilon*/
     }
 }
 

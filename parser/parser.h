@@ -26,7 +26,8 @@ private:
     void more_if_stmt_p();
     void else_if_block();
     void more_else_if_block();
-    void else_block();
+    void else_if_block_p();
+    void optional_eol();
     void string_args();
     void more_string_args();
     void more_statements();
