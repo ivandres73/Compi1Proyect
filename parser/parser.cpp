@@ -310,6 +310,13 @@ void parser::more_if_stmt_p() {
     } else if (tk == Token::KwSi) {
         if_statement();
         more_if_stmt();
+    } else if (tk == Token::KwSino) {
+        else_if_block();
+        if (tk == Token::KwFin) {
+            tk = lex.getNextToken();
+            if (tk == Token::KwSi)
+                tk = lex.getNextToken();
+        }
     } else if (tk == Token::KwFin) {
         cout << "cerrando if\n";
         tk = lex.getNextToken();
@@ -319,6 +326,37 @@ void parser::more_if_stmt_p() {
             syntaxError("SI");
     } else
         syntaxError("fin si");
+}
+
+void parser::else_if_block() {
+    if (tk == Token::KwSino) {
+        tk = lex.getNextToken();
+        if (tk == Token::KwSi) {
+            tk = lex.getNextToken();
+            expr();
+            if (tk == Token::EndLine) {
+                tk = lex.getNextToken();
+                if (tk == Token::KwEntonces) {
+                    tk = lex.getNextToken();
+                    if (tk == Token::EndLine) {
+                        tk = lex.getNextToken();
+                        statement();
+                        more_else_if_block();
+                    }
+                }
+            }
+        }
+    } else {
+        /*epsilon*/
+    }
+}
+
+void parser::more_else_if_block() {
+    cout << "en more_else_if_block" << lex.toString(tk) << endl;
+    if (tk == Token::EndLine) {
+        tk = lex.getNextToken();
+        else_if_block();
+    }
 }
 
 void parser::string_args() {

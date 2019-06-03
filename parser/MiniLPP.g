@@ -89,9 +89,22 @@ more_if_stmt_p:
     lvalue 'assign' expr more_if_stmt
     |'llamar' 'Iden' args_call more_if_stmt
     |'escriba' string_args more_if_stmt
-    |'lea' lvalue more_if_stmt
+    |'lea' lvalue more_if_stmt//no soporta mas de 1 argumento
     |if_statement more_if_stmt
+    |else_if_block 'fin' 'si'
     |'fin' 'si'
+    ;
+
+else_if_block:
+    'sino' 'si' expr 'EndLine' 'entonces' 'EndLine' statement more_else_if_block
+    |/*eps */
+    ;
+
+more_else_if_block:
+    'EndLine' else_if_block
+    ;
+
+else_block:
     ;
 
 string_args:

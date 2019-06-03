@@ -24,6 +24,9 @@ private:
     void if_stmt();
     void more_if_stmt();
     void more_if_stmt_p();
+    void else_if_block();
+    void more_else_if_block();
+    void else_block();
     void string_args();
     void more_string_args();
     void more_statements();
