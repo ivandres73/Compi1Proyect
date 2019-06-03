@@ -286,6 +286,10 @@ void parser::statement() {
                 syntaxError("hasta");
         } else
             syntaxError("assign operator");
+    } else if (tk == Token::KwRetorne) {
+        tk = lex.getNextToken();
+        expr();
+        more_statements();
     } else
         syntaxError("statement");
 }
@@ -394,6 +398,10 @@ void parser::if_stmt() {
                 syntaxError("hasta");
         } else
             syntaxError("assign operator");
+    } else if (tk == Token::KwRetorne) {
+        tk = lex.getNextToken();
+        expr();
+        more_statements();
     } else
         syntaxError("statement inside if");
 }
@@ -497,6 +505,10 @@ void parser::more_if_stmt_p() {
                 syntaxError("hasta");
         } else
             syntaxError("assign operator");
+    } else if (tk == Token::KwRetorne) {
+        tk = lex.getNextToken();
+        expr();
+        more_statements();
     } else if (tk == Token::KwSino) {
         else_if_block();
         if (tk == Token::KwFin) {
