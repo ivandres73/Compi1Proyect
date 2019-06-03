@@ -186,7 +186,8 @@ void parser::more_args_p() {
 }
 
 void parser::statements() {
-    if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba, Token::KwLea, Token::KwSi))
+    if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba,
+                Token::KwLea, Token::KwSi, Token::KwMientras))
         statement();
     else {
         /*epsilon*/
@@ -221,6 +222,25 @@ void parser::statement() {
     } else if (tk == Token::KwSi) {
         if_statement();
         more_statements();
+    } else if (tk == Token::KwMientras) {
+        tk = lex.getNextToken();
+        expr();
+        optional_eol();
+        if (tk == Token::KwHaga) {
+            tk = lex.getNextToken();
+            optional_eol();
+            statement();
+            if (tk == Token::KwFin) {
+                tk = lex.getNextToken();
+                if (tk == Token::KwMientras) {
+                    tk = lex.getNextToken();
+                    more_statements();
+                } else
+                    syntaxError("mientras");
+            } else
+                syntaxError("fin");
+        } else
+            syntaxError("haga");
     } else
         syntaxError("statement");
 }
@@ -266,6 +286,25 @@ void parser::if_stmt() {
     } else if (tk == Token::KwSi) {
         if_statement();
         more_if_stmt();
+    } else if (tk == Token::KwMientras) {
+        tk = lex.getNextToken();
+        expr();
+        optional_eol();
+        if (tk == Token::KwHaga) {
+            tk = lex.getNextToken();
+            optional_eol();
+            statement();
+            if (tk == Token::KwFin) {
+                tk = lex.getNextToken();
+                if (tk == Token::KwMientras) {
+                    tk = lex.getNextToken();
+                    more_statements();
+                } else
+                    syntaxError("mientras");
+            } else
+                syntaxError("fin");
+        } else
+            syntaxError("haga");
     } else
         syntaxError("statement inside if");
 }
@@ -306,6 +345,25 @@ void parser::more_if_stmt_p() {
     } else if (tk == Token::KwSi) {
         if_statement();
         more_if_stmt();
+    } else if (tk == Token::KwMientras) {
+        tk = lex.getNextToken();
+        expr();
+        optional_eol();
+        if (tk == Token::KwHaga) {
+            tk = lex.getNextToken();
+            optional_eol();
+            statement();
+            if (tk == Token::KwFin) {
+                tk = lex.getNextToken();
+                if (tk == Token::KwMientras) {
+                    tk = lex.getNextToken();
+                    more_statements();
+                } else
+                    syntaxError("mientras");
+            } else
+                syntaxError("fin");
+        } else
+            syntaxError("haga");
     } else if (tk == Token::KwSino) {
         else_if_block();
         if (tk == Token::KwFin) {
@@ -357,7 +415,7 @@ void parser::else_if_block_p() {
         } else
             syntaxError("entonces");
     } else if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba,
-                       Token::KwLea, Token::KwSi, Token::EndLine)) {
+                       Token::KwLea, Token::KwSi, Token::EndLine, Token::KwMientras)) {
         optional_eol();
         statement();
     } else
