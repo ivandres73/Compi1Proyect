@@ -401,7 +401,7 @@ void parser::if_stmt() {
     } else if (tk == Token::KwRetorne) {
         tk = lex.getNextToken();
         expr();
-        more_statements();
+        more_if_stmt();
     } else
         syntaxError("statement inside if");
 }
@@ -508,7 +508,7 @@ void parser::more_if_stmt_p() {
     } else if (tk == Token::KwRetorne) {
         tk = lex.getNextToken();
         expr();
-        more_statements();
+        more_if_stmt();
     } else if (tk == Token::KwSino) {
         else_if_block();
         if (tk == Token::KwFin) {
