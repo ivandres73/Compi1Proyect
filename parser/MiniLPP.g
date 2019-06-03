@@ -1,7 +1,7 @@
 grammar MiniLPP;
 
  program:
-    subtypes_section var_section subprogram_decl 'inicio' statements 'fin'
+    subtypes_section var_section subprogram_decl 'inicio' optional_eol statements 'fin'//CORREGIRLO EN CODIGO
     ;
 
 subtypes_section:
@@ -70,7 +70,7 @@ statement:
     |'mientras' expr optional_eol 'haga' optional_eol statement 'fin' 'mientras' more_statements
     |'repita' 'EndLine' statement 'hasta' expr more_statements
     |'para' lvalue 'assign' expr 'hasta' expr 'haga' 'EndLine' statement 'fin' 'para' more_statements
-    |'retorna' expr more_statements
+    |'retorne' expr more_statements
     ;
 
 if_statement:

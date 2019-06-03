@@ -11,6 +11,16 @@ void parser::program() {
     subtypes_section();
     var_section();
     subprogram_decl();
+    if (tk == Token::KwInicio) {
+        tk = lex.getNextToken();
+        optional_eol();
+        statements();
+        if (tk == Token::KwFin)
+            tk = lex.getNextToken();
+        else
+            syntaxError("fin");
+    } else
+        syntaxError("inicio");
 }
 
 void parser::subtypes_section() {
@@ -188,7 +198,7 @@ void parser::more_args_p() {
 void parser::statements() {
     if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba,
                 Token::KwLea, Token::KwSi, Token::KwMientras,
-                Token::KwRepita, Token::KwPara))
+                Token::KwRepita, Token::KwPara, Token::KwRetorne))
         statement();
     else {
         /*epsilon*/
@@ -532,7 +542,6 @@ void parser::more_if_stmt_p() {
 void parser::else_if_block() {
     if (tk == Token::KwSino) {
         tk = lex.getNextToken();
-        cout << "sino\n";
         else_if_block_p();
     } else {
         /*epsilon*/
@@ -562,7 +571,7 @@ void parser::else_if_block_p() {
     } else if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba,
                        Token::KwLea, Token::KwSi, Token::EndLine,
                        Token::KwMientras, Token::KwRepita,
-                       Token::KwPara)) {
+                       Token::KwPara, Token::KwRetorne)) {
         optional_eol();
         statement();
     } else
