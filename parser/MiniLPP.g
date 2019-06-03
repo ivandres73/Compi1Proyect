@@ -164,12 +164,16 @@ more_arg_decl:
     ;
 
 expr:
-    rvalue
-    |constant
-    //|expr bin_op expr
-    |'sub' expr //conflicto con los firsts(bin_op)
+    rvalue expr_p
+    |constant expr_p
+    |'sub' expr
     |'no' expr
     |'openParens' expr 'closeParens'
+    ;
+
+expr_p:
+    bin_op expr expr_p
+    |/*eps */
     ;
 
 var_decl:
@@ -204,4 +208,37 @@ constant:
 bool_const:
     'verdadero'
     |'falso'
+    ;
+
+bin_op:
+    arith_op
+    |rel_op
+    |eq_op
+    |cond_op
+    ;
+
+arith_op:
+    'add'
+    |'sub'
+    |'mult'
+    |'div'
+    |'mod'
+    ;
+
+rel_op:
+    'lessThan'
+    |'greatThan'
+    |'LessEqual'
+    |'greatEqual'
+    ;
+
+eq_op:
+    'equalTo'
+    |'notEqual'
+    ;
+
+cond_op:
+    'y'
+    |'o'
+    |'Xor'
     ;

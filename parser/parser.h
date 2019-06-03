@@ -39,12 +39,18 @@ private:
     void arg_decl();
     void more_arg_decl();
     void expr();
+    void expr_p();
     void var_decl();
     void more_var();
     void type();
     void array_type();
     void constant();
     void bool_const();
+    void bin_op();
+    void arith_op();
+    void rel_op();
+    void eq_op();
+    void cond_op();
 
     template <typename T, typename... Ts>
     bool tokenIs(T param1, Ts... otherParams) {

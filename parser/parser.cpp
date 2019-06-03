@@ -43,7 +43,8 @@ void parser::subtype_decl() {
 }
 
 void parser::var_section() {
-    if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena, Token::KwBooleano, Token::KwCaracter)) {
+    if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
+                Token::KwBooleano, Token::KwCaracter)) {
         var_decl();
         var_section();
     } else {
@@ -69,10 +70,8 @@ void parser::subprogram_decl() {
                             subprogram_decl();
                         } else
                             syntaxError("end of line");
-                    } else {
-                        cout << lex.toString(tk) << ", " << lex.getText() << endl;
+                    } else
                         syntaxError("fin");
-                    }
                 } else
                     syntaxError("end of line");
             } else
@@ -135,7 +134,8 @@ void parser::argument_list() {
 }
 
 void parser::argument_decl() {
-    if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena, Token::KwBooleano, Token::KwCaracter)) {
+    if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
+                Token::KwBooleano, Token::KwCaracter)) {
         type();
         if (tk == Token::Iden) {
             tk = lex.getNextToken();
@@ -165,7 +165,8 @@ void parser::more_args() {
 }
 
 void parser::more_args_p() {
-    if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena, Token::KwBooleano, Token::KwCaracter)) {
+    if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
+                Token::KwBooleano, Token::KwCaracter)) {
         type();
         if (tk == Token::Iden) {
             tk = lex.getNextToken();
@@ -355,8 +356,8 @@ void parser::else_if_block_p() {
             more_else_if_block();
         } else
             syntaxError("entonces");
-    } else if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba, Token::KwLea, Token::KwSi
-                       , Token::EndLine)) {
+    } else if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba,
+                       Token::KwLea, Token::KwSi, Token::EndLine)) {
         optional_eol();
         statement();
     } else
@@ -375,8 +376,10 @@ void parser::string_args() {
     if (tk == Token::StringConst) {
         tk = lex.getNextToken();
         more_string_args();
-    } else if (tokenIs(Token::Iden, Token::IntConst, Token::CharConst, Token::StringConst, Token::KwVerdadero, Token::KwFalso
-                , Token::Sub, Token::KwNo, Token::OpenParens)) {
+    } else if (tokenIs(Token::Iden, Token::IntConst, Token::CharConst,
+                       Token::StringConst, Token::KwVerdadero,
+                       Token::KwFalso, Token::Sub, Token::KwNo,
+                       Token::OpenParens)) {
         expr();
         more_string_args();
     } else
@@ -458,8 +461,11 @@ void parser::args_call() {
 }
 
 void parser::arg_decl() {
-    if (tokenIs(Token::Iden, Token::IntConst, Token::CharConst, Token::StringConst, Token::KwVerdadero, Token::KwFalso
-                , Token::Sub, Token::KwNo, Token::OpenParens)) {        expr();
+    if (tokenIs(Token::Iden, Token::IntConst, Token::CharConst,
+                Token::StringConst, Token::KwVerdadero,
+                Token::KwFalso, Token::Sub, Token::KwNo,
+                Token::OpenParens)) {
+        expr();
         more_arg_decl();
     } else {
         /*epsilon*/
@@ -476,11 +482,14 @@ void parser::more_arg_decl() {
 }
 
 void parser::expr() {
-    if (tk == Token::Iden)
+    if (tk == Token::Iden) {
         rvalue();
-    else if (tokenIs(Token::IntConst, Token::CharConst, Token::StringConst, Token::KwVerdadero, Token::KwFalso))
+        expr_p();
+    } else if (tokenIs(Token::IntConst, Token::CharConst, /*Token::StringConst,*/
+                       Token::KwVerdadero, Token::KwFalso)) {
         constant();
-    else if (tk == Token::Sub) {
+        expr_p();
+    }else if (tk == Token::Sub) {
         tk = lex.getNextToken();
         expr();
     } else if (tk == Token::KwNo) {
@@ -495,33 +504,24 @@ void parser::expr() {
             syntaxError("close parens");
     } else
         syntaxError("expresion");
-    
 }
 
-void parser::constant() {
-    if (tk == Token::IntConst)
-        tk = lex.getNextToken();
-    else if (tk == Token::CharConst)
-        tk = lex.getNextToken();
-    //else if (tk == Token::StringConst)
-    //    tk = lex.getNextToken();
-    else if (tokenIs(Token::KwVerdadero, Token::KwFalso))
-        bool_const();
-    else
-        syntaxError("constant value");
-}
-
-void parser::bool_const() {
-    if (tk == Token::KwFalso)
-        tk = lex.getNextToken();
-    else if (tk == Token::KwVerdadero)
-        tk = lex.getNextToken();
-    else
-        syntaxError("boolean expresion");
+void parser::expr_p() {
+    if (tokenIs(Token::Add, Token::Sub, Token::Mul, Token::KwDiv,
+                Token::KwMod, Token::LessThan, Token::GreatThan,
+                Token::LessEqual, Token::GreatEqual, Token::EqualTo,
+                Token::NotEqual, Token::KwY, Token::KwO, Token::Xor)) {
+        bin_op();
+        expr();
+        expr_p();
+    } else {
+        /*epsilon*/
+    }
 }
 
 void parser::var_decl() {
-    if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena, Token::KwBooleano, Token::KwCaracter)) {
+    if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
+                Token::KwBooleano, Token::KwCaracter)) {
         type();
         if (tk == Token::Iden) {
             tk = lex.getNextToken();
@@ -588,4 +588,71 @@ void parser::array_type() {
             syntaxError("Open bracket");
     } else
         syntaxError("arreglo");
+}
+
+void parser::constant() {
+    if (tk == Token::IntConst)
+        tk = lex.getNextToken();
+    else if (tk == Token::CharConst)
+        tk = lex.getNextToken();
+    //else if (tk == Token::StringConst)
+    //    tk = lex.getNextToken();
+    else if (tokenIs(Token::KwVerdadero, Token::KwFalso))
+        bool_const();
+    else
+        syntaxError("constant value");
+}
+
+void parser::bool_const() {
+    if (tk == Token::KwFalso)
+        tk = lex.getNextToken();
+    else if (tk == Token::KwVerdadero)
+        tk = lex.getNextToken();
+    else
+        syntaxError("boolean expresion");
+}
+
+void parser::bin_op() {
+    if (tokenIs(Token::Add, Token::Sub, Token::Mul, Token::KwDiv,
+                Token::KwMod)) {
+        arith_op();
+    } else if (tokenIs(Token::LessThan, Token::GreatThan,
+                       Token::LessEqual, Token::GreatEqual)) {
+        rel_op();
+    } else if (tokenIs(Token::EqualTo, Token::NotEqual)) {
+        eq_op();
+    } else if (tokenIs(Token::KwY, Token::KwO, Token::Xor)) {
+        cond_op();
+    } else
+        syntaxError("operator");
+}
+
+void parser::arith_op() {
+    if (tokenIs(Token::Add, Token::Sub, Token::Mul, Token::KwDiv,
+                Token::KwMod)) {
+        tk = lex.getNextToken();
+    } else
+        syntaxError("arithmetic operator");
+}
+
+void parser::rel_op() {
+    if (tokenIs(Token::LessThan, Token::GreatThan, Token::LessEqual,
+                Token::GreatEqual)) {
+        tk = lex.getNextToken();
+    } else
+        syntaxError("relational operator");
+}
+
+void parser::eq_op() {
+    if (tokenIs(Token::EqualTo, Token::NotEqual)) {
+        tk = lex.getNextToken();
+    } else
+        syntaxError("equal operator");
+}
+
+void parser::cond_op() {
+    if (tokenIs(Token::KwY, Token::KwO, Token::Xor)) {
+        tk = lex.getNextToken();
+    } else
+        syntaxError("boolean operator");
 }
