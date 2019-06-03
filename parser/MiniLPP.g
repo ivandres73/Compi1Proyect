@@ -70,7 +70,7 @@ statement:
     ;
 
 if_statement:
-    'si' expr 'EndLine' 'entonces' 'EndLine' if_stmt
+    'si' expr optional_eol 'entonces' optional_eol if_stmt
     ;
 
 if_stmt:
@@ -105,7 +105,7 @@ more_else_if_block:
     ;
 
 else_if_block_p:
-    'si' expr 'EndLine' 'entonces' 'EndLine' statement more_else_if_block
+    'si' expr optional_eol 'entonces' optional_eol statement more_else_if_block
     |optional_eol statement
     ;
 
