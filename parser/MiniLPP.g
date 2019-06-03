@@ -68,6 +68,7 @@ statement:
     |'lea' lvalue more_statements//no soporta mas de 1 argumento
     |if_statement more_statements
     |'mientras' expr optional_eol 'haga' optional_eol statement 'fin' 'mientras' more_statements
+    |'repita' 'EndLine' statement 'hasta' expr more_statements
     ;
 
 if_statement:
@@ -78,9 +79,10 @@ if_stmt:
     lvalue 'assign' expr more_if_stmt
     |'llamar' 'Iden' args_call more_if_stmt
     |'escriba' string_args more_if_stmt
-    |'lea' lvalue more_if_stmt
+    |'lea' lvalue more_if_stmt//no soporta mas de 1 argumento
     |if_statement more_if_stmt
     |'mientras' expr optional_eol 'haga' optional_eol statement 'fin' 'mientras' more_if_stmt
+    |'repita' 'EndLine' statement 'hasta' expr more_if_stmt
     ;
 
 more_if_stmt:
@@ -94,6 +96,7 @@ more_if_stmt_p:
     |'lea' lvalue more_if_stmt//no soporta mas de 1 argumento
     |if_statement more_if_stmt
     |'mientras' expr optional_eol 'haga' optional_eol statement 'fin' 'mientras' more_if_stmt
+    |'repita' 'EndLine' statement 'hasta' expr more_if_stmt
     |else_if_block 'fin' 'si'
     |'fin' 'si'
     ;

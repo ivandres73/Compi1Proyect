@@ -187,7 +187,8 @@ void parser::more_args_p() {
 
 void parser::statements() {
     if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba,
-                Token::KwLea, Token::KwSi, Token::KwMientras))
+                Token::KwLea, Token::KwSi, Token::KwMientras,
+                Token::KwRepita))
         statement();
     else {
         /*epsilon*/
@@ -241,6 +242,19 @@ void parser::statement() {
                 syntaxError("fin");
         } else
             syntaxError("haga");
+    } else if (tk == Token::KwRepita) {
+        tk = lex.getNextToken();
+        if (tk == Token::EndLine) {
+            tk = lex.getNextToken();
+            statement();
+            if (tk == Token::KwHasta) {
+                tk = lex.getNextToken();
+                expr();
+                more_statements();
+            } else
+                syntaxError("hasta");
+        } else
+            syntaxError("end of line");
     } else
         syntaxError("statement");
 }
@@ -305,6 +319,19 @@ void parser::if_stmt() {
                 syntaxError("fin");
         } else
             syntaxError("haga");
+    } else if (tk == Token::KwRepita) {
+        tk = lex.getNextToken();
+        if (tk == Token::EndLine) {
+            tk = lex.getNextToken();
+            statement();
+            if (tk == Token::KwHasta) {
+                tk = lex.getNextToken();
+                expr();
+                more_statements();
+            } else
+                syntaxError("hasta");
+        } else
+            syntaxError("end of line");
     } else
         syntaxError("statement inside if");
 }
@@ -364,6 +391,19 @@ void parser::more_if_stmt_p() {
                 syntaxError("fin");
         } else
             syntaxError("haga");
+    } else if (tk == Token::KwRepita) {
+        tk = lex.getNextToken();
+        if (tk == Token::EndLine) {
+            tk = lex.getNextToken();
+            statement();
+            if (tk == Token::KwHasta) {
+                tk = lex.getNextToken();
+                expr();
+                more_statements();
+            } else
+                syntaxError("hasta");
+        } else
+            syntaxError("end of line");
     } else if (tk == Token::KwSino) {
         else_if_block();
         if (tk == Token::KwFin) {
@@ -415,7 +455,8 @@ void parser::else_if_block_p() {
         } else
             syntaxError("entonces");
     } else if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba,
-                       Token::KwLea, Token::KwSi, Token::EndLine, Token::KwMientras)) {
+                       Token::KwLea, Token::KwSi, Token::EndLine,
+                       Token::KwMientras, Token::KwRepita)) {
         optional_eol();
         statement();
     } else
