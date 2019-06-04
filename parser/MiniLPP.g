@@ -1,7 +1,7 @@
 grammar MiniLPP;
 
  program:
-    subtypes_section var_section optional_eol subprogram_decl 'inicio' optional_eol statements 'fin'
+    subtypes_section var_section optional_eol subprogram_decl 'inicio' optional_eol statements 'fin' optional_eol
     ;
 
 subtypes_section:

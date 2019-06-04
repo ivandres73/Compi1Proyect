@@ -7,8 +7,8 @@ Funcion gcd(Entero a, Entero b): Entero
 Inicio
     Si b = 0 Entonces
     Retorne a
-    //Sino
-    //Retorne gcd(b, a mod b)
+    Sino b = 1
+    Retorne gcd(b, a mod b)
     fin si
 Fin
 
