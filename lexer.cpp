@@ -369,7 +369,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewB_q3:
-                if ((ch == 'e') || (ch == 'E')) {
+                if ((ch == 'E') || (ch == 'e')) {
                     text += ch;
                     state = StateId::KewB_q4;
                     ch = getNextChar();
@@ -387,7 +387,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewB_q5:
-                if ((ch == 'N') || (ch == 'n')) {
+                if ((ch == 'n') || (ch == 'N')) {
                     text += ch;
                     state = StateId::KewB_q6;
                     ch = getNextChar();
@@ -396,7 +396,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewB_q6:
-                if ((ch == 'o') || (ch == 'O')) {
+                if ((ch == 'O') || (ch == 'o')) {
                     text += ch;
                     state = StateId::KewB_q7;
                     ch = getNextChar();
@@ -405,21 +405,24 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewB_q7:
-                if ((ch == ' ') || (ch == EOF) || (ch == '\t')) {
-                    return Token::KwBooleano;
-                } else {
+                if (((ch >= 'A') && (ch <= 'Z')) || ((ch >= '0') && (ch <= '9')) || ((ch >= 'a') && (ch <= 'z')) || (ch == '_')) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwBooleano;
                 }
                 break;
             // KewC
             case StateId::KewC_q0:
-                if ((ch == 'O') || (ch == 'o')) {
-                    text += ch;
-                    state = StateId::KewC_q20;
-                    ch = getNextChar();
-                } else if ((ch == 'E') || (ch == 'e')) {
+                if ((ch == 'e') || (ch == 'E')) {
                     text += ch;
                     state = StateId::KewC_q14;
+                    ch = getNextChar();
+                } else if ((ch == 'O') || (ch == 'o')) {
+                    text += ch;
+                    state = StateId::KewC_q20;
                     ch = getNextChar();
                 } else if ((ch == 'A') || (ch == 'a')) {
                     text += ch;
@@ -430,7 +433,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewC_q1:
-                if ((ch == 'D') || (ch == 'd')) {
+                if ((ch == 'd') || (ch == 'D')) {
                     text += ch;
                     state = StateId::KewC_q2;
                     ch = getNextChar();
@@ -438,7 +441,7 @@ Token exprLex::getNextToken() {
                     text += ch;
                     state = StateId::KewC_q12;
                     ch = getNextChar();
-                } else if ((ch == 'R') || (ch == 'r')) {
+                } else if ((ch == 'r') || (ch == 'R')) {
                     text += ch;
                     state = StateId::KewC_q7;
                     ch = getNextChar();
@@ -465,7 +468,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewC_q14:
-                if ((ch == 'r') || (ch == 'R')) {
+                if ((ch == 'R') || (ch == 'r')) {
                     text += ch;
                     state = StateId::KewC_q16;
                     ch = getNextChar();
@@ -474,7 +477,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewC_q16:
-                if ((ch == 'r') || (ch == 'R')) {
+                if ((ch == 'R') || (ch == 'r')) {
                     text += ch;
                     state = StateId::KewC_q17;
                     ch = getNextChar();
@@ -492,7 +495,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewC_q18:
-                if ((ch == 'R') || (ch == 'r')) {
+                if ((ch == 'r') || (ch == 'R')) {
                     text += ch;
                     state = StateId::KewC_q26;
                     ch = getNextChar();
@@ -501,7 +504,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewC_q2:
-                if ((ch == 'E') || (ch == 'e')) {
+                if ((ch == 'e') || (ch == 'E')) {
                     text += ch;
                     state = StateId::KewC_q3;
                     ch = getNextChar();
@@ -528,42 +531,57 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewC_q23:
-                if ((ch == ' ') || (ch == EOF) || (ch == '\t')) {
-                    return Token::KwCaso;
-                } else {
+                if (((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9')) || (ch == '_') || ((ch >= 'A') && (ch <= 'Z'))) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwCaso;
                 }
                 break;
             case StateId::KewC_q24:
-                if ((ch == EOF) || (ch == '\t') || (ch == ' ')) {
-                    return Token::KwCadena;
-                } else {
+                if (((ch >= 'A') && (ch <= 'Z')) || ((ch >= '0') && (ch <= '9')) || ((ch >= 'a') && (ch <= 'z')) || (ch == '_')) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwCadena;
                 }
                 break;
             case StateId::KewC_q25:
-                if ((ch == ' ') || (ch == '\t') || (ch == EOF)) {
-                    return Token::KwCaracter;
-                } else {
+                if ((ch == '_') || ((ch >= '0') && (ch <= '9')) || ((ch >= 'a') && (ch <= 'z')) || ((ch >= 'A') && (ch <= 'Z'))) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwCaracter;
                 }
                 break;
             case StateId::KewC_q26:
-                if ((ch == '\t') || (ch == EOF) || (ch == ' ')) {
-                    return Token::KwCerrar;
-                } else {
+                if ((ch == '_') || ((ch >= '0') && (ch <= '9')) || ((ch >= 'a') && (ch <= 'z')) || ((ch >= 'A') && (ch <= 'Z'))) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwCerrar;
                 }
                 break;
             case StateId::KewC_q27:
-                if ((ch == EOF) || (ch == '\t') || (ch == ' ')) {
-                    return Token::KwComo;
-                } else {
+                if (((ch >= 'A') && (ch <= 'Z')) || ((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9')) || (ch == '_')) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwComo;
                 }
                 break;
             case StateId::KewC_q3:
-                if ((ch == 'N') || (ch == 'n')) {
+                if ((ch == 'n') || (ch == 'N')) {
                     text += ch;
                     state = StateId::KewC_q4;
                     ch = getNextChar();
@@ -572,7 +590,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewC_q4:
-                if ((ch == 'A') || (ch == 'a')) {
+                if ((ch == 'a') || (ch == 'A')) {
                     text += ch;
                     state = StateId::KewC_q24;
                     ch = getNextChar();
@@ -599,7 +617,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewC_q8:
-                if ((ch == 'C') || (ch == 'c')) {
+                if ((ch == 'c') || (ch == 'C')) {
                     text += ch;
                     state = StateId::KewC_q9;
                     ch = getNextChar();
@@ -608,7 +626,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewC_q9:
-                if ((ch == 'T') || (ch == 't')) {
+                if ((ch == 't') || (ch == 'T')) {
                     text += ch;
                     state = StateId::KewC_q10;
                     ch = getNextChar();
@@ -618,13 +636,13 @@ Token exprLex::getNextToken() {
                 break;
             // KewD
             case StateId::KewD_q0:
-                if ((ch == 'e') || (ch == 'E')) {
-                    text += ch;
-                    state = StateId::KewD_q4;
-                    ch = getNextChar();
-                } else if ((ch == 'i') || (ch == 'I')) {
+                if ((ch == 'i') || (ch == 'I')) {
                     text += ch;
                     state = StateId::KewD_q1;
+                    ch = getNextChar();
+                } else if ((ch == 'e') || (ch == 'E')) {
+                    text += ch;
+                    state = StateId::KewD_q4;
                     ch = getNextChar();
                 } else {
                     state = StateId::Iden_q0;
@@ -640,17 +658,23 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewD_q3:
-                if ((ch == EOF) || (ch == ' ') || (ch == '\t')) {
-                    return Token::KwDiv;
-                } else {
+                if ((ch == '_') || ((ch >= 'A') && (ch <= 'Z')) || ((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9'))) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwDiv;
                 }
                 break;
             case StateId::KewD_q4:
-                if ((ch == EOF) || (ch == ' ') || (ch == '\t')) {
-                    return Token::KwDe;
-                } else {
+                if ((ch == '_') || ((ch >= 'A') && (ch <= 'Z')) || ((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9'))) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwDe;
                 }
                 break;
             // KewE
@@ -668,7 +692,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q1:
-                if ((ch == 'T') || (ch == 't')) {
+                if ((ch == 't') || (ch == 'T')) {
                     text += ch;
                     state = StateId::KewE_q2;
                     ch = getNextChar();
@@ -686,11 +710,11 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q11:
-                if ((ch == 'b') || (ch == 'B')) {
+                if ((ch == 'B') || (ch == 'b')) {
                     text += ch;
                     state = StateId::KewE_q16;
                     ch = getNextChar();
-                } else if ((ch == 'T') || (ch == 't')) {
+                } else if ((ch == 't') || (ch == 'T')) {
                     text += ch;
                     state = StateId::KewE_q18;
                     ch = getNextChar();
@@ -699,14 +723,17 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q12:
-                if ((ch == ' ') || (ch == EOF) || (ch == '\t')) {
-                    return Token::KwEs;
+                if (((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9')) || (ch == '_') || ((ch >= 'A') && (ch <= 'Z'))) {
+                    text += ch;
+                    state = StateId::Iden_q0;
+                    ch = getNextChar();
                 } else if ((ch == 'C') || (ch == 'c')) {
                     text += ch;
                     state = StateId::KewE_q13;
                     ch = getNextChar();
                 } else {
-                    state = StateId::Iden_q0;
+                    ungetChar(ch);
+                    return Token::KwEs;
                 }
                 break;
             case StateId::KewE_q13:
@@ -719,7 +746,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q14:
-                if ((ch == 'I') || (ch == 'i')) {
+                if ((ch == 'i') || (ch == 'I')) {
                     text += ch;
                     state = StateId::KewE_q11;
                     ch = getNextChar();
@@ -728,11 +755,11 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q16:
-                if ((ch == 'I') || (ch == 'i')) {
+                if ((ch == 'i') || (ch == 'I')) {
                     text += ch;
                     state = StateId::KewE_q22;
                     ch = getNextChar();
-                } else if ((ch == 'a') || (ch == 'A')) {
+                } else if ((ch == 'A') || (ch == 'a')) {
                     text += ch;
                     state = StateId::KewE_q27;
                     ch = getNextChar();
@@ -741,7 +768,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q18:
-                if ((ch == 'U') || (ch == 'u')) {
+                if ((ch == 'u') || (ch == 'U')) {
                     text += ch;
                     state = StateId::KewE_q19;
                     ch = getNextChar();
@@ -750,7 +777,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q19:
-                if ((ch == 'r') || (ch == 'R')) {
+                if ((ch == 'R') || (ch == 'r')) {
                     text += ch;
                     state = StateId::KewE_q20;
                     ch = getNextChar();
@@ -759,13 +786,13 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q2:
-                if ((ch == 'e') || (ch == 'E')) {
-                    text += ch;
-                    state = StateId::KewE_q3;
-                    ch = getNextChar();
-                } else if ((ch == 'o') || (ch == 'O')) {
+                if ((ch == 'o') || (ch == 'O')) {
                     text += ch;
                     state = StateId::KewE_q7;
+                    ch = getNextChar();
+                } else if ((ch == 'E') || (ch == 'e')) {
+                    text += ch;
+                    state = StateId::KewE_q3;
                     ch = getNextChar();
                 } else {
                     state = StateId::Iden_q0;
@@ -790,42 +817,57 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q25:
-                if ((ch == EOF) || (ch == '\t') || (ch == ' ')) {
-                    return Token::KwEscritura;
-                } else {
+                if (((ch >= '0') && (ch <= '9')) || ((ch >= 'a') && (ch <= 'z')) || (ch == '_') || ((ch >= 'A') && (ch <= 'Z'))) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwEscritura;
                 }
                 break;
             case StateId::KewE_q26:
-                if ((ch == ' ') || (ch == '\t') || (ch == EOF)) {
-                    return Token::KwEscribir;
-                } else {
+                if ((ch == '_') || ((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9')) || ((ch >= 'A') && (ch <= 'Z'))) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwEscribir;
                 }
                 break;
             case StateId::KewE_q27:
-                if ((ch == EOF) || (ch == '\t') || (ch == ' ')) {
-                    return Token::KwEscriba;
-                } else {
+                if (((ch >= 'A') && (ch <= 'Z')) || ((ch >= '0') && (ch <= '9')) || ((ch >= 'a') && (ch <= 'z')) || (ch == '_')) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwEscriba;
                 }
                 break;
             case StateId::KewE_q28:
-                if ((ch == ' ') || (ch == '\t') || (ch == EOF)) {
-                    return Token::KwEntero;
-                } else {
+                if ((ch == '_') || ((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9')) || ((ch >= 'A') && (ch <= 'Z'))) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwEntero;
                 }
                 break;
             case StateId::KewE_q29:
-                if ((ch == ' ') || (ch == '\t') || (ch == EOF)) {
-                    return Token::KwEntonces;
-                } else {
+                if (((ch >= 'A') && (ch <= 'Z')) || (ch == '_') || ((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9'))) {
+                    text += ch;
                     state = StateId::Iden_q0;
+                    ch = getNextChar();
+                } else {
+                    ungetChar(ch);
+                    return Token::KwEntonces;
                 }
                 break;
             case StateId::KewE_q3:
-                if ((ch == 'R') || (ch == 'r')) {
+                if ((ch == 'r') || (ch == 'R')) {
                     text += ch;
                     state = StateId::KewE_q4;
                     ch = getNextChar();
@@ -843,7 +885,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q7:
-                if ((ch == 'N') || (ch == 'n')) {
+                if ((ch == 'n') || (ch == 'N')) {
                     text += ch;
                     state = StateId::KewE_q8;
                     ch = getNextChar();
@@ -852,7 +894,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q8:
-                if ((ch == 'C') || (ch == 'c')) {
+                if ((ch == 'c') || (ch == 'C')) {
                     text += ch;
                     state = StateId::KewE_q9;
                     ch = getNextChar();
@@ -861,7 +903,7 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q9:
-                if ((ch == 'e') || (ch == 'E')) {
+                if ((ch == 'E') || (ch == 'e')) {
                     text += ch;
                     state = StateId::KewE_q10;
                     ch = getNextChar();

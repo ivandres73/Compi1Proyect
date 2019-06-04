@@ -84,7 +84,7 @@ void parser::procedure_header() {
 }
 
 void parser::argument_list() {
-    if (tk == Token::OpenBra) {
+    if (tk == Token::OpenParens) {
         expect(Token::OpenParens, "open parens");
         argument_decl();
         expect(Token::CloseParens, "close parens");

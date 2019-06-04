@@ -48,53 +48,8 @@
 		<!--The list of transitions.-->
 		<transition>
 			<from>7</from>
-			<to>11</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>7</from>
-			<to>11</to>
-			<read>-EOF</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>4</to>
-			<read>e</read>
-		</transition>
-		<transition>
-			<from>5</from>
-			<to>6</to>
-			<read>N</read>
-		</transition>
-		<transition>
-			<from>4</from>
 			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>o</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>3</to>
-			<read>l</read>
-		</transition>
-		<transition>
-			<from>6</from>
-			<to>7</to>
-			<read>o</read>
-		</transition>
-		<transition>
-			<from>6</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>5</from>
-			<to>15</to>
-			<read/>
+			<read>[A-Z]</read>
 		</transition>
 		<transition>
 			<from>4</from>
@@ -102,17 +57,32 @@
 			<read>A</read>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
 			<from>0</from>
 			<to>1</to>
 			<read>O</read>
 		</transition>
 		<transition>
-			<from>3</from>
+			<from>2</from>
+			<to>3</to>
+			<read>l</read>
+		</transition>
+		<transition>
+			<from>7</from>
+			<to>15</to>
+			<read>[0-9]</read>
+		</transition>
+		<transition>
+			<from>7</from>
+			<to>15</to>
+			<read>[a-z]</read>
+		</transition>
+		<transition>
+			<from>6</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
 			<to>15</to>
 			<read/>
 		</transition>
@@ -122,34 +92,9 @@
 			<read>E</read>
 		</transition>
 		<transition>
-			<from>7</from>
-			<to>11</to>
-			<read>-TAB</read>
-		</transition>
-		<transition>
-			<from>5</from>
-			<to>6</to>
-			<read>n</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
 			<from>1</from>
 			<to>2</to>
-			<read>O</read>
-		</transition>
-		<transition>
-			<from>7</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>3</to>
-			<read>L</read>
+			<read>o</read>
 		</transition>
 		<transition>
 			<from>6</from>
@@ -157,7 +102,27 @@
 			<read>O</read>
 		</transition>
 		<transition>
-			<from>1</from>
+			<from>7</from>
+			<to>15</to>
+			<read>_</read>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>6</to>
+			<read>n</read>
+		</transition>
+		<transition>
+			<from>7</from>
+			<to>11</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>4</from>
 			<to>15</to>
 			<read/>
 		</transition>
@@ -170,6 +135,46 @@
 			<from>0</from>
 			<to>1</to>
 			<read>o</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>L</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>O</read>
+		</transition>
+		<transition>
+			<from>6</from>
+			<to>7</to>
+			<read>o</read>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>6</to>
+			<read>N</read>
 		</transition>
 		<note>
 			<text>Name: KewB</text>

@@ -18,12 +18,12 @@
 			<final/>
 		</state>
 		<state id="3" name="q3">
-			<x>445.0</x>
-			<y>135.0</y>
+			<x>462.0</x>
+			<y>137.0</y>
 		</state>
 		<state id="4" name="q4">
-			<x>428.0</x>
-			<y>225.0</y>
+			<x>437.0</x>
+			<y>221.0</y>
 		</state>
 		<state id="7" name="q7">
 			<x>580.0</x>
@@ -37,13 +37,63 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>3</from>
-			<to>2</to>
-			<read>-EOF</read>
+			<from>4</from>
+			<to>15</to>
+			<read>_</read>
 		</transition>
 		<transition>
 			<from>0</from>
 			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>15</to>
+			<read>_</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>7</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>3</to>
+			<read>v</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>3</to>
+			<read>V</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>15</to>
+			<read>[A-Z]</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>i</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>I</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>15</to>
+			<read>[A-Z]</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>15</to>
+			<read>[a-z]</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>2</to>
 			<read/>
 		</transition>
 		<transition>
@@ -57,64 +107,24 @@
 			<read>E</read>
 		</transition>
 		<transition>
-			<from>3</from>
-			<to>2</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>3</to>
-			<read>v</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>3</to>
-			<read>V</read>
-		</transition>
-		<transition>
 			<from>4</from>
 			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>2</to>
-			<read>-TAB</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>7</to>
-			<read>-EOF</read>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>7</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>7</to>
-			<read>-TAB</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>i</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>I</read>
+			<read>[0-9]</read>
 		</transition>
 		<transition>
 			<from>1</from>
 			<to>15</to>
 			<read/>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>15</to>
+			<read>[a-z]</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>15</to>
+			<read>[0-9]</read>
 		</transition>
 		<note>
 			<text>Name: KewD</text>
