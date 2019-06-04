@@ -25,7 +25,27 @@
 		<transition>
 			<from>2</from>
 			<to>15</to>
+			<read>[A-Z]</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>1</to>
 			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>15</to>
+			<read>_</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>15</to>
+			<read>[0-9]</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -39,23 +59,8 @@
 		</transition>
 		<transition>
 			<from>2</from>
-			<to>1</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>1</to>
-			<read>-EOF</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>1</to>
-			<read>-TAB</read>
-		</transition>
-		<transition>
-			<from>0</from>
 			<to>15</to>
-			<read/>
+			<read>[a-z]</read>
 		</transition>
 		<note>
 			<text>Name: KewN</text>

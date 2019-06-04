@@ -32,33 +32,13 @@
 		<!--The list of transitions.-->
 		<transition>
 			<from>3</from>
-			<to>4</to>
-			<read>-EOF</read>
-		</transition>
-		<transition>
-			<from>2</from>
 			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>4</to>
-			<read>-SPACE</read>
+			<read>[a-z]</read>
 		</transition>
 		<transition>
 			<from>3</from>
 			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>15</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>4</to>
-			<read>-TAB</read>
+			<read>[0-9]</read>
 		</transition>
 		<transition>
 			<from>2</from>
@@ -71,14 +51,14 @@
 			<read>O</read>
 		</transition>
 		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>i</read>
+			<from>2</from>
+			<to>15</to>
+			<read/>
 		</transition>
 		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>I</read>
+			<from>3</from>
+			<to>15</to>
+			<read>[A-Z]</read>
 		</transition>
 		<transition>
 			<from>1</from>
@@ -92,8 +72,33 @@
 		</transition>
 		<transition>
 			<from>0</from>
+			<to>1</to>
+			<read>i</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>I</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
 			<to>15</to>
 			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>15</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>15</to>
+			<read>_</read>
 		</transition>
 		<note>
 			<text>Name: KewT</text>
