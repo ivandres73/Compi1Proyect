@@ -62,6 +62,13 @@ private:
         return tk == param1;
     }
 
+    void expect(Token t, const char* er) {
+        if (tk == t)
+            tk = lex.getNextToken();
+        else
+            syntaxError(er);
+    }
+
     void syntaxError(const char* t) {
         cout << "\033[1;31msyntax error: \033[0m" << "expected a " << t << " in line " << lex.getLine() << endl;
     }

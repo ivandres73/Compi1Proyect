@@ -1,7 +1,7 @@
 grammar MiniLPP;
 
  program:
-    subtypes_section var_section subprogram_decl 'inicio' optional_eol statements 'fin'//CORREGIRLO EN CODIGO
+    subtypes_section var_section subprogram_decl 'inicio' optional_eol statements 'fin'
     ;
 
 subtypes_section:
@@ -63,6 +63,7 @@ statements:
 
 statement:
     lvalue 'assign' expr more_statements
+    
     |'llamar' 'Iden' args_call more_statements
     |'escriba' string_args more_statements
     |'lea' lvalue more_statements//no soporta mas de 1 argumento
