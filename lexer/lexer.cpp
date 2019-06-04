@@ -723,13 +723,13 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewE_q12:
-                if (((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9')) || (ch == '_') || ((ch >= 'A') && (ch <= 'Z'))) {
-                    text += ch;
-                    state = StateId::Iden_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'C') || (ch == 'c')) {
+                if ((ch == 'C') || (ch == 'c')) {
                     text += ch;
                     state = StateId::KewE_q13;
+                    ch = getNextChar();
+                } else if (((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9')) || (ch == '_') || ((ch >= 'A') && (ch <= 'Z'))) {
+                    text += ch;
+                    state = StateId::Iden_q0;
                     ch = getNextChar();
                 } else {
                     ungetChar(ch);
@@ -1052,13 +1052,13 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewF_q8:
-                if (((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9')) || (ch == '_') || ((ch >= 'A') && (ch <= 'Z'))) {
-                    text += ch;
-                    state = StateId::Iden_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'A') || (ch == 'a')) {
+                if ((ch == 'A') || (ch == 'a')) {
                     text += ch;
                     state = StateId::KewF_q10;
+                    ch = getNextChar();
+                } else if (((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9')) || (ch == '_') || ((ch >= 'A') && (ch <= 'Z'))) {
+                    text += ch;
+                    state = StateId::Iden_q0;
                     ch = getNextChar();
                 } else {
                     ungetChar(ch);
@@ -1909,13 +1909,13 @@ Token exprLex::getNextToken() {
                 }
                 break;
             case StateId::KewS_q1:
-                if ((ch == '_') || ((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9')) || ((ch >= 'A') && (ch <= 'Z'))) {
-                    text += ch;
-                    state = StateId::Iden_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'n') || (ch == 'N')) {
+                if ((ch == 'n') || (ch == 'N')) {
                     text += ch;
                     state = StateId::KewS_q2;
+                    ch = getNextChar();
+                } else if ((ch == '_') || ((ch >= 'a') && (ch <= 'z')) || ((ch >= '0') && (ch <= '9')) || ((ch >= 'A') && (ch <= 'Z'))) {
+                    text += ch;
+                    state = StateId::Iden_q0;
                     ch = getNextChar();
                 } else {
                     ungetChar(ch);

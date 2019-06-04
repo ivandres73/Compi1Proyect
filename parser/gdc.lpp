@@ -1,0 +1,22 @@
+Entero a, b
+Entero x, _y, z
+
+// Funcion que calcula el maximo comun divisor
+
+Funcion gcd(Entero a, Entero b): Entero
+Inicio
+    Si b = 0 Entonces
+    Retorne a
+    //Sino
+    //Retorne gcd(b, a mod b)
+    fin si
+Fin
+
+Inicio
+    a <- 10
+    b <- 20
+    x <- a
+    _y <- b
+    z <- gcd(x, _y)
+    Escriba z
+Fin

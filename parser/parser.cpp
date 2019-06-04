@@ -10,6 +10,7 @@ void parser::parse() {
 void parser::program() {
     subtypes_section();
     var_section();
+    optional_eol();
     subprogram_decl();
     expect(Token::KwInicio, "inicio");
     optional_eol();
@@ -144,6 +145,7 @@ void parser::statements() {
 }
 
 void parser::statement() {
+    cout << "despues de escriba hay: " << lex.toString(tk) << endl;
     if (tk == Token::Iden) {
         lvalue();
         expect(Token::Assign, "assign");
