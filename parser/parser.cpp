@@ -75,7 +75,6 @@ void parser::function_header() {
     argument_list();
     expect(Token::Colon, "colon");
     type();
-        
 }
 
 void parser::procedure_header() {
@@ -144,13 +143,13 @@ void parser::statement() {
     if (tk == Token::Iden) {
         lvalue();
         expect(Token::Assign, "assign");
-            expr();
-            more_statements();
+        expr();
+        more_statements();
     } else if (tk == Token::KwLlamar) {
         tk = lex.getNextToken();
         expect(Token::Iden, "identifier");
-            args_call();
-            more_statements();
+        args_call();
+        more_statements();
     } else if (tk == Token::KwEscriba) {
         tk = lex.getNextToken();
         string_args();
@@ -212,18 +211,14 @@ void parser::if_statement() {
 void parser::if_stmt() {
     if (tk == Token::Iden) {
         lvalue();
-        if (tk == Token::Assign) {
-            tk = lex.getNextToken();
-            expr();
-            more_if_stmt();
-        }
+        expect(Token::Assign, "assign");
+        expr();
+        more_if_stmt();
     } else if (tk == Token::KwLlamar) {
         tk = lex.getNextToken();
-        if (tk == Token::Iden) {
-            tk = lex.getNextToken();
-            args_call();
-            more_if_stmt();
-        }
+        expect(Token::Iden, "identifier");
+        args_call();
+        more_if_stmt();
     } else if (tk == Token::KwEscriba) {
         tk = lex.getNextToken();
         string_args();
@@ -274,30 +269,21 @@ void parser::if_stmt() {
 }
 
 void parser::more_if_stmt() {
-    if (tk == Token::EndLine) {
-        tk = lex.getNextToken();
-        more_if_stmt_p();
-    } else
-        syntaxError("end of line");
+    expect(Token::EndLine, "end of line");
+    more_if_stmt_p();
 }
 
 void parser::more_if_stmt_p() {
     if (tk == Token::Iden) {
         lvalue();
-        if (tk == Token::Assign) {
-            tk = lex.getNextToken();
-            expr();
-            more_if_stmt();
-        } else
-            syntaxError("assign");
+        expect(Token::Assign, "assign");
+        expr();
+        more_if_stmt();
     } else if (tk == Token::KwLlamar) {
         tk = lex.getNextToken();
-        if (tk == Token::Iden) {
-            tk = lex.getNextToken();
-            args_call();
-            more_if_stmt();
-        } else
-            syntaxError("identifier");
+        expect(Token::Iden, "identifier");
+        args_call();
+        more_if_stmt();
     } else if (tk == Token::KwEscriba) {
         tk = lex.getNextToken();
         string_args();
@@ -313,85 +299,43 @@ void parser::more_if_stmt_p() {
         tk = lex.getNextToken();
         expr();
         optional_eol();
-        if (tk == Token::KwHaga) {
-            tk = lex.getNextToken();
-            optional_eol();
-            statement();
-            if (tk == Token::KwFin) {
-                tk = lex.getNextToken();
-                if (tk == Token::KwMientras) {
-                    tk = lex.getNextToken();
-                    more_statements();
-                } else
-                    syntaxError("mientras");
-            } else
-                syntaxError("fin");
-        } else
-            syntaxError("haga");
+        expect(Token::KwHaga, "haga");
+        optional_eol();
+        statement();
+        expect(Token::KwFin, "fin");
+        expect(Token::KwMientras, "mientras");
+        more_statements();
     } else if (tk == Token::KwRepita) {
         tk = lex.getNextToken();
-        if (tk == Token::EndLine) {
-            tk = lex.getNextToken();
-            statement();
-            if (tk == Token::KwHasta) {
-                tk = lex.getNextToken();
-                expr();
-                more_statements();
-            } else
-                syntaxError("hasta");
-        } else
-            syntaxError("end of line");
+        expect(Token::EndLine, "end of line");
+        statement();
+        expect(Token::KwHasta, "hasta");
+        expr();
+        more_statements();
     } else if (tk == Token::KwPara) {
         tk = lex.getNextToken();
         lvalue();
-        if (tk == Token::Assign) {
-            tk = lex.getNextToken();
-            expr();
-            if (tk == Token::KwHasta) {
-                tk = lex.getNextToken();
-                expr();
-                if (tk == Token::KwHaga) {
-                    tk = lex.getNextToken();
-                    if (tk == Token::EndLine) {
-                        tk = lex.getNextToken();
-                        statement();
-                        if (tk == Token::KwFin) {
-                            tk = lex.getNextToken();
-                            if (tk == Token::KwPara) {
-                                tk = lex.getNextToken();
-                                more_statements();
-                            } else
-                                syntaxError("para");
-                        } else
-                            syntaxError("fin");
-                    } else
-                        syntaxError("end of line");
-                } else
-                    syntaxError("haga");
-            } else
-                syntaxError("hasta");
-        } else
-            syntaxError("assign operator");
+        expect(Token::Assign, "assign operator");
+        expr();
+        expect(Token::KwHasta, "hasta");
+        expr();
+        expect(Token::KwHaga, "haga");
+        expect(Token::EndLine, "end of line");
+        statement();
+        expect(Token::KwFin, "fin");
+        expect(Token::KwPara, "para after fin");
+        more_if_stmt();
     } else if (tk == Token::KwRetorne) {
         tk = lex.getNextToken();
         expr();
         more_if_stmt();
     } else if (tk == Token::KwSino) {
         else_if_block();
-        if (tk == Token::KwFin) {
-            tk = lex.getNextToken();
-            if (tk == Token::KwSi)
-                tk = lex.getNextToken();
-            else
-                syntaxError("SI");
-        } else
-            syntaxError("fin");
+        expect(Token::KwFin, "fin");
+        expect(Token::KwSi, "SI after fin");
     } else if (tk == Token::KwFin) {
         tk = lex.getNextToken();
-        if (tk == Token::KwSi)
-            tk = lex.getNextToken();
-        else
-            syntaxError("SI");
+        expect(Token::KwSi, "SI after fin");
     } else
         syntaxError("fin si");
 }
@@ -406,11 +350,8 @@ void parser::else_if_block() {
 }
 
 void parser::more_else_if_block() {
-    if (tk == Token::EndLine) {
-        tk = lex.getNextToken();
-        else_if_block();
-    } else
-        syntaxError("end of line");
+    expect(Token::EndLine, "end of line");
+    else_if_block();
 }
 
 void parser::else_if_block_p() {
@@ -418,13 +359,10 @@ void parser::else_if_block_p() {
         tk = lex.getNextToken();
         expr();
         optional_eol();
-        if (tk == Token::KwEntonces) {
-            tk = lex.getNextToken();
-            optional_eol();
-            statement();
-            more_else_if_block();
-        } else
-            syntaxError("entonces");
+        expect(Token::KwEntonces, "entonces");
+        optional_eol();
+        statement();
+        more_else_if_block();
     } else if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba,
                        Token::KwLea, Token::KwSi, Token::EndLine,
                        Token::KwMientras, Token::KwRepita,
@@ -476,57 +414,42 @@ void parser::more_statements() {
 }
 
 void parser::lvalue() {
-    if (tk == Token::Iden) {
-        tk = lex.getNextToken();
-        lvalue_p();
-    } else
-        syntaxError("identifier");
+    expect(Token::Iden, "identifier");
+    lvalue_p();
 }
 
 void parser::lvalue_p() {
     if (tk == Token::OpenBra) {
         tk = lex.getNextToken();
         expr();
-        if (tk == Token::CloseBra)
-            tk = lex.getNextToken();
-        else
-            syntaxError("Close Parens");
+        expect(Token::CloseBra, "Close Bra");
     } else {
         /*epsilon*/
-    }   
+    }
 }
 
 void parser::rvalue() {
-    if (tk == Token::Iden) {
-        tk = lex.getNextToken();
-        rvalue_p();
-    } else
-        syntaxError("identifier");
+    expect(Token::Iden, "identifier");
+    rvalue_p();
 }
 
 void parser::rvalue_p() {
     if (tk == Token::OpenBra) {
         tk = lex.getNextToken();
         expr();
-        if (tk == Token::CloseBra)
-            tk = lex.getNextToken();
-        else
-            syntaxError("close bracket");
+        expect(Token::CloseBra, "close bracket");
     } else if(tk == Token::OpenParens)
         args_call();
     else {
         /*epsilon*/
-    } 
+    }
 }
 
 void parser::args_call() {
     if (tk == Token::OpenParens) {
         tk = lex.getNextToken();
         arg_decl();
-        if (tk == Token::CloseParens)
-            tk = lex.getNextToken();
-        else
-            syntaxError("Close Parens");
+        expect(Token::CloseParens, "close parens");
     } else
         syntaxError("open Parens");
 }
@@ -569,10 +492,7 @@ void parser::expr() {
     } else if (tk == Token::OpenParens) {
         tk = lex.getNextToken();
         expr();
-        if (tk == Token::CloseParens)
-            tk = lex.getNextToken();
-        else
-            syntaxError("close parens");
+        expect(Token::CloseParens, "close parens");
     } else
         syntaxError("expresion");
 }
@@ -594,15 +514,9 @@ void parser::var_decl() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
                 Token::KwBooleano, Token::KwCaracter)) {
         type();
-        if (tk == Token::Iden) {
-            tk = lex.getNextToken();
-            more_var();
-            if (tk == Token::EndLine)
-                tk = lex.getNextToken();
-            else
-                syntaxError("end of line");
-        } else
-            syntaxError("identifier");
+        expect(Token::Iden, "identifier");
+        more_var();
+        expect(Token::EndLine, "end of line");
     } else
         syntaxError("type");
 }
@@ -610,11 +524,8 @@ void parser::var_decl() {
 void parser::more_var() {
     if (tk == Token::Comma) {
         tk = lex.getNextToken();
-        if (tk == Token::Iden) {
-            tk = lex.getNextToken();
-            more_var();
-        } else
-            syntaxError("identifier");
+        expect(Token::Iden, "identifier");
+        more_var();
     } else {
         /* epsilon */
     }
@@ -638,27 +549,12 @@ void parser::type() {
 }
 
 void parser::array_type() {
-    if (tk == Token::KwArreglo) {
-        tk = lex.getNextToken();
-        if (tk == Token::OpenBra) {
-            tk = lex.getNextToken();
-            if (tk == Token::IntConst) {
-                tk = lex.getNextToken();
-                if (tk == Token::CloseBra) {
-                    tk = lex.getNextToken();
-                    if (tk == Token::KwDe) {
-                        tk = lex.getNextToken();
-                        type();
-                    } else
-                        syntaxError("DE");
-                } else
-                    syntaxError("Close bracket");
-            } else
-                syntaxError("int constant");
-        } else
-            syntaxError("Open bracket");
-    } else
-        syntaxError("arreglo");
+    expect(Token::KwArreglo, "arreglo");
+    expect(Token::OpenBra, "open bracket");
+    expect(Token::IntConst, "int constant");
+    expect(Token::CloseBra, "close bracket");
+    expect(Token::KwDe, "DE");
+    type();
 }
 
 void parser::constant() {
@@ -666,8 +562,6 @@ void parser::constant() {
         tk = lex.getNextToken();
     else if (tk == Token::CharConst)
         tk = lex.getNextToken();
-    //else if (tk == Token::StringConst)
-    //    tk = lex.getNextToken();
     else if (tokenIs(Token::KwVerdadero, Token::KwFalso))
         bool_const();
     else
