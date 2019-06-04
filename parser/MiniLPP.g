@@ -38,6 +38,7 @@ procedure_header:
 
 argument_list:
     'OpenParens' argument_decl 'CloseParens'
+    |/*eps */
     ;
 
 argument_decl:

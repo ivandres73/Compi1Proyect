@@ -84,9 +84,13 @@ void parser::procedure_header() {
 }
 
 void parser::argument_list() {
-    expect(Token::OpenParens, "open parens");
-    argument_decl();
-    expect(Token::CloseParens, "close parens");
+    if (tk == Token::OpenBra) {
+        expect(Token::OpenParens, "open parens");
+        argument_decl();
+        expect(Token::CloseParens, "close parens");
+    } else {
+        /*epsilon*/
+    }
 }
 
 void parser::argument_decl() {
