@@ -1,6 +1,6 @@
 grammar MiniLPP;
 
- program:
+program:
     subtypes_section var_section optional_eol subprogram_decl 'inicio' optional_eol statements 'fin' optional_eol
     ;
 
@@ -64,7 +64,6 @@ statements:
 
 statement:
     lvalue 'assign' expr more_statements
-    
     |'llamar' 'Iden' args_call more_statements
     |'escriba' string_args more_statements
     |'lea' lvalue more_statements//no soporta mas de 1 argumento
@@ -76,37 +75,7 @@ statement:
     ;
 
 if_statement:
-    'si' expr optional_eol 'entonces' optional_eol if_stmt
-    ;
-
-if_stmt:
-    lvalue 'assign' expr more_if_stmt
-    |'llamar' 'Iden' args_call more_if_stmt
-    |'escriba' string_args more_if_stmt
-    |'lea' lvalue more_if_stmt//no soporta mas de 1 argumento
-    |if_statement more_if_stmt
-    |'mientras' expr optional_eol 'haga' optional_eol statement 'fin' 'mientras' more_if_stmt
-    |'repita' 'EndLine' statement 'hasta' expr more_if_stmt
-    |'para' lvalue 'assign' expr 'hasta' expr 'haga' 'EndLine' statement 'fin' 'para' more_if_stmt
-    |'retorna' expr more_if_stmt
-    ;
-
-more_if_stmt:
-    'EndLine' more_if_stmt_p
-    ;
-
-more_if_stmt_p:
-    lvalue 'assign' expr more_if_stmt
-    |'llamar' 'Iden' args_call more_if_stmt
-    |'escriba' string_args more_if_stmt
-    |'lea' lvalue more_if_stmt//no soporta mas de 1 argumento
-    |if_statement more_if_stmt
-    |'mientras' expr optional_eol 'haga' optional_eol statement 'fin' 'mientras' more_if_stmt
-    |'repita' 'EndLine' statement 'hasta' expr more_if_stmt
-    |'para' lvalue 'assign' expr 'hasta' expr 'haga' 'EndLine' statement 'fin' 'para' more_if_stmt
-    |'retorna' expr more_statements
-    |else_if_block 'fin' 'si'
-    |'fin' 'si'
+    'si' expr optional_eol 'entonces' optional_eol statement else_if_block 'fin' 'si'
     ;
 
 else_if_block:
@@ -114,12 +83,8 @@ else_if_block:
     |/*eps */ //only gets validated after first call(which is good)
     ;
 
-more_else_if_block:
-    'EndLine' else_if_block
-    ;
-
 else_if_block_p:
-    'si' expr optional_eol 'entonces' optional_eol statement more_else_if_block
+    'si' expr optional_eol 'entonces' optional_eol statement else_if_block
     |optional_eol statement
     ;
 
