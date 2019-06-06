@@ -365,8 +365,21 @@ void parser::expr() {
         tk = lex.getNextToken();
         expr();
         expect(Token::CloseParens, "close parens");
+        is_op();
     } else
         syntaxError("expresion");
+}
+
+void parser::is_op() {
+    if (tokenIs(Token::Add, Token::Sub, Token::Mul, Token::KwDiv,
+                Token::KwMod, Token::LessThan, Token::GreatThan,
+                Token::LessEqual, Token::GreatEqual, Token::EqualTo,
+                Token::NotEqual, Token::KwY, Token::KwO, Token::Xor)) {
+    	bin_op();
+    	expr();
+    } else {
+    	/*epsilon*/
+    }
 }
 
 void parser::expr_p() {

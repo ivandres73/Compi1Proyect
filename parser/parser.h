@@ -35,6 +35,7 @@ private:
     void arg_decl();
     void more_arg_decl();
     void expr();
+    void is_op();
     void expr_p();
     void var_decl();
     void more_var();

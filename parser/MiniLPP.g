@@ -147,7 +147,12 @@ expr:
     |constant expr_p
     |'sub' expr
     |'no' expr
-    |'openParens' expr 'closeParens'
+    |'openParens' expr 'closeParens' is_op
+    ;
+
+is_op:
+    bin_op expr
+    |/*eps */
     ;
 
 expr_p:
@@ -180,7 +185,6 @@ array_type:
 constant:
     'intConst'
     |'charConst'
-    //|'StringConst' conflicto con more_strings_args_p
     |bool_const
     ;
 
