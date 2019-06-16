@@ -67,7 +67,8 @@ private:
     }
 
     void syntaxError(const char* t) {
-        cout << "\033[1;31msyntax error: \033[0m" << "expected a " << t << " in line " << lex.getLine() << endl;
+        cout << "\033[1;31msyntax error: \033[0m" << "expected a " << t << " in line "
+             << lex.getLine() << " (found a " << lex.toString(tk) << ")" << endl;
     }
 
 public:

@@ -38,7 +38,7 @@ void parser::subtype_decl() {
 
 void parser::var_section() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
-                Token::KwBooleano, Token::KwCaracter)) {
+                Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
         var_decl();
         var_section();
     } else {
@@ -97,7 +97,7 @@ void parser::argument_list() {
 
 void parser::argument_decl() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
-                Token::KwBooleano, Token::KwCaracter)) {
+                Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
         type();
         expect(Token::Iden, "identifier");
         more_args();
@@ -122,7 +122,7 @@ void parser::more_args() {
 
 void parser::more_args_p() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
-                Token::KwBooleano, Token::KwCaracter)) {
+                Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
         type();
         expect(Token::Iden, "identifier");
         more_args();
@@ -397,7 +397,7 @@ void parser::expr_p() {
 
 void parser::var_decl() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
-                Token::KwBooleano, Token::KwCaracter)) {
+                Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
         type();
         expect(Token::Iden, "identifier");
         more_var();

@@ -8,6 +8,7 @@ build/*
 #testing purposes
 *.txt
 */*.txt
+*/*.lpp
 
 #copy of lex files
 parser/lexer.h

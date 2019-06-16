@@ -1,0 +1,137 @@
+Entero i
+Inicio
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(1)
+		Llamar Posicionar_Cursor(i, 1)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 1)
+		Escriba " 1  = Azul Oscuro."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(2)
+		Llamar Posicionar_Cursor(i, 2)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 2)
+		Escriba " 2  = Verde."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(3)
+		Llamar Posicionar_Cursor(i, 3)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 3)
+		Escriba " 3  = Verde Azulado."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(4)
+		Llamar Posicionar_Cursor(i, 4)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 4)
+		Escriba " 4  = Granate."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(5)
+		Llamar Posicionar_Cursor(i, 5)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 5)
+		Escriba " 5  = Morado."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(6)
+		Llamar Posicionar_Cursor(i, 6)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 6)
+		Escriba " 6  = Olivo."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(7)
+		Llamar Posicionar_Cursor(i, 7)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 7)
+		Escriba " 7  = Plateado / Gris Claro."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(8)
+		Llamar Posicionar_Cursor(i, 8)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 8)
+		Escriba " 8  = Gris."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(9)
+		Llamar Posicionar_Cursor(i, 9)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 9)
+		Escriba " 9  = Azul."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(10)
+		Llamar Posicionar_Cursor(i, 10)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 10)
+		Escriba " 10 = Lima / Verde Claro."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(11)
+		Llamar Posicionar_Cursor(i, 11)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 11)
+		Escriba " 11 = Aguamarina."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(12)
+		Llamar Posicionar_Cursor(i, 12)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 12)
+		Escriba " 12 = Rojo."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(13)
+		Llamar Posicionar_Cursor(i, 13)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 13)
+		Escriba " 13 = Fucsia."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(14)
+		Llamar Posicionar_Cursor(i, 14)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 14)
+		Escriba " 14 = Amarillo."
+	Fin Para
+	
+	Para i <- 1 Hasta 80 Haga
+		Llamar Color_Fondo(15)
+		Llamar Posicionar_Cursor(i, 15)
+		Escriba " "
+		Llamar Posicionar_Cursor(5, 15)
+		Escriba " 15 = Blanco."
+	Fin Para
+	
+	Llamar Color_Texto(0)
+	Llamar Posicionar_Cursor(5, 17)
+	Escriba " El Color Negro corresponde al Numero 0 y 16."
+	Llamar Posicionar_Cursor(5, 18)
+	Escriba " Al partir del Numero 17 vuelve repite los mismos Colores en"
+	Llamar Posicionar_Cursor(5, 19)
+	Escriba " antes descritos. Las Dimensiones respecto a las coordenadas son:"
+	Llamar Posicionar_Cursor(5, 21)
+	Escriba " Ancho: 80 Caracteres."
+	Llamar Posicionar_Cursor(5, 22)
+	Escriba " Alto:  25 Lineas."
+	Llamar Posicionar_Cursor(5, 24)
+	Escriba " Por Metrallo - Colombia."
+
+Fin
