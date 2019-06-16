@@ -15,7 +15,7 @@ void parser::program() {
     expect(Token::KwInicio, "inicio");
     optional_eol();
     statements();
-    expect(Token::KwFin, "fin");
+    fin();
     optional_eol();
 }
 
@@ -54,7 +54,7 @@ void parser::subprogram_decl() {
         expect(Token::KwInicio, "inicio");
         expect(Token::EndLine, "end of line");
         statements();
-        expect(Token::KwFin, "fin");
+        fin();
         expect(Token::EndLine, "end of line");
         subprogram_decl();
     } else {
@@ -174,7 +174,7 @@ void parser::statement() {
         expect(Token::KwHaga, "haga");
         optional_eol();
         statement();
-        expect(Token::KwFin, "fin");
+        fin();
         expect(Token::KwMientras, "mientras");
         more_statements();
     } else if (tk == Token::KwRepita) {
@@ -194,7 +194,7 @@ void parser::statement() {
         expect(Token::KwHaga, "haga");
         expect(Token::EndLine, "end of line");
         statement();
-        expect(Token::KwFin, "fin");
+        fin();
         expect(Token::KwPara, "para");
         more_statements();
     } else if (tk == Token::KwRetorne) {
@@ -213,7 +213,7 @@ void parser::if_statement() {
     optional_eol();
     statement();
     else_if_block();
-    expect(Token::KwFin, "fin si");
+    fin();
     expect(Token::KwSi, "si after fin");
 }
 
@@ -505,4 +505,11 @@ void parser::cond_op() {
         tk = lex.getNextToken();
     } else
         syntaxError("boolean operator");
+}
+
+void parser::fin() {
+    if (tokenIs(Token::KwFin, Token::KwFinal)) {
+        tk = lex.getNextToken();
+    } else
+        syntaxError("fin");
 }

@@ -48,6 +48,7 @@ private:
     void rel_op();
     void eq_op();
     void cond_op();
+    void fin();
 
     template <typename T, typename... Ts>
     bool tokenIs(T param1, Ts... otherParams) {

@@ -1,7 +1,7 @@
 grammar MiniLPP;
 
 program:
-    subtypes_section var_section optional_eol subprogram_decl 'inicio' optional_eol statements 'fin' optional_eol
+    subtypes_section var_section optional_eol subprogram_decl 'inicio' optional_eol statements fin optional_eol
     ;
 
 subtypes_section:
@@ -19,7 +19,7 @@ var_section:
     ;
 
 subprogram_decl:
-    subprogram_header 'Endline' var_section 'inicio' 'Endline' statements 'fin' 'Endline' subprogram_decl
+    subprogram_header 'Endline' var_section 'inicio' 'Endline' statements fin 'Endline' subprogram_decl
     |/*eps */
     ;
 
@@ -68,14 +68,14 @@ statement:
     |'escriba' string_args more_statements
     |'lea' lvalue more_statements//no soporta mas de 1 argumento
     |if_statement more_statements
-    |'mientras' expr optional_eol 'haga' optional_eol statement 'fin' 'mientras' more_statements
+    |'mientras' expr optional_eol 'haga' optional_eol statement fin 'mientras' more_statements
     |'repita' 'EndLine' statement 'hasta' expr more_statements
-    |'para' lvalue 'assign' expr 'hasta' expr 'haga' 'EndLine' statement 'fin' 'para' more_statements
+    |'para' lvalue 'assign' expr 'hasta' expr 'haga' 'EndLine' statement fin 'para' more_statements
     |'retorne' expr more_statements
     ;
 
 if_statement:
-    'si' expr optional_eol 'entonces' optional_eol statement else_if_block 'fin' 'si'
+    'si' expr optional_eol 'entonces' optional_eol statement else_if_block fin 'si'
     ;
 
 else_if_block:
@@ -224,4 +224,9 @@ cond_op:
     'y'
     |'o'
     |'Xor'
+    ;
+
+fin:
+    'fin'
+    |'final'
     ;
