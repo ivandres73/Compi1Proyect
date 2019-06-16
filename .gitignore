@@ -6,6 +6,7 @@ build/*
 */.antlr
 
 #testing purposes
+*/lppPrograms
 *.txt
 *.lpp
 
