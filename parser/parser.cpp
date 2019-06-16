@@ -8,7 +8,9 @@ void parser::parse() {
 }
 
 void parser::program() {
+    optional_eol();
     subtypes_section();
+    optional_eol();
     var_section();
     optional_eol();
     subprogram_decl();
@@ -56,6 +58,7 @@ void parser::subprogram_decl() {
         statements();
         fin();
         expect(Token::EndLine, "end of line");
+        optional_eol();
         subprogram_decl();
     } else {
         /*epsilon*/
@@ -246,9 +249,10 @@ void parser::else_if_block_p() {
 }
 
 void parser::optional_eol() {
-    if (tk == Token::EndLine)
+    if (tk == Token::EndLine) {
         tk = lex.getNextToken();
-    else {
+        optional_eol();
+    } else {
         /*epsilon*/
     }
 }
@@ -279,6 +283,7 @@ void parser::more_string_args() {
 void parser::more_statements() {
     if (tk == Token::EndLine) {
         tk = lex.getNextToken();
+        optional_eol();
         statements();
     } else {
         /*epsilon*/

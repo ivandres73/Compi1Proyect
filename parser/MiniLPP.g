@@ -1,7 +1,7 @@
 grammar MiniLPP;
 
 program:
-    subtypes_section var_section optional_eol subprogram_decl 'inicio' optional_eol statements fin optional_eol
+    optional_eol subtypes_section var_section optional_eol subprogram_decl 'inicio' optional_eol statements fin optional_eol
     ;
 
 subtypes_section:
@@ -89,7 +89,7 @@ else_if_block_p:
     ;
 
 optional_eol:
-    'EndLine'
+    'EndLine' optional_eol
     |/*eps */
     ;
 
