@@ -327,8 +327,9 @@ void parser::args_call() {
         tk = lex.getNextToken();
         arg_decl();
         expect(Token::CloseParens, "close parens");
-    } else
-        syntaxError("open Parens");
+    } else {
+        /*epsilon*/
+    }
 }
 
 void parser::arg_decl() {
