@@ -16,5 +16,12 @@ parser/lexer.cpp
 parser/exprLex.h
 parser/exprLex.cpp
 
+#copy of lex & parser files
+ast/lexer.h
+ast/lexer.cpp
+ast/exprLex.h
+ast/exprLex.cpp
+ast/MiniLPP.g
+
 #instructions
 *.pdf
