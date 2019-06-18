@@ -2217,7 +2217,7 @@ Token exprLex::getNextToken() {
                     ch = getNextChar();
                 } else if (ch == '^') {
                     text += ch;
-                    return Token::Xor;
+                    return Token::Pow;
                 } else {
                     reportError(ch);
                     ch = getNextChar();
@@ -2290,7 +2290,7 @@ const char* exprLex::toString(Token tk) {
         case Token::LessEqual: return "LessEqual";
         case Token::Assign: return "Assign";
         case Token::GreatThan: return "GreatThan";
-        case Token::Xor: return "Xor";
+        case Token::Pow: return "Pow";
         case Token::OpenBra: return "OpenBra";
         case Token::OpenParens: return "OpenParens";
         case Token::Mul: return "Mul";

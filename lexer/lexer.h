@@ -223,7 +223,7 @@ enum class Token {
     LessEqual,
     Assign,
     GreatThan,
-    Xor,
+    Pow,
     OpenBra,
     OpenParens,
     Mul,

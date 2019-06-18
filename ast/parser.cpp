@@ -152,7 +152,7 @@ void parser::statement() {
     if (tk == Token::Iden) {
         lvalue();
         expect(Token::Assign, "assign");
-        expr();
+        expr0();
         more_statements();
     } else if (tk == Token::KwLlamar) {
         tk = lex.getNextToken();
@@ -172,7 +172,7 @@ void parser::statement() {
         more_statements();
     } else if (tk == Token::KwMientras) {
         tk = lex.getNextToken();
-        expr();
+        expr0();
         optional_eol();
         expect(Token::KwHaga, "haga");
         optional_eol();
@@ -185,15 +185,15 @@ void parser::statement() {
         expect(Token::EndLine, "end of line");
         statement();
         expect(Token::KwHasta, "hasta");
-        expr();
+        expr0();
         more_statements();
     } else if (tk == Token::KwPara) {
         tk = lex.getNextToken();
         lvalue();
         expect(Token::Assign, "assign operator");
-        expr();
+        expr0();
         expect(Token::KwHasta, "hasta");
-        expr();
+        expr0();
         expect(Token::KwHaga, "haga");
         expect(Token::EndLine, "end of line");
         statement();
@@ -202,7 +202,7 @@ void parser::statement() {
         more_statements();
     } else if (tk == Token::KwRetorne) {
         tk = lex.getNextToken();
-        expr();
+        expr0();
         more_statements();
     } else
         syntaxError("statement");
@@ -210,7 +210,7 @@ void parser::statement() {
 
 void parser::if_statement() {
     expect(Token::KwSi, "SI");
-    expr();
+    expr0();
     optional_eol();
     expect(Token::KwEntonces, "entonces");
     optional_eol();
@@ -232,7 +232,7 @@ void parser::else_if_block() {
 void parser::else_if_block_p() {
     if (tk == Token::KwSi) {
         tk = lex.getNextToken();
-        expr();
+        expr0();
         optional_eol();
         expect(Token::KwEntonces, "entonces");
         optional_eol();
@@ -265,7 +265,7 @@ void parser::string_args() {
                        Token::StringConst, Token::KwVerdadero,
                        Token::KwFalso, Token::Sub, Token::KwNo,
                        Token::OpenParens)) {
-        expr();
+        expr0();
         more_string_args();
     } else
         syntaxError("expresion");
@@ -298,7 +298,7 @@ void parser::lvalue() {
 void parser::lvalue_p() {
     if (tk == Token::OpenBra) {
         tk = lex.getNextToken();
-        expr();
+        expr0();
         expect(Token::CloseBra, "Close Bra");
     } else {
         /*epsilon*/
@@ -313,7 +313,7 @@ void parser::rvalue() {
 void parser::rvalue_p() {
     if (tk == Token::OpenBra) {
         tk = lex.getNextToken();
-        expr();
+        expr0();
         expect(Token::CloseBra, "close bracket");
     } else if(tk == Token::OpenParens)
         args_call();
@@ -337,7 +337,7 @@ void parser::arg_decl() {
                 Token::StringConst, Token::KwVerdadero,
                 Token::KwFalso, Token::Sub, Token::KwNo,
                 Token::OpenParens)) {
-        expr();
+        expr0();
         more_arg_decl();
     } else {
         /*epsilon*/
@@ -353,54 +353,6 @@ void parser::more_arg_decl() {
     }
 }
 
-void parser::expr() {
-    if (tk == Token::Iden) {
-        rvalue();
-        expr_p();
-    } else if (tokenIs(Token::IntConst, Token::CharConst, /*Token::StringConst,*/
-                       Token::KwVerdadero, Token::KwFalso)) {
-        constant();
-        expr_p();
-    }else if (tk == Token::Sub) {
-        tk = lex.getNextToken();
-        expr();
-    } else if (tk == Token::KwNo) {
-        tk = lex.getNextToken();
-        expr();
-    } else if (tk == Token::OpenParens) {
-        tk = lex.getNextToken();
-        expr();
-        expect(Token::CloseParens, "close parens");
-        is_op();
-    } else
-        syntaxError("expresion");
-}
-
-void parser::is_op() {
-    if (tokenIs(Token::Add, Token::Sub, Token::Mul, Token::KwDiv,
-                Token::KwMod, Token::LessThan, Token::GreatThan,
-                Token::LessEqual, Token::GreatEqual, Token::EqualTo,
-                Token::NotEqual, Token::KwY, Token::KwO, Token::Xor)) {
-    	bin_op();
-    	expr();
-    } else {
-    	/*epsilon*/
-    }
-}
-
-void parser::expr_p() {
-    if (tokenIs(Token::Add, Token::Sub, Token::Mul, Token::KwDiv,
-                Token::KwMod, Token::LessThan, Token::GreatThan,
-                Token::LessEqual, Token::GreatEqual, Token::EqualTo,
-                Token::NotEqual, Token::KwY, Token::KwO, Token::Xor)) {
-        bin_op();
-        expr();
-        expr_p();
-    } else {
-        /*epsilon*/
-    }
-}
-
 void parser::var_decl() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
                 Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
@@ -410,6 +362,19 @@ void parser::var_decl() {
         expect(Token::EndLine, "end of line");
     } else
         syntaxError("type");
+}
+
+EXPRSP parser::expr0() {
+    EXPRSP expr1;
+    while (tokenIs(Token::EqualTo, Token::NotEqual, Token::LessThan,
+                   Token::GreatThan, Token::LessEqual,
+                   Token::GreatThan)) {
+        Token temp = tk;
+        tk = lex.getNextToken();
+        EXPRSP expr2;
+    }
+    
+    return expr1;
 }
 
 void parser::more_var() {
@@ -448,69 +413,36 @@ void parser::array_type() {
     type();
 }
 
-void parser::constant() {
-    if (tk == Token::IntConst)
+EXPRSP parser::constant() {
+    EXPRSP value;
+    if (tk == Token::IntConst) {
+        value = make_shared<NumExpr>(stoi(lex.getText()));
         tk = lex.getNextToken();
-    else if (tk == Token::CharConst)
+    } else if (tk == Token::CharConst) {
+        value = make_shared<CharExpr>(stoi(lex.getText()));
         tk = lex.getNextToken();
-    else if (tokenIs(Token::KwVerdadero, Token::KwFalso))
-        bool_const();
-    else
+    } else if (tokenIs(Token::KwVerdadero, Token::KwFalso))
+        return bool_const();
+    else {
         syntaxError("constant value");
+        return nullptr;
+    }
+    return value;
 }
 
-void parser::bool_const() {
-    if (tk == Token::KwFalso)
+EXPRSP parser::bool_const() {
+    EXPRSP value;
+    if (tk == Token::KwFalso) {
+        value = make_shared<BoolExpr>(false);
         tk = lex.getNextToken();
-    else if (tk == Token::KwVerdadero)
+    } else if (tk == Token::KwVerdadero) {
+        value = make_shared<BoolExpr>(true);
         tk = lex.getNextToken();
-    else
+    } else {
         syntaxError("boolean expresion");
-}
-
-void parser::bin_op() {
-    if (tokenIs(Token::Add, Token::Sub, Token::Mul, Token::KwDiv,
-                Token::KwMod)) {
-        arith_op();
-    } else if (tokenIs(Token::LessThan, Token::GreatThan,
-                       Token::LessEqual, Token::GreatEqual)) {
-        rel_op();
-    } else if (tokenIs(Token::EqualTo, Token::NotEqual)) {
-        eq_op();
-    } else if (tokenIs(Token::KwY, Token::KwO, Token::Xor)) {
-        cond_op();
-    } else
-        syntaxError("operator");
-}
-
-void parser::arith_op() {
-    if (tokenIs(Token::Add, Token::Sub, Token::Mul, Token::KwDiv,
-                Token::KwMod)) {
-        tk = lex.getNextToken();
-    } else
-        syntaxError("arithmetic operator");
-}
-
-void parser::rel_op() {
-    if (tokenIs(Token::LessThan, Token::GreatThan, Token::LessEqual,
-                Token::GreatEqual)) {
-        tk = lex.getNextToken();
-    } else
-        syntaxError("relational operator");
-}
-
-void parser::eq_op() {
-    if (tokenIs(Token::EqualTo, Token::NotEqual)) {
-        tk = lex.getNextToken();
-    } else
-        syntaxError("equal operator");
-}
-
-void parser::cond_op() {
-    if (tokenIs(Token::KwY, Token::KwO, Token::Xor)) {
-        tk = lex.getNextToken();
-    } else
-        syntaxError("boolean operator");
+        return nullptr;
+    }
+    return value;
 }
 
 void parser::fin() {

@@ -1,4 +1,8 @@
 #include "exprLex.h"
+#include "ast.h"
+
+using std::stoi;
+using std::make_shared;
 
 class parser
 {
@@ -34,20 +38,18 @@ private:
     void args_call();
     void arg_decl();
     void more_arg_decl();
-    void expr();
-    void is_op();
-    void expr_p();
+    EXPRSP expr0();
+    EXPRSP expr1();
+    EXPRSP expr2();
+    EXPRSP expr3();
+    EXPRSP expr4();
+    EXPRSP expr5();
     void var_decl();
     void more_var();
     void type();
     void array_type();
-    void constant();
-    void bool_const();
-    void bin_op();
-    void arith_op();
-    void rel_op();
-    void eq_op();
-    void cond_op();
+    EXPRSP constant();
+    EXPRSP bool_const();
     void fin();
 
     template <typename T, typename... Ts>
