@@ -3,6 +3,21 @@
 
 using std::stoi;
 using std::make_shared;
+// constantes
+#define NumExpr(x) make_shared<NumExpr>(stoi(x));
+#define CharExpr(x) make_shared<CharExpr>(stoi(x));
+#define BoolExpr(x) make_shared<BoolExpr>(x);
+
+//operadores de 1ra precedencia
+#define AddExpr(x, y) make_shared<AddExpr>(x, y);
+#define SubExpr(x, y) make_shared<SubExpr>(x, y);
+#define OrExpr(x, y) make_shared<OrExpr>(x, y);
+
+//operadores de 2da precedencia
+#define MulExpr(x, y) make_shared<MulExpr>(x, y);
+#define DivExpr(x, y) make_shared<DivExpr>(x, y);
+#define ModExpr(x, y) make_shared<ModExpr>(x, y);
+#define AndExpr(x, y) make_shared<AndExpr>(x, y);
 
 class parser
 {

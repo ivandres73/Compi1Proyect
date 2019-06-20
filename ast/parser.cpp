@@ -365,15 +365,120 @@ void parser::var_decl() {
 }
 
 EXPRSP parser::expr0() {
-    EXPRSP expr1;
-    while (tokenIs(Token::EqualTo, Token::NotEqual, Token::LessThan,
+    EXPRSP expr = expr1();
+    if (tokenIs(Token::EqualTo, Token::NotEqual, Token::LessThan,
                    Token::GreatThan, Token::LessEqual,
-                   Token::GreatThan)) {
-        Token temp = tk;
+                   Token::GreatEqual)) {
+        Token op = tk;
         tk = lex.getNextToken();
-        EXPRSP expr2;
+        EXPRSP expr2 = expr1();
+        switch (op) {
+        case Token::EqualTo:
+            //expr = make_shared<EqualExpr>(expr, expr2);
+            break;
+
+        case Token::NotEqual:
+            break;
+
+        case Token::LessThan:
+            break;
+        
+        case Token::GreatThan:
+            break;
+
+        case Token::LessEqual:
+            break;
+
+        case Token::GreatEqual:
+            break;
+        
+        default:
+            break;
+        }
     }
     
+    cout << "expr0() => " << expr->eval() << endl;
+    return expr;
+}
+
+EXPRSP parser::expr1() {
+    EXPRSP expr1 = expr2();
+    while (tokenIs(Token::Add, Token::Sub, Token::KwO)) {
+        Token op = tk;
+        tk = lex.getNextToken();
+        EXPRSP expr = expr2();
+        switch (op) {
+        case Token::Add:
+            expr1 = AddExpr(expr1, expr);
+            break;
+        case Token::Sub:
+            expr1 = SubExpr(expr1, expr);
+            break;
+        case Token::KwO:
+            expr1 = OrExpr(expr1, expr);
+            break;
+        }
+    }
+    cout << "\texpr1() => " << expr1->eval() << endl;
+    return expr1;
+}
+
+EXPRSP parser::expr2() {
+    EXPRSP expr1 = expr3();
+    while(tokenIs(Token::Mul, Token::KwDiv, Token::KwMod, Token::KwY)) {
+        Token op = tk;
+        tk = lex.getNextToken();
+        EXPRSP expr2 = expr3();
+        switch (op)
+        {
+        case Token::Mul:
+            expr1 = MulExpr(expr1, expr2);
+            break;
+        case Token::KwDiv:
+            expr1 = DivExpr(expr1, expr2);
+            break;
+        case Token::KwMod:
+            expr1 = ModExpr(expr1, expr2);
+            break;
+        case Token::KwY:
+            expr1 = AndExpr(expr1, expr2);
+            break;
+        }
+    }
+    cout << "\t\texpr2() => " << expr1->eval() << endl;
+    return expr1;
+}
+
+EXPRSP parser::expr3() {
+    EXPRSP expr1 = expr4();
+
+    cout << "\t\t\texpr3() => " << expr1->eval() << endl;
+    return expr1;
+}
+
+EXPRSP parser::expr4() {
+    EXPRSP expr1 = expr5();
+
+    cout << "\t\t\t\texpr4() => " << expr1->eval() << endl;
+    return expr1;
+}
+
+EXPRSP parser::expr5() {
+    EXPRSP expr1;
+    if (tk == Token::Iden) {
+        Token value = tk;
+        rvalue();
+        //expr1 = make_shared<IdExpr>();
+    } else if (tokenIs(Token::IntConst, Token::CharConst,
+                       Token::KwFalso, Token::KwVerdadero)) {
+        expr1 = constant();
+    } else if (tokenIs(Token::OpenParens)) {
+        expect(Token::OpenParens, "open parens");
+        expr1 = expr0();
+        expect(Token::CloseParens, "close parens");
+    }
+
+    cout << "\t\t\t\t\texpr2() => " << expr1->eval() << endl;
     return expr1;
 }
 
@@ -416,10 +521,10 @@ void parser::array_type() {
 EXPRSP parser::constant() {
     EXPRSP value;
     if (tk == Token::IntConst) {
-        value = make_shared<NumExpr>(stoi(lex.getText()));
+        value = NumExpr(lex.getText());
         tk = lex.getNextToken();
     } else if (tk == Token::CharConst) {
-        value = make_shared<CharExpr>(stoi(lex.getText()));
+        value = CharExpr(lex.getText());
         tk = lex.getNextToken();
     } else if (tokenIs(Token::KwVerdadero, Token::KwFalso))
         return bool_const();
@@ -433,10 +538,10 @@ EXPRSP parser::constant() {
 EXPRSP parser::bool_const() {
     EXPRSP value;
     if (tk == Token::KwFalso) {
-        value = make_shared<BoolExpr>(false);
+        value = BoolExpr(false);
         tk = lex.getNextToken();
     } else if (tk == Token::KwVerdadero) {
-        value = make_shared<BoolExpr>(true);
+        value = BoolExpr(true);
         tk = lex.getNextToken();
     } else {
         syntaxError("boolean expresion");

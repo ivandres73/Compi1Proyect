@@ -38,6 +38,7 @@ class name##Expr: public BinExpr { \
                 return expr1->eval() + expr2->eval(); \
             return expr2->eval() + expr1->eval(); \
         } \
+        int8_t getPrec() override { return prec; } \
 };
 
 DEFINE_BINEXPR(Add, +, 4);
@@ -62,7 +63,6 @@ class name##Expr : public Expr {                         \
                                                          \
     private:                                             \
         type value;                                      \
-                                                         \
 };
 
 DEFINE_CONSTEXPR(Num, int);
