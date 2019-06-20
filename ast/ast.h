@@ -35,8 +35,8 @@ class name##Expr: public BinExpr { \
         name##Expr(EXPRSP e1, EXPRSP e2) : BinExpr(move(e1), move(e2), prec) {} \
         int eval() override {  \
             if (expr1->getPrec() <= expr2->getPrec()) \
-                return expr1->eval() + expr2->eval(); \
-            return expr2->eval() + expr1->eval(); \
+                return expr1->eval() oper expr2->eval(); \
+            return expr2->eval() oper expr1->eval(); \
         } \
         int8_t getPrec() override { return prec; } \
 };

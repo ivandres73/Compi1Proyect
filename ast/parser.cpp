@@ -478,7 +478,7 @@ EXPRSP parser::expr5() {
         expect(Token::CloseParens, "close parens");
     }
 
-    cout << "\t\t\t\t\texpr2() => " << expr1->eval() << endl;
+    cout << "\t\t\t\t\texpr5() => " << expr1->eval() << endl;
     return expr1;
 }
 
