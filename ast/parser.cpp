@@ -366,12 +366,18 @@ void parser::var_decl() {
 
 EXPRSP parser::expr0() {
     EXPRSP expr = expr1();
+    if (expr == nullptr) {
+        syntaxError("expression");
+        return nullptr;
+    }
     if (tokenIs(Token::EqualTo, Token::NotEqual, Token::LessThan,
                    Token::GreatThan, Token::LessEqual,
                    Token::GreatEqual)) {
         Token op = tk;
         tk = lex.getNextToken();
         EXPRSP expr2 = expr1();
+        if (expr2 == nullptr)
+            return nullptr;
         switch (op) {
         case Token::EqualTo:
             //expr = make_shared<EqualExpr>(expr, expr2);
@@ -398,6 +404,7 @@ EXPRSP parser::expr0() {
     }
     
     cout << "expr0() => " << expr->eval() << endl;
+    cout << expr->toString();
     return expr;
 }
 
@@ -407,6 +414,9 @@ EXPRSP parser::expr1() {
         Token op = tk;
         tk = lex.getNextToken();
         EXPRSP expr = expr2();
+        if (expr == nullptr)
+            return nullptr;
+
         switch (op) {
         case Token::Add:
             expr1 = AddExpr(expr1, expr);
@@ -419,7 +429,7 @@ EXPRSP parser::expr1() {
             break;
         }
     }
-    cout << "\texpr1() => " << expr1->eval() << endl;
+
     return expr1;
 }
 
@@ -429,6 +439,9 @@ EXPRSP parser::expr2() {
         Token op = tk;
         tk = lex.getNextToken();
         EXPRSP expr2 = expr3();
+        if (expr2 == nullptr)
+            return nullptr;
+        
         switch (op)
         {
         case Token::Mul:
@@ -445,21 +458,30 @@ EXPRSP parser::expr2() {
             break;
         }
     }
-    cout << "\t\texpr2() => " << expr1->eval() << endl;
     return expr1;
 }
 
 EXPRSP parser::expr3() {
     EXPRSP expr1 = expr4();
-
-    cout << "\t\t\texpr3() => " << expr1->eval() << endl;
+    while (tk == Token::Pow) {
+        Token op = tk;
+        tk = lex.getNextToken();
+        EXPRSP expr2 = expr4();
+        if (expr2 == nullptr) return nullptr;
+        switch (op)
+        {
+        case Token::Pow:
+            expr1 = PowExpr(expr1, expr2);
+            break;
+        
+        }
+    }
     return expr1;
 }
 
 EXPRSP parser::expr4() {
     EXPRSP expr1 = expr5();
 
-    cout << "\t\t\t\texpr4() => " << expr1->eval() << endl;
     return expr1;
 }
 
@@ -468,17 +490,16 @@ EXPRSP parser::expr5() {
     if (tk == Token::Iden) {
         Token value = tk;
         rvalue();
-        //expr1 = make_shared<IdExpr>();
     } else if (tokenIs(Token::IntConst, Token::CharConst,
                        Token::KwFalso, Token::KwVerdadero)) {
         expr1 = constant();
     } else if (tokenIs(Token::OpenParens)) {
-        expect(Token::OpenParens, "open parens");
+        tk = lex.getNextToken();
         expr1 = expr0();
         expect(Token::CloseParens, "close parens");
-    }
+    } else
+        return nullptr;
 
-    cout << "\t\t\t\t\texpr5() => " << expr1->eval() << endl;
     return expr1;
 }
 
@@ -521,7 +542,12 @@ void parser::array_type() {
 EXPRSP parser::constant() {
     EXPRSP value;
     if (tk == Token::IntConst) {
-        value = NumExpr(lex.getText());
+        if (lex.getText() == "") {//esta validacion es por un error del lexer
+            value = NumExpr("0");
+        } else {
+            value = NumExpr(lex.getText());
+        }
+        
         tk = lex.getNextToken();
     } else if (tk == Token::CharConst) {
         value = CharExpr(lex.getText());
@@ -530,6 +556,7 @@ EXPRSP parser::constant() {
         return bool_const();
     else {
         syntaxError("constant value");
+        cout << "retorno nulo :P\n";
         return nullptr;
     }
     return value;

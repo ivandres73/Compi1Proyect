@@ -1,16 +1,20 @@
 #include <memory>
+#include <string>
+#include <math.h>
 
 using std::move;
+using std::to_string;
+using std::string;
 
 class ASTNode {
     public:
-        
+        virtual string toString() = 0;
 };
 
-class Expr : public ASTNode{
+class Expr : public ASTNode {
     public:
         virtual int eval() = 0;
-        virtual int8_t getPrec() = 0;
+        int8_t getPrec() { return prec; }
 
     protected:
         int8_t prec;
@@ -20,7 +24,7 @@ using EXPRSP = std::shared_ptr<Expr>;
 
 class BinExpr : public Expr {
     public:
-        BinExpr(EXPRSP&& e1, EXPRSP&& e2, int8_t pr) : expr1(move(e1)), expr2(move(e2)) { prec = pr; }
+        BinExpr(EXPRSP&&, EXPRSP&&, int8_t);
 
     protected:
         EXPRSP expr1;
@@ -38,7 +42,16 @@ class name##Expr: public BinExpr { \
                 return expr1->eval() oper expr2->eval(); \
             return expr2->eval() oper expr1->eval(); \
         } \
-        int8_t getPrec() override { return prec; } \
+        string toString() override { \
+            return expr1->toString() + #oper + expr2->toString(); \
+        } \
+};
+
+class PowExpr: public BinExpr {
+    public:
+        PowExpr(EXPRSP, EXPRSP);
+        int eval() override;
+        string toString() override;
 };
 
 DEFINE_BINEXPR(Add, +, 4);
@@ -59,8 +72,9 @@ class name##Expr : public Expr {                         \
     public:                                              \
         name##Expr(type val) : value(val) { prec = -1; } \
         int eval() override { return value; }            \
-        int8_t getPrec() override { return prec; }       \
-                                                         \
+        string toString() override {                     \
+            return to_string(value);                     \
+        }                                                \
     private:                                             \
         type value;                                      \
 };

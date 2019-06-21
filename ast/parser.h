@@ -19,6 +19,9 @@ using std::make_shared;
 #define ModExpr(x, y) make_shared<ModExpr>(x, y);
 #define AndExpr(x, y) make_shared<AndExpr>(x, y);
 
+//operadores de 3ra precedencia
+#define PowExpr(x, y) make_shared<PowExpr>(x, y);
+
 class parser
 {
 private:
