@@ -9,6 +9,7 @@ using std::to_string;
 using std::string;
 using std::vector;
 using std::cout;
+using std::shared_ptr;
 
 class ASTNode {
     public:
@@ -24,7 +25,7 @@ class Expr : public ASTNode {
         int8_t prec;
 };
 
-using EXPRSP = std::shared_ptr<Expr>;
+using EXPRSP = shared_ptr<Expr>;
 
 class BinExpr : public Expr {
     public:
@@ -118,12 +119,14 @@ class Statement : public ASTNode {
         virtual void exec() = 0;
 };
 
-using PSTMT = vector<Statement>;
+using STMTSP = shared_ptr<Statement>;
+using STMTS = vector<Statement>;
 
 class WriteStmt : public Statement {
     public:
         WriteStmt(vector<string>);
         void exec() override;
+        string toString() override;
 
     private:
         vector<string> args;

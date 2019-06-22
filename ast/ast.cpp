@@ -30,7 +30,9 @@ string NotExpr::toString() {
 
 WriteStmt::WriteStmt(vector<string> v) : args(v) {}
 void WriteStmt::exec() {
-    for (auto i : args) {
+    for (auto i : args)
         cout << i;
-    }
+}
+string WriteStmt::toString() {
+    return "escriba";
 }

@@ -149,6 +149,7 @@ void parser::statements() {
 }
 
 void parser::statement() {
+    STMTSP stmt;
     if (tk == Token::Iden) {
         lvalue();
         expect(Token::Assign, "assign");
@@ -161,7 +162,9 @@ void parser::statement() {
         more_statements();
     } else if (tk == Token::KwEscriba) {
         tk = lex.getNextToken();
-        string_args();
+        vector<string> args;
+        string_args(args);
+        stmt = WriteStmt(args);
         more_statements();
     } else if (tk == Token::KwLea) {
         tk = lex.getNextToken();
@@ -206,6 +209,8 @@ void parser::statement() {
         more_statements();
     } else
         syntaxError("statement");
+
+    stmt->exec();
 }
 
 void parser::if_statement() {
@@ -257,26 +262,25 @@ void parser::optional_eol() {
     }
 }
 
-string parser::string_args() {
-    string value;
+void parser::string_args(vector<string>& args) {
     if (tk == Token::StringConst) {
+        args.push_back(lex.getText());
         tk = lex.getNextToken();
-        
-        more_string_args();
+        more_string_args(args);
     } else if (tokenIs(Token::Iden, Token::IntConst, Token::CharConst,
                        Token::StringConst, Token::KwVerdadero,
                        Token::KwFalso, Token::Sub, Token::KwNo,
                        Token::OpenParens)) {
-        expr0();
-        more_string_args();
+        args.push_back(to_string(expr0()->eval()));
+        more_string_args(args);
     } else
         syntaxError("expresion");
 }
 
-void parser::more_string_args() {
+void parser::more_string_args(vector<string>& args) {
     if (tk == Token::Comma) {
         tk = lex.getNextToken();
-        string_args();
+        string_args(args);
     } else {
         /*epsilon*/
     }

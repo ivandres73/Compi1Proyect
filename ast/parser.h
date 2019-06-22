@@ -61,8 +61,8 @@ private:
     void else_if_block();
     void else_if_block_p();
     void optional_eol();
-    string string_args();
-    void more_string_args();
+    void string_args(vector<string>&);
+    void more_string_args(vector<string>&);
     void more_statements();
     void lvalue();
     void lvalue_p();
