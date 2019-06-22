@@ -9,22 +9,22 @@ using std::make_shared;
 #define BoolExpr(x) make_shared<BoolExpr>(x);
 
 //operadores de 1ra precedencia
-#define AddExpr(x, y) make_shared<AddExpr>(x, y);
-#define SubExpr(x, y) make_shared<SubExpr>(x, y);
-#define OrExpr(x, y) make_shared<OrExpr>(x, y);
+#define NegExpr(x) make_shared<NegExpr>(x);
+#define NotExpr(x) make_shared<NotExpr>(x);
 
 //operadores de 2da precedencia
+#define PowExpr(x, y) make_shared<PowExpr>(x, y);
+
+//operadores de 3ra precedencia
 #define MulExpr(x, y) make_shared<MulExpr>(x, y);
 #define DivExpr(x, y) make_shared<DivExpr>(x, y);
 #define ModExpr(x, y) make_shared<ModExpr>(x, y);
 #define AndExpr(x, y) make_shared<AndExpr>(x, y);
 
-//operadores de 3ra precedencia
-#define PowExpr(x, y) make_shared<PowExpr>(x, y);
-
 //operadores de 4ta precedencia
-#define NegExpr(x) make_shared<NegExpr>(x);
-#define NotExpr(x) make_shared<NotExpr>(x);
+#define AddExpr(x, y) make_shared<AddExpr>(x, y);
+#define SubExpr(x, y) make_shared<SubExpr>(x, y);
+#define OrExpr(x, y) make_shared<OrExpr>(x, y);
 
 //operadores de 5ta precedencia (los de menos prioridad)
 #define EQExpr(x, y) make_shared<EQExpr>(x, y);
@@ -33,6 +33,9 @@ using std::make_shared;
 #define GTExpr(x, y) make_shared<GTExpr>(x, y);
 #define LTEExpr(x, y) make_shared<LTEExpr>(x, y);
 #define GTEExpr(x, y) make_shared<GTEExpr>(x, y);
+
+//Statements
+#define WriteStmt(x) make_shared<WriteStmt>(x);
 
 class parser
 {
@@ -58,7 +61,7 @@ private:
     void else_if_block();
     void else_if_block_p();
     void optional_eol();
-    void string_args();
+    string string_args();
     void more_string_args();
     void more_statements();
     void lvalue();

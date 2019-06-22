@@ -27,3 +27,10 @@ int NotExpr::eval() {
 string NotExpr::toString() {
     return "!" + expr->toString();
 }
+
+WriteStmt::WriteStmt(vector<string> v) : args(v) {}
+void WriteStmt::exec() {
+    for (auto i : args) {
+        cout << i;
+    }
+}

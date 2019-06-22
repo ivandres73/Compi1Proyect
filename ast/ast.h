@@ -1,10 +1,14 @@
 #include <memory>
 #include <string>
 #include <math.h>
+#include <vector>
+#include <iostream>
 
 using std::move;
 using std::to_string;
 using std::string;
+using std::vector;
+using std::cout;
 
 class ASTNode {
     public:
@@ -111,5 +115,16 @@ DEFINE_CONSTEXPR(Bool, bool);
 
 class Statement : public ASTNode {
     public:
-        virtual int exec() = 0;
+        virtual void exec() = 0;
+};
+
+using PSTMT = vector<Statement>;
+
+class WriteStmt : public Statement {
+    public:
+        WriteStmt(vector<string>);
+        void exec() override;
+
+    private:
+        vector<string> args;
 };

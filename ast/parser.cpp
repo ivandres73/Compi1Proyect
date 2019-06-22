@@ -257,9 +257,11 @@ void parser::optional_eol() {
     }
 }
 
-void parser::string_args() {
+string parser::string_args() {
+    string value;
     if (tk == Token::StringConst) {
         tk = lex.getNextToken();
+        
         more_string_args();
     } else if (tokenIs(Token::Iden, Token::IntConst, Token::CharConst,
                        Token::StringConst, Token::KwVerdadero,
