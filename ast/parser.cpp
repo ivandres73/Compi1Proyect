@@ -378,33 +378,30 @@ EXPRSP parser::expr0() {
         EXPRSP expr2 = expr1();
         if (expr2 == nullptr)
             return nullptr;
+        
         switch (op) {
         case Token::EqualTo:
-            //expr = make_shared<EqualExpr>(expr, expr2);
+            expr = EQExpr(expr, expr2);
             break;
-
         case Token::NotEqual:
+            expr = NEQExpr(expr, expr2);
             break;
-
         case Token::LessThan:
+            expr = LTExpr(expr, expr2);
             break;
-        
         case Token::GreatThan:
+            expr = GTExpr(expr, expr2);
             break;
-
         case Token::LessEqual:
+            expr = LTEExpr(expr, expr2);
             break;
-
         case Token::GreatEqual:
-            break;
-        
-        default:
+            expr = GTEExpr(expr, expr2);
             break;
         }
     }
-    
     cout << "expr0() => " << expr->eval() << endl;
-    cout << expr->toString();
+    cout << expr->toString() << endl;
     return expr;
 }
 
@@ -442,8 +439,7 @@ EXPRSP parser::expr2() {
         if (expr2 == nullptr)
             return nullptr;
         
-        switch (op)
-        {
+        switch (op) {
         case Token::Mul:
             expr1 = MulExpr(expr1, expr2);
             break;
@@ -467,9 +463,10 @@ EXPRSP parser::expr3() {
         Token op = tk;
         tk = lex.getNextToken();
         EXPRSP expr2 = expr4();
-        if (expr2 == nullptr) return nullptr;
-        switch (op)
-        {
+        if (expr2 == nullptr)
+            return nullptr;
+        
+        switch (op) {
         case Token::Pow:
             expr1 = PowExpr(expr1, expr2);
             break;
@@ -481,14 +478,29 @@ EXPRSP parser::expr3() {
 
 EXPRSP parser::expr4() {
     EXPRSP expr1 = expr5();
+    while (tokenIs(Token::KwNo, Token::Sub)) {
+        Token op = tk;
+        tk = lex.getNextToken();
+        expr1 = expr5();
+        if (expr1 == nullptr)
+            return nullptr;
+
+        switch (op) {
+        case Token::KwNo:
+            expr1 = NotExpr(expr1);
+            break;
+        case Token::Sub:
+            expr1 = NegExpr(expr1);
+            break;
+        }
+    }
 
     return expr1;
 }
 
 EXPRSP parser::expr5() {
-    EXPRSP expr1;
+    EXPRSP expr1 = nullptr;
     if (tk == Token::Iden) {
-        Token value = tk;
         rvalue();
     } else if (tokenIs(Token::IntConst, Token::CharConst,
                        Token::KwFalso, Token::KwVerdadero)) {
@@ -497,8 +509,7 @@ EXPRSP parser::expr5() {
         tk = lex.getNextToken();
         expr1 = expr0();
         expect(Token::CloseParens, "close parens");
-    } else
-        return nullptr;
+    }
 
     return expr1;
 }

@@ -34,7 +34,7 @@ class BinExpr : public Expr {
 /* Expresiones Binarias (sumas, restas...) */
 
 #define DEFINE_BINEXPR(name, oper, prec) \
-class name##Expr: public BinExpr { \
+class name##Expr : public BinExpr { \
     public: \
         name##Expr(EXPRSP e1, EXPRSP e2) : BinExpr(move(e1), move(e2), prec) {} \
         int eval() override {  \
@@ -47,13 +47,39 @@ class name##Expr: public BinExpr { \
         } \
 };
 
-class PowExpr: public BinExpr {
+class PowExpr : public BinExpr {
     public:
         PowExpr(EXPRSP, EXPRSP);
         int eval() override;
         string toString() override;
 };
 
+class NegExpr : public Expr {
+    public:
+        NegExpr(EXPRSP);
+        int eval() override;
+        string toString() override;
+
+    private:
+        EXPRSP expr;
+};
+
+class NotExpr : public Expr {
+    public:
+        NotExpr(EXPRSP);
+        int eval() override;
+        string toString() override;
+
+    private:
+        EXPRSP expr;
+};
+
+DEFINE_BINEXPR(EQ, ==, 5);
+DEFINE_BINEXPR(NEQ, !=, 5);
+DEFINE_BINEXPR(LT, <, 5);
+DEFINE_BINEXPR(GT, >, 5);
+DEFINE_BINEXPR(LTE, <=, 5);
+DEFINE_BINEXPR(GTE, >=, 5);
 DEFINE_BINEXPR(Add, +, 4);
 DEFINE_BINEXPR(Sub, -, 4);
 DEFINE_BINEXPR(Or, ||, 4);
@@ -82,3 +108,8 @@ class name##Expr : public Expr {                         \
 DEFINE_CONSTEXPR(Num, int);
 DEFINE_CONSTEXPR(Char, char);
 DEFINE_CONSTEXPR(Bool, bool);
+
+class Statement : public ASTNode {
+    public:
+        virtual int exec() = 0;
+};

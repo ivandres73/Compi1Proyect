@@ -22,6 +22,18 @@ using std::make_shared;
 //operadores de 3ra precedencia
 #define PowExpr(x, y) make_shared<PowExpr>(x, y);
 
+//operadores de 4ta precedencia
+#define NegExpr(x) make_shared<NegExpr>(x);
+#define NotExpr(x) make_shared<NotExpr>(x);
+
+//operadores de 5ta precedencia (los de menos prioridad)
+#define EQExpr(x, y) make_shared<EQExpr>(x, y);
+#define NEQExpr(x, y) make_shared<NEQExpr>(x, y);
+#define LTExpr(x, y) make_shared<LTExpr>(x, y);
+#define GTExpr(x, y) make_shared<GTExpr>(x, y);
+#define LTEExpr(x, y) make_shared<LTEExpr>(x, y);
+#define GTEExpr(x, y) make_shared<GTEExpr>(x, y);
+
 class parser
 {
 private:
