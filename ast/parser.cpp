@@ -41,7 +41,14 @@ void parser::subtype_decl() {
 void parser::var_section() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
                 Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
-        var_decl();
+        vector<string> vars;
+        var_decl(vars);
+        try {
+            STMTSP stmt = DeclStmt(vars);
+            stmt->exec(global_vars);
+        } catch (string e) {
+            cout << e << endl;
+        }
         var_section();
     } else {
         /*epsilon*/
@@ -151,9 +158,16 @@ void parser::statements() {
 void parser::statement() {
     STMTSP stmt;
     if (tk == Token::Iden) {
+        string id = lex.getText();
         lvalue();
         expect(Token::Assign, "assign");
-        expr0();
+        EXPRSP expr = expr0();
+        try {
+            stmt = AssignStmt(id, expr);
+        } catch (string e) {
+            cout << e << endl;
+        }
+        stmt->exec(global_vars);
         more_statements();
     } else if (tk == Token::KwLlamar) {
         tk = lex.getNextToken();
@@ -165,6 +179,7 @@ void parser::statement() {
         vector<string> args;
         string_args(args);
         stmt = WriteStmt(args);
+        stmt->exec(global_vars);
         more_statements();
     } else if (tk == Token::KwLea) {
         tk = lex.getNextToken();
@@ -209,8 +224,6 @@ void parser::statement() {
         more_statements();
     } else
         syntaxError("statement");
-
-    stmt->exec();
 }
 
 void parser::if_statement() {
@@ -271,7 +284,7 @@ void parser::string_args(vector<string>& args) {
                        Token::StringConst, Token::KwVerdadero,
                        Token::KwFalso, Token::Sub, Token::KwNo,
                        Token::OpenParens)) {
-        args.push_back(to_string(expr0()->eval()));
+        args.push_back(to_string(expr0()->eval(global_vars)));
         more_string_args(args);
     } else
         syntaxError("expresion");
@@ -311,9 +324,16 @@ void parser::lvalue_p() {
     }
 }
 
-void parser::rvalue() {
+EXPRSP parser::rvalue() {
+    EXPRSP expr = nullptr;
+    try {
+        expr = IdExpr(lex.getText());
+    } catch (string e) {
+        cout << e << endl;
+    }
     expect(Token::Iden, "identifier");
     rvalue_p();
+    return expr;
 }
 
 void parser::rvalue_p() {
@@ -359,17 +379,6 @@ void parser::more_arg_decl() {
     }
 }
 
-void parser::var_decl() {
-    if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
-                Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
-        type();
-        expect(Token::Iden, "identifier");
-        more_var();
-        expect(Token::EndLine, "end of line");
-    } else
-        syntaxError("type");
-}
-
 EXPRSP parser::expr0() {
     EXPRSP expr = expr1();
     if (expr == nullptr) {
@@ -406,8 +415,6 @@ EXPRSP parser::expr0() {
             break;
         }
     }
-    cout << "expr0() => " << expr->eval() << endl;
-    cout << expr->toString() << endl;
     return expr;
 }
 
@@ -507,7 +514,7 @@ EXPRSP parser::expr4() {
 EXPRSP parser::expr5() {
     EXPRSP expr1 = nullptr;
     if (tk == Token::Iden) {
-        rvalue();
+        expr1 = rvalue();
     } else if (tokenIs(Token::IntConst, Token::CharConst,
                        Token::KwFalso, Token::KwVerdadero)) {
         expr1 = constant();
@@ -520,11 +527,24 @@ EXPRSP parser::expr5() {
     return expr1;
 }
 
-void parser::more_var() {
+void parser::var_decl(vector<string>& vars) {
+    if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
+                Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
+        type();
+        vars.push_back(lex.getText());
+        expect(Token::Iden, "identifier");
+        more_var(vars);
+        expect(Token::EndLine, "end of line");
+    } else
+        syntaxError("type");
+}
+
+void parser::more_var(vector<string>& vars) {
     if (tk == Token::Comma) {
         tk = lex.getNextToken();
+        vars.push_back(lex.getText());
         expect(Token::Iden, "identifier");
-        more_var();
+        more_var(vars);
     } else {
         /* epsilon */
     }
@@ -557,7 +577,7 @@ void parser::array_type() {
 }
 
 EXPRSP parser::constant() {
-    EXPRSP value;
+    EXPRSP value = nullptr;
     if (tk == Token::IntConst) {
         if (lex.getText() == "") {//esta validacion es por un error del lexer
             value = NumExpr("0");
@@ -571,11 +591,8 @@ EXPRSP parser::constant() {
         tk = lex.getNextToken();
     } else if (tokenIs(Token::KwVerdadero, Token::KwFalso))
         return bool_const();
-    else {
+    else
         syntaxError("constant value");
-        cout << "retorno nulo :P\n";
-        return nullptr;
-    }
     return value;
 }
 

@@ -3,10 +3,12 @@
 
 using std::stoi;
 using std::make_shared;
+
 // constantes
 #define NumExpr(x) make_shared<NumExpr>(stoi(x));
 #define CharExpr(x) make_shared<CharExpr>(stoi(x));
 #define BoolExpr(x) make_shared<BoolExpr>(x);
+#define IdExpr(x) make_shared<IdenExpr>(x);
 
 //operadores de 1ra precedencia
 #define NegExpr(x) make_shared<NegExpr>(x);
@@ -36,13 +38,17 @@ using std::make_shared;
 
 //Statements
 #define WriteStmt(x) make_shared<WriteStmt>(x);
+#define DeclStmt(x) make_shared<DeclareStmt>(x);
+#define AssignStmt(x, y) make_shared<AssignStmt>(x, y);
 
 class parser
 {
 private:
+    //lexer
     Token tk;
     exprLex& lex;
 
+    //parser descendente recursivo
     void program();
     void subtypes_section();
     void subtype_decl();
@@ -66,7 +72,7 @@ private:
     void more_statements();
     void lvalue();
     void lvalue_p();
-    void rvalue();
+    EXPRSP rvalue();
     void rvalue_p();
     void args_call();
     void arg_decl();
@@ -77,14 +83,15 @@ private:
     EXPRSP expr3();
     EXPRSP expr4();
     EXPRSP expr5();
-    void var_decl();
-    void more_var();
+    void var_decl(vector<string>&);
+    void more_var(vector<string>&);
     void type();
     void array_type();
     EXPRSP constant();
     EXPRSP bool_const();
     void fin();
 
+    // funciones auxiliares
     template <typename T, typename... Ts>
     bool tokenIs(T param1, Ts... otherParams) {
         return tk == param1 || tokenIs(otherParams...);
@@ -102,10 +109,14 @@ private:
             syntaxError(er);
     }
 
+    //error message
     void syntaxError(const char* t) {
         cout << "\033[1;31msyntax error: \033[0m" << "expected a " << t << " in line "
              << lex.getLine() << " (found a " << lex.toString(tk) << ")" << endl;
     }
+
+    //variables globales del programa
+    Context global_vars;
 
 public:
     parser(exprLex& lex) : lex(lex) { }
