@@ -162,12 +162,12 @@ void parser::statement() {
         lvalue();
         expect(Token::Assign, "assign");
         EXPRSP expr = expr0();
+        stmt = AssignStmt(id, expr);
         try {
-            stmt = AssignStmt(id, expr);
-        } catch (string e) {
+            stmt->exec(global_vars);
+        } catch (const string& e) {
             cout << e << endl;
         }
-        stmt->exec(global_vars);
         more_statements();
     } else if (tk == Token::KwLlamar) {
         tk = lex.getNextToken();
@@ -284,7 +284,11 @@ void parser::string_args(vector<string>& args) {
                        Token::StringConst, Token::KwVerdadero,
                        Token::KwFalso, Token::Sub, Token::KwNo,
                        Token::OpenParens)) {
-        args.push_back(to_string(expr0()->eval(global_vars)));
+        try {
+            args.push_back(to_string(expr0()->eval(global_vars)));
+        } catch (const string& e) {
+            cout << e << endl;
+        }
         more_string_args(args);
     } else
         syntaxError("expresion");
@@ -326,13 +330,13 @@ void parser::lvalue_p() {
 
 EXPRSP parser::rvalue() {
     EXPRSP expr = nullptr;
-    try {
+    if (tk == Token::Iden) {
         expr = IdExpr(lex.getText());
-    } catch (string e) {
-        cout << e << endl;
-    }
-    expect(Token::Iden, "identifier");
-    rvalue_p();
+        tk = lex.getNextToken();
+        rvalue_p();
+    } else
+        syntaxError("identifier");
+    
     return expr;
 }
 

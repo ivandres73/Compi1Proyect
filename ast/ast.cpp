@@ -68,9 +68,9 @@ string DeclareStmt::toString() {
 
 AssignStmt::AssignStmt(string str, EXPRSP expr) : id(str), val(expr) {}
 void AssignStmt::exec(Context& ctx) {
-    if (ctx.vars.find(id) == ctx.vars.end())
+    if (ctx.vars.find(id) == ctx.vars.end()) {
         throw id + " was not declared";
-    else {
+    } else {
         ctx.vars[id] = val->eval(ctx);
     }
 }
