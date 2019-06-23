@@ -34,12 +34,15 @@ IdenExpr::IdenExpr(string str) : id(str) {}
 int IdenExpr::eval(Context& ctx) {
     if (ctx.vars.find(id) == ctx.vars.end())
         throw id + " was not declared";
-    else if (ctx.vars[id] == UNINITIALIZED)
+    else if (ctx.vars[id].value == UNINITIALIZED)
         throw id + " has not been initialized";
     else
-        return ctx.vars[id];
+        return ctx.vars[id].value;
 }
-string IdenExpr::toString() {}
+string IdenExpr::toString() { return id; }
+string IdenExpr::getType(Context& ctx) {
+    return ctx.vars[id].tipo;
+}
 
 WriteStmt::WriteStmt(vector<string> v) : args(v) {}
 void WriteStmt::exec(Context& ctx) {
@@ -50,13 +53,16 @@ string WriteStmt::toString() {
     return "escriba";
 }
 
-DeclareStmt::DeclareStmt(vector<string> list) : ids(list){}
+DeclareStmt::DeclareStmt(vector<string> list, string ti) :
+ids(list) , tipo(ti) {}
 void DeclareStmt::exec(Context& ctx) {
     for (auto i : ids) {
         if (ctx.vars.find(i) != ctx.vars.end())
             throw i + " has already been declared";
-        else
-            ctx.vars[i] = UNINITIALIZED;
+        else {
+            ctx.vars[i].value = UNINITIALIZED;
+            ctx.vars[i].tipo = tipo;
+        }
     }
 }
 string DeclareStmt::toString() {
@@ -71,7 +77,7 @@ void AssignStmt::exec(Context& ctx) {
     if (ctx.vars.find(id) == ctx.vars.end()) {
         throw id + " was not declared";
     } else {
-        ctx.vars[id] = val->eval(ctx);
+        ctx.vars[id].value = val->eval(ctx);
     }
 }
 string AssignStmt::toString() {

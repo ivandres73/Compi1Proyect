@@ -38,7 +38,7 @@ using std::make_shared;
 
 //Statements
 #define WriteStmt(x) make_shared<WriteStmt>(x);
-#define DeclStmt(x) make_shared<DeclareStmt>(x);
+#define DeclStmt(x, y) make_shared<DeclareStmt>(x, y);
 #define AssignStmt(x, y) make_shared<AssignStmt>(x, y);
 
 class parser
@@ -72,22 +72,23 @@ private:
     void more_statements();
     void lvalue();
     void lvalue_p();
-    EXPRSP rvalue();
+    EXPRSP rvalue(string&);
     void rvalue_p();
     void args_call();
     void arg_decl();
     void more_arg_decl();
-    EXPRSP expr0();
-    EXPRSP expr1();
-    EXPRSP expr2();
-    EXPRSP expr3();
-    EXPRSP expr4();
-    EXPRSP expr5();
+//recibe string para saber que tipo de expr es (expr bool o expr num)
+    EXPRSP expr0(string&);
+    EXPRSP expr1(string&);
+    EXPRSP expr2(string&);
+    EXPRSP expr3(string&);
+    EXPRSP expr4(string&);
+    EXPRSP expr5(string&);
     void var_decl(vector<string>&);
     void more_var(vector<string>&);
     void type();
     void array_type();
-    EXPRSP constant();
+    EXPRSP constant(string&);
     EXPRSP bool_const();
     void fin();
 

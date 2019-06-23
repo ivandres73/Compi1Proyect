@@ -42,9 +42,30 @@ void parser::var_section() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
                 Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
         vector<string> vars;
+        Token type = tk;
         var_decl(vars);
+        STMTSP stmt;
+        switch (type) {
+            case Token::KwEntero:
+                stmt = DeclStmt(vars, "int");
+                break;
+            case Token::KwBooleano:
+                stmt = DeclStmt(vars, "bool");
+                break;
+            case Token::KwCaracter:
+                stmt = DeclStmt(vars, "char");
+                break;
+            case Token::KwArreglo:
+                /* TO DO */
+                break;
+            case Token::KwReal:
+                /* TO DO */
+                break;
+            case Token::KwCadena:
+                /* TO DO */
+                break;
+        }
         try {
-            STMTSP stmt = DeclStmt(vars);
             stmt->exec(global_vars);
         } catch (string e) {
             cout << e << endl;
@@ -161,7 +182,8 @@ void parser::statement() {
         string id = lex.getText();
         lvalue();
         expect(Token::Assign, "assign");
-        EXPRSP expr = expr0();
+        string vacio;
+        EXPRSP expr = expr0(vacio);
         stmt = AssignStmt(id, expr);
         try {
             stmt->exec(global_vars);
@@ -190,7 +212,8 @@ void parser::statement() {
         more_statements();
     } else if (tk == Token::KwMientras) {
         tk = lex.getNextToken();
-        expr0();
+        string vacio;
+        expr0(vacio);
         optional_eol();
         expect(Token::KwHaga, "haga");
         optional_eol();
@@ -203,15 +226,17 @@ void parser::statement() {
         expect(Token::EndLine, "end of line");
         statement();
         expect(Token::KwHasta, "hasta");
-        expr0();
+        string vacio;
+        expr0(vacio);
         more_statements();
     } else if (tk == Token::KwPara) {
         tk = lex.getNextToken();
         lvalue();
         expect(Token::Assign, "assign operator");
-        expr0();
+        string vacio;
+        expr0(vacio);
         expect(Token::KwHasta, "hasta");
-        expr0();
+        expr0(vacio);
         expect(Token::KwHaga, "haga");
         expect(Token::EndLine, "end of line");
         statement();
@@ -220,7 +245,8 @@ void parser::statement() {
         more_statements();
     } else if (tk == Token::KwRetorne) {
         tk = lex.getNextToken();
-        expr0();
+        string vacio;
+        expr0(vacio);
         more_statements();
     } else
         syntaxError("statement");
@@ -228,7 +254,8 @@ void parser::statement() {
 
 void parser::if_statement() {
     expect(Token::KwSi, "SI");
-    expr0();
+    string vacio;
+    expr0(vacio);
     optional_eol();
     expect(Token::KwEntonces, "entonces");
     optional_eol();
@@ -250,7 +277,8 @@ void parser::else_if_block() {
 void parser::else_if_block_p() {
     if (tk == Token::KwSi) {
         tk = lex.getNextToken();
-        expr0();
+        string vacio;
+        expr0(vacio);
         optional_eol();
         expect(Token::KwEntonces, "entonces");
         optional_eol();
@@ -285,7 +313,18 @@ void parser::string_args(vector<string>& args) {
                        Token::KwFalso, Token::Sub, Token::KwNo,
                        Token::OpenParens)) {
         try {
-            args.push_back(to_string(expr0()->eval(global_vars)));
+            string tipoExpr = "int";
+            EXPRSP expr = expr0(tipoExpr);
+            int valor = expr->eval(global_vars);
+            if (tipoExpr == "int")
+                args.push_back(to_string(valor));
+            else if (tipoExpr == "bool") {
+                if (valor == 0)
+                    args.push_back("Falso");
+                else
+                    args.push_back("Verdadero");
+            } else //if (typeExpr == "char")
+                args.push_back(to_string(static_cast<char>(valor)));
         } catch (const string& e) {
             cout << e << endl;
         }
@@ -321,17 +360,25 @@ void parser::lvalue() {
 void parser::lvalue_p() {
     if (tk == Token::OpenBra) {
         tk = lex.getNextToken();
-        expr0();
+        string vacio;
+        expr0(vacio);
         expect(Token::CloseBra, "Close Bra");
     } else {
         /*epsilon*/
     }
 }
 
-EXPRSP parser::rvalue() {
+EXPRSP parser::rvalue(string& tipoExpr) {
     EXPRSP expr = nullptr;
     if (tk == Token::Iden) {
-        expr = IdExpr(lex.getText());
+        shared_ptr<IdenExpr> ie = IdExpr(lex.getText());
+        expr = ie;
+        if (ie->getType(global_vars) == "int")
+            tipoExpr = "int";
+        else if (ie->getType(global_vars) == "bool")
+            tipoExpr = "bool";
+        else if (ie->getType(global_vars) == "char")
+            tipoExpr = "char";
         tk = lex.getNextToken();
         rvalue_p();
     } else
@@ -343,7 +390,8 @@ EXPRSP parser::rvalue() {
 void parser::rvalue_p() {
     if (tk == Token::OpenBra) {
         tk = lex.getNextToken();
-        expr0();
+        string vacio;
+        expr0(vacio);
         expect(Token::CloseBra, "close bracket");
     } else if(tk == Token::OpenParens)
         args_call();
@@ -367,7 +415,8 @@ void parser::arg_decl() {
                 Token::StringConst, Token::KwVerdadero,
                 Token::KwFalso, Token::Sub, Token::KwNo,
                 Token::OpenParens)) {
-        expr0();
+        string vacio;
+        expr0(vacio);
         more_arg_decl();
     } else {
         /*epsilon*/
@@ -383,8 +432,8 @@ void parser::more_arg_decl() {
     }
 }
 
-EXPRSP parser::expr0() {
-    EXPRSP expr = expr1();
+EXPRSP parser::expr0(string& tipoExpr) {
+    EXPRSP expr = expr1(tipoExpr);
     if (expr == nullptr) {
         syntaxError("expression");
         return nullptr;
@@ -394,7 +443,7 @@ EXPRSP parser::expr0() {
                    Token::GreatEqual)) {
         Token op = tk;
         tk = lex.getNextToken();
-        EXPRSP expr2 = expr1();
+        EXPRSP expr2 = expr1(tipoExpr);
         if (expr2 == nullptr)
             return nullptr;
         
@@ -422,12 +471,12 @@ EXPRSP parser::expr0() {
     return expr;
 }
 
-EXPRSP parser::expr1() {
-    EXPRSP expr1 = expr2();
+EXPRSP parser::expr1(string& tipoExpr) {
+    EXPRSP expr1 = expr2(tipoExpr);
     while (tokenIs(Token::Add, Token::Sub, Token::KwO)) {
         Token op = tk;
         tk = lex.getNextToken();
-        EXPRSP expr = expr2();
+        EXPRSP expr = expr2(tipoExpr);
         if (expr == nullptr)
             return nullptr;
 
@@ -447,12 +496,12 @@ EXPRSP parser::expr1() {
     return expr1;
 }
 
-EXPRSP parser::expr2() {
-    EXPRSP expr1 = expr3();
+EXPRSP parser::expr2(string& tipoExpr) {
+    EXPRSP expr1 = expr3(tipoExpr);
     while(tokenIs(Token::Mul, Token::KwDiv, Token::KwMod, Token::KwY)) {
         Token op = tk;
         tk = lex.getNextToken();
-        EXPRSP expr2 = expr3();
+        EXPRSP expr2 = expr3(tipoExpr);
         if (expr2 == nullptr)
             return nullptr;
         
@@ -474,12 +523,12 @@ EXPRSP parser::expr2() {
     return expr1;
 }
 
-EXPRSP parser::expr3() {
-    EXPRSP expr1 = expr4();
+EXPRSP parser::expr3(string& tipoExpr) {
+    EXPRSP expr1 = expr4(tipoExpr);
     while (tk == Token::Pow) {
         Token op = tk;
         tk = lex.getNextToken();
-        EXPRSP expr2 = expr4();
+        EXPRSP expr2 = expr4(tipoExpr);
         if (expr2 == nullptr)
             return nullptr;
         
@@ -493,12 +542,12 @@ EXPRSP parser::expr3() {
     return expr1;
 }
 
-EXPRSP parser::expr4() {
-    EXPRSP expr1 = expr5();
+EXPRSP parser::expr4(string& tipoExpr) {
+    EXPRSP expr1 = expr5(tipoExpr);
     while (tokenIs(Token::KwNo, Token::Sub)) {
         Token op = tk;
         tk = lex.getNextToken();
-        expr1 = expr5();
+        expr1 = expr5(tipoExpr);
         if (expr1 == nullptr)
             return nullptr;
 
@@ -515,16 +564,16 @@ EXPRSP parser::expr4() {
     return expr1;
 }
 
-EXPRSP parser::expr5() {
+EXPRSP parser::expr5(string& tipoExpr) {
     EXPRSP expr1 = nullptr;
     if (tk == Token::Iden) {
-        expr1 = rvalue();
+        expr1 = rvalue(tipoExpr);
     } else if (tokenIs(Token::IntConst, Token::CharConst,
                        Token::KwFalso, Token::KwVerdadero)) {
-        expr1 = constant();
+        expr1 = constant(tipoExpr);
     } else if (tokenIs(Token::OpenParens)) {
         tk = lex.getNextToken();
-        expr1 = expr0();
+        expr1 = expr0(tipoExpr);
         expect(Token::CloseParens, "close parens");
     }
 
@@ -580,7 +629,7 @@ void parser::array_type() {
     type();
 }
 
-EXPRSP parser::constant() {
+EXPRSP parser::constant(string& tipoExpr) {
     EXPRSP value = nullptr;
     if (tk == Token::IntConst) {
         if (lex.getText() == "") {//esta validacion es por un error del lexer
@@ -588,14 +637,16 @@ EXPRSP parser::constant() {
         } else {
             value = NumExpr(lex.getText());
         }
-        
+
         tk = lex.getNextToken();
     } else if (tk == Token::CharConst) {
         value = CharExpr(lex.getText());
         tk = lex.getNextToken();
-    } else if (tokenIs(Token::KwVerdadero, Token::KwFalso))
+        tipoExpr = "char";
+    } else if (tokenIs(Token::KwVerdadero, Token::KwFalso)) {
+        tipoExpr = "bool";
         return bool_const();
-    else
+    } else
         syntaxError("constant value");
     return value;
 }

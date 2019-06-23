@@ -16,9 +16,13 @@ using std::unordered_map;
 //valor random para saber si variable fue inicializada
 #define UNINITIALIZED -7337
 
-// Struct que guardara el valor de las variables
+// Structs que guardara el valor de las variables
+struct entry {
+    string tipo;
+    int value;
+};
 struct Context {
-    unordered_map<string, int> vars;
+    unordered_map<string, entry> vars;
 };
 
 //Clase nodo (padre de todos)
@@ -112,8 +116,10 @@ DEFINE_BINEXPR(And, &&, 3);
 #define DEFINE_CONSTEXPR(name, type)                     \
 class name##Expr : public Expr {                         \
     public:                                              \
-        name##Expr(type val) : value(val) { prec = -1; } \
-        int eval(Context&) override { return value; }            \
+        name##Expr(type val) : value(val) {              \
+            prec = -1;                                   \
+        }                                                \
+        int eval(Context&) override { return value; }    \
         string toString() override {                     \
             return to_string(value);                     \
         }                                                \
@@ -127,7 +133,7 @@ class IdenExpr : public Expr {
         IdenExpr(string);
         int eval(Context&) override;
         string toString() override;
-
+        string getType(Context&);
     private:
         string id;
 };
@@ -156,12 +162,13 @@ class WriteStmt : public Statement {
 
 class DeclareStmt : public Statement {
     public:
-        DeclareStmt(vector<string>);
+        DeclareStmt(vector<string>, string);
         void exec(Context&) override;
         string toString() override;
 
     private:
         vector<string> ids;
+        string tipo;
 };
 
 class AssignStmt : public Statement {
