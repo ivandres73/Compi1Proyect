@@ -323,8 +323,10 @@ void parser::string_args(vector<string>& args) {
                     args.push_back("Falso");
                 else
                     args.push_back("Verdadero");
-            } else //if (typeExpr == "char")
-                args.push_back(to_string(static_cast<char>(valor)));
+            } else {//if (typeExpr == "char")
+                char car = static_cast<char>(valor);
+                args.push_back(string(1, car));
+            }
         } catch (const string& e) {
             cout << e << endl;
         }
@@ -640,7 +642,8 @@ EXPRSP parser::constant(string& tipoExpr) {
 
         tk = lex.getNextToken();
     } else if (tk == Token::CharConst) {
-        value = CharExpr(lex.getText());
+        char valor = lex.getText()[0];
+        value = CharExpr(valor);
         tk = lex.getNextToken();
         tipoExpr = "char";
     } else if (tokenIs(Token::KwVerdadero, Token::KwFalso)) {

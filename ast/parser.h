@@ -6,7 +6,7 @@ using std::make_shared;
 
 // constantes
 #define NumExpr(x) make_shared<NumExpr>(stoi(x));
-#define CharExpr(x) make_shared<CharExpr>(stoi(x));
+#define CharExpr(x) make_shared<CharExpr>(x);
 #define BoolExpr(x) make_shared<BoolExpr>(x);
 #define IdExpr(x) make_shared<IdenExpr>(x);
 
