@@ -219,3 +219,14 @@ class ForStmt : public Statement {
         EXPRSP breque;
         STMTS stmts;
 };
+
+class DoWhileStmt : public Statement {
+    public:
+        DoWhileStmt(EXPRSP, STMTS&);
+        void exec(Context&) override;
+        string toString() override;
+
+    private:
+        EXPRSP expr;
+        STMTS lista;
+};

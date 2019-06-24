@@ -43,6 +43,7 @@ using std::make_shared;
 #define WhileStmt(x, y) make_shared<WhileStmt>(x, y);
 #define IfStmt(a, b, x, y, c) make_shared<IfStmt>(a, b, x, y, c);
 #define ForStmt(x, y, z) make_shared<ForStmt>(x, y, z);
+#define DoWhileStmt(x, y) make_shared<DoWhileStmt>(x, y);
 
 class parser
 {

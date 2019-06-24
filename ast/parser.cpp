@@ -242,10 +242,14 @@ void parser::statement(STMTS& l, bool exec) {
     } else if (tk == Token::KwRepita) {
         tk = lex.getNextToken();
         expect(Token::EndLine, "end of line");
-        statement(l, exec);
+        STMTS lista;
+        statement(lista, exec);
         expect(Token::KwHasta, "hasta");
         string vacio;
-        expr0(vacio);
+        EXPRSP expr = expr0(vacio);
+        stmt = DoWhileStmt(expr, lista);
+        if (exec)
+            stmt->exec(global_vars);
         more_statements(l);
     } else if (tk == Token::KwPara) {
         tk = lex.getNextToken();

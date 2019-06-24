@@ -167,3 +167,14 @@ void ForStmt::exec(Context& ctx) {
 string ForStmt::toString() {
     return "for";
 }
+
+DoWhileStmt::DoWhileStmt(EXPRSP e, STMTS& s) : expr(e), lista(s) {}
+void DoWhileStmt::exec(Context& ctx) {
+    do {
+        for (auto i : lista)
+            i->exec(ctx);
+    } while (!expr->eval(ctx));
+}
+string DoWhileStmt::toString() {
+    return "do-while";
+}
