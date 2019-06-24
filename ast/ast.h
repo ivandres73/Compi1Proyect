@@ -23,6 +23,8 @@ struct entry {
 };
 struct Context {
     unordered_map<string, entry> vars;
+    unordered_map<string, vector<entry>> arreglos;
+    unordered_map<string, int> size_arreglos;
 };
 
 //Clase nodo (padre de todos)

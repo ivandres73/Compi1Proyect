@@ -58,7 +58,7 @@ void parser::var_section() {
                 stmt = DeclStmt(vars, "char");
                 break;
             case Token::KwArreglo:
-                /* TO DO */
+                stmt = DeclStmt(vars, "arreglo");
                 break;
             case Token::KwReal:
                 /* TO DO */
@@ -611,7 +611,8 @@ EXPRSP parser::expr5(string& tipoExpr) {
 
 void parser::var_decl(vector<string>& vars) {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
-                Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
+                Token::KwBooleano, Token::KwCaracter,
+                Token::KwArreglo)) {
         type();
         vars.push_back(lex.getText());
         expect(Token::Iden, "identifier");
