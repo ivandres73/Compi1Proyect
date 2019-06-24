@@ -58,9 +58,7 @@ class name##Expr : public BinExpr { \
     public: \
         name##Expr(EXPRSP e1, EXPRSP e2) : BinExpr(move(e1), move(e2), prec) {} \
         int eval(Context& ctx) override {  \
-            if (expr1->getPrec() <= expr2->getPrec()) \
                 return expr1->eval(ctx) oper expr2->eval(ctx); \
-            return expr2->eval(ctx) oper expr1->eval(ctx); \
         } \
         string toString() override { \
             return expr1->toString() + #oper + expr2->toString(); \
@@ -148,7 +146,7 @@ class Statement : public ASTNode {
 };
 
 using STMTSP = shared_ptr<Statement>;
-using STMTS = vector<Statement>;
+using STMTS = vector<STMTSP>;
 
 class WriteStmt : public Statement {
     public:
@@ -162,7 +160,7 @@ class WriteStmt : public Statement {
 
 class DeclareStmt : public Statement {
     public:
-        DeclareStmt(vector<string>, string);
+        DeclareStmt(vector<string>&, string);
         void exec(Context&) override;
         string toString() override;
 
@@ -180,4 +178,30 @@ class AssignStmt : public Statement {
     private:
         string id;
         EXPRSP val;
+};
+
+class WhileStmt : public Statement {
+    public:
+        WhileStmt(EXPRSP, STMTS&);
+        void exec(Context&) override;
+        string toString() override;
+
+    private:
+        EXPRSP expr;
+        STMTS list;
+};
+
+class IfStmt : public Statement {
+    public:
+        IfStmt(EXPRSP, STMTS&, vector<EXPRSP>&, vector<STMTS>&,
+               STMTS&);
+        void exec(Context&) override;
+        string toString() override;
+
+    private:
+        EXPRSP expr_if;
+        STMTS stmts_if;
+        vector<EXPRSP> expr_elsif;
+        vector<STMTS> stmts_elsif;
+        STMTS stmts_else;
 };

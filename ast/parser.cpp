@@ -16,7 +16,8 @@ void parser::program() {
     subprogram_decl();
     expect(Token::KwInicio, "inicio");
     optional_eol();
-    statements();
+    STMTS vacio;//vacio por no se le asignara a nadie
+    statements(vacio);
     fin();
     optional_eol();
 }
@@ -40,7 +41,8 @@ void parser::subtype_decl() {
 
 void parser::var_section() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
-                Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
+                Token::KwBooleano, Token::KwCaracter,
+                Token::KwArreglo)) {
         vector<string> vars;
         Token type = tk;
         var_decl(vars);
@@ -83,7 +85,8 @@ void parser::subprogram_decl() {
         var_section();
         expect(Token::KwInicio, "inicio");
         expect(Token::EndLine, "end of line");
-        statements();
+        STMTS vacio;
+        statements(vacio);
         fin();
         expect(Token::EndLine, "end of line");
         optional_eol();
@@ -128,7 +131,8 @@ void parser::argument_list() {
 
 void parser::argument_decl() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
-                Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
+                Token::KwBooleano, Token::KwCaracter,
+                Token::KwArreglo)) {
         type();
         expect(Token::Iden, "identifier");
         more_args();
@@ -153,7 +157,8 @@ void parser::more_args() {
 
 void parser::more_args_p() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
-                Token::KwBooleano, Token::KwCaracter, Token::KwArreglo)) {
+                Token::KwBooleano, Token::KwCaracter,
+                Token::KwArreglo)) {
         type();
         expect(Token::Iden, "identifier");
         more_args();
@@ -166,17 +171,17 @@ void parser::more_args_p() {
         syntaxError("type");
 }
 
-void parser::statements() {
+void parser::statements(STMTS& l) {
     if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba,
                 Token::KwLea, Token::KwSi, Token::KwMientras,
                 Token::KwRepita, Token::KwPara, Token::KwRetorne))
-        statement();
+        statement(l, true);
     else {
         /*epsilon*/
     }   
 }
 
-void parser::statement() {
+void parser::statement(STMTS& l, bool exec) {
     STMTSP stmt;
     if (tk == Token::Iden) {
         string id = lex.getText();
@@ -186,49 +191,61 @@ void parser::statement() {
         EXPRSP expr = expr0(vacio);
         stmt = AssignStmt(id, expr);
         try {
-            stmt->exec(global_vars);
+            if (exec)
+                stmt->exec(global_vars);
         } catch (const string& e) {
             cout << e << endl;
         }
-        more_statements();
+        l.push_back(stmt);
+        more_statements(l);
     } else if (tk == Token::KwLlamar) {
         tk = lex.getNextToken();
         expect(Token::Iden, "identifier");
         args_call();
-        more_statements();
+        more_statements(l);
     } else if (tk == Token::KwEscriba) {
         tk = lex.getNextToken();
         vector<string> args;
         string_args(args);
         stmt = WriteStmt(args);
-        stmt->exec(global_vars);
-        more_statements();
+        if (exec)
+            stmt->exec(global_vars);
+        l.push_back(stmt);
+        more_statements(l);
     } else if (tk == Token::KwLea) {
         tk = lex.getNextToken();
         lvalue();
-        more_statements();
+        more_statements(l);
     } else if (tk == Token::KwSi) {
-        if_statement();
-        more_statements();
+        if_statement(stmt);
+        if (exec)
+            stmt->exec(global_vars);
+        l.push_back(stmt);
+        more_statements(l);
     } else if (tk == Token::KwMientras) {
         tk = lex.getNextToken();
         string vacio;
-        expr0(vacio);
+        EXPRSP expr = expr0(vacio);
         optional_eol();
         expect(Token::KwHaga, "haga");
         optional_eol();
-        statement();
+        STMTS lista;
+        statement(lista, exec);
+        stmt = WhileStmt(expr, lista);
+        if (exec)
+            stmt->exec(global_vars);
+        l.push_back(stmt);
         fin();
         expect(Token::KwMientras, "mientras");
-        more_statements();
+        more_statements(l);
     } else if (tk == Token::KwRepita) {
         tk = lex.getNextToken();
         expect(Token::EndLine, "end of line");
-        statement();
+        statement(l, exec);
         expect(Token::KwHasta, "hasta");
         string vacio;
         expr0(vacio);
-        more_statements();
+        more_statements(l);
     } else if (tk == Token::KwPara) {
         tk = lex.getNextToken();
         lvalue();
@@ -239,57 +256,67 @@ void parser::statement() {
         expr0(vacio);
         expect(Token::KwHaga, "haga");
         expect(Token::EndLine, "end of line");
-        statement();
+        statement(l, exec);
         fin();
         expect(Token::KwPara, "para");
-        more_statements();
+        more_statements(l);
     } else if (tk == Token::KwRetorne) {
         tk = lex.getNextToken();
         string vacio;
         expr0(vacio);
-        more_statements();
+        more_statements(l);
     } else
         syntaxError("statement");
 }
 
-void parser::if_statement() {
+void parser::if_statement(STMTSP& s) {
     expect(Token::KwSi, "SI");
     string vacio;
-    expr0(vacio);
+    EXPRSP expr = expr0(vacio);
     optional_eol();
     expect(Token::KwEntonces, "entonces");
     optional_eol();
-    statement();
-    else_if_block();
+    STMTS lista_if;
+    statement(lista_if, false);
+    vector<EXPRSP> expr_elif;
+    vector<STMTS> stmts_elif;
+    STMTS stmts_else;
+    else_if_block(expr_elif, stmts_elif, stmts_else);
+    s = IfStmt(expr, lista_if, expr_elif, stmts_elif, stmts_else);
     fin();
     expect(Token::KwSi, "si after fin");
 }
 
-void parser::else_if_block() {
+void parser::else_if_block(vector<EXPRSP>& v_expr,
+                           vector<STMTS>& v_stmts, STMTS& s) {
     if (tk == Token::KwSino) {
         tk = lex.getNextToken();
-        else_if_block_p();
+        else_if_block_p(v_expr, v_stmts, s);
     } else {
         /*epsilon*/
     }
 }
 
-void parser::else_if_block_p() {
+void parser::else_if_block_p(vector<EXPRSP>& v_expr,
+                             vector<STMTS>& v_stmts, STMTS& s) {
+    STMTS lista_elif;
     if (tk == Token::KwSi) {
         tk = lex.getNextToken();
         string vacio;
-        expr0(vacio);
+        v_expr.push_back(expr0(vacio));
         optional_eol();
         expect(Token::KwEntonces, "entonces");
         optional_eol();
-        statement();
-        else_if_block();
+        statement(lista_elif, false);
+        v_stmts.push_back(lista_elif);
+        else_if_block(v_expr, v_stmts, s);
     } else if (tokenIs(Token::Iden, Token::KwLlamar, Token::KwEscriba,
                        Token::KwLea, Token::KwSi, Token::EndLine,
                        Token::KwMientras, Token::KwRepita,
                        Token::KwPara, Token::KwRetorne)) {
         optional_eol();
-        statement();
+        statement(lista_elif, false);
+        s = lista_elif;
     } else
         syntaxError("SI or a statement");
 }
@@ -344,11 +371,11 @@ void parser::more_string_args(vector<string>& args) {
     }
 }
 
-void parser::more_statements() {
+void parser::more_statements(STMTS& l) {
     if (tk == Token::EndLine) {
         tk = lex.getNextToken();
         optional_eol();
-        statements();
+        statements(l);
     } else {
         /*epsilon*/
     }

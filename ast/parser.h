@@ -40,6 +40,8 @@ using std::make_shared;
 #define WriteStmt(x) make_shared<WriteStmt>(x);
 #define DeclStmt(x, y) make_shared<DeclareStmt>(x, y);
 #define AssignStmt(x, y) make_shared<AssignStmt>(x, y);
+#define WhileStmt(x, y) make_shared<WhileStmt>(x, y);
+#define IfStmt(a, b, x, y, c) make_shared<IfStmt>(a, b, x, y, c);
 
 class parser
 {
@@ -61,15 +63,15 @@ private:
     void argument_decl();
     void more_args();
     void more_args_p();
-    void statements();
-    void statement();
-    void if_statement();
-    void else_if_block();
-    void else_if_block_p();
+    void statements(STMTS&);
+    void statement(STMTS&, bool);//recibe vector de apuntadores a stmts
+    void if_statement(STMTSP&);
+    void else_if_block(vector<EXPRSP>&, vector<STMTS>&, STMTS&);
+    void else_if_block_p(vector<EXPRSP>&, vector<STMTS>&, STMTS&);
     void optional_eol();
     void string_args(vector<string>&);
     void more_string_args(vector<string>&);
-    void more_statements();
+    void more_statements(STMTS&);
     void lvalue();
     void lvalue_p();
     EXPRSP rvalue(string&);

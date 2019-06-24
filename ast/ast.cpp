@@ -53,7 +53,7 @@ string WriteStmt::toString() {
     return "escriba";
 }
 
-DeclareStmt::DeclareStmt(vector<string> list, string ti) :
+DeclareStmt::DeclareStmt(vector<string>& list, string ti) :
 ids(list) , tipo(ti) {}
 void DeclareStmt::exec(Context& ctx) {
     for (auto i : ids) {
@@ -82,4 +82,51 @@ void AssignStmt::exec(Context& ctx) {
 }
 string AssignStmt::toString() {
     return id + "<-" + val->toString();
+}
+
+WhileStmt::WhileStmt(EXPRSP exp, STMTS& lis) : expr(exp), list(lis) {}
+void WhileStmt::exec(Context& ctx) {
+    while (expr->eval(ctx)) {
+        for (auto i : list) {
+            i->exec(ctx);
+        }
+    }
+}
+string WhileStmt::toString() {
+    return "while";
+}
+
+IfStmt::IfStmt(EXPRSP exp, STMTS& stmt, vector<EXPRSP>& v_expr,
+vector<STMTS>& v_stmt, STMTS& els) : expr_if(exp), stmts_if(stmt),
+expr_elsif(v_expr), stmts_elsif(v_stmt), stmts_else(els) {
+
+}
+void IfStmt::exec(Context& ctx) {
+    if (expr_if->eval(ctx)) {
+        for (auto i : stmts_if) {
+            i->exec(ctx);
+        }
+        return;
+    }
+    if (!expr_elsif.empty()) {
+        int pos = 0;
+        for (auto i : expr_elsif) {
+            if (i->eval(ctx)) {
+                STMTS lista = stmts_elsif[pos];
+                for (auto v : lista) {
+                    v->exec(ctx);
+                }
+                return;
+            }
+            pos++;
+        }
+    }
+    if (!stmts_else.empty()) {
+        for (auto i : stmts_else) {
+            i->exec(ctx);
+        }
+    }
+}
+string IfStmt::toString() {
+    return "if";
 }
