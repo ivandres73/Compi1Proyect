@@ -249,15 +249,19 @@ void parser::statement(STMTS& l, bool exec) {
         more_statements(l);
     } else if (tk == Token::KwPara) {
         tk = lex.getNextToken();
-        lvalue();
+        string name = lvalue();
         expect(Token::Assign, "assign operator");
         string vacio;
-        expr0(vacio);
+        shared_ptr<AssignStmt> as = AssignStmt(name, expr0(vacio));
         expect(Token::KwHasta, "hasta");
-        expr0(vacio);
+        EXPRSP expr = expr0(vacio);
         expect(Token::KwHaga, "haga");
         expect(Token::EndLine, "end of line");
-        statement(l, exec);
+        STMTS lista;
+        statement(lista, false);
+        stmt = ForStmt(as, expr, lista);
+        if (exec)
+            stmt->exec(global_vars);
         fin();
         expect(Token::KwPara, "para");
         more_statements(l);
@@ -370,9 +374,12 @@ void parser::more_statements(STMTS& l) {
     }
 }
 
-void parser::lvalue() {
+string parser::lvalue() {
+    string name;
+    name = lex.getText();
     expect(Token::Iden, "identifier");
     lvalue_p();
+    return name;
 }
 
 void parser::lvalue_p() {

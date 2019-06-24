@@ -175,6 +175,7 @@ class AssignStmt : public Statement {
         AssignStmt(string, EXPRSP);
         void exec(Context&) override;
         string toString() override;
+        string getId() { return id; }
     
     private:
         string id;
@@ -205,4 +206,16 @@ class IfStmt : public Statement {
         vector<EXPRSP> expr_elsif;
         vector<STMTS> stmts_elsif;
         STMTS stmts_else;
+};
+
+class ForStmt : public Statement {
+    public:
+        ForStmt(shared_ptr<AssignStmt>&, EXPRSP, STMTS&);
+        void exec(Context&) override;
+        string toString() override;
+
+    private:
+        shared_ptr<AssignStmt> inicio;
+        EXPRSP breque;
+        STMTS stmts;
 };

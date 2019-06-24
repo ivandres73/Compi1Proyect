@@ -42,6 +42,7 @@ using std::make_shared;
 #define AssignStmt(x, y) make_shared<AssignStmt>(x, y);
 #define WhileStmt(x, y) make_shared<WhileStmt>(x, y);
 #define IfStmt(a, b, x, y, c) make_shared<IfStmt>(a, b, x, y, c);
+#define ForStmt(x, y, z) make_shared<ForStmt>(x, y, z);
 
 class parser
 {
@@ -72,7 +73,7 @@ private:
     void string_args(vector<string>&, vector<EXPRSP>&);
     void more_string_args(vector<string>&, vector<EXPRSP>&);
     void more_statements(STMTS&);
-    void lvalue();
+    string lvalue();
     void lvalue_p();
     EXPRSP rvalue(string&);
     void rvalue_p();

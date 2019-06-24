@@ -151,3 +151,19 @@ void IfStmt::exec(Context& ctx) {
 string IfStmt::toString() {
     return "if";
 }
+
+ForStmt::ForStmt(shared_ptr<AssignStmt>& a, EXPRSP e, STMTS& s) : inicio(a),
+breque(e), stmts(s) {}
+void ForStmt::exec(Context& ctx) {
+    inicio->exec(ctx);
+    string id = inicio->getId();
+    int fin = breque->eval(ctx);
+    for (; ctx.vars[id].value <= fin; ctx.vars[id].value++) {
+        for (auto v : stmts) {
+            v->exec(ctx);
+        }
+    }
+}
+string ForStmt::toString() {
+    return "for";
+}
