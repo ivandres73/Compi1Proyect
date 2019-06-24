@@ -206,8 +206,9 @@ void parser::statement(STMTS& l, bool exec) {
     } else if (tk == Token::KwEscriba) {
         tk = lex.getNextToken();
         vector<string> args;
-        string_args(args);
-        stmt = WriteStmt(args);
+        vector<EXPRSP> exprs;
+        string_args(args, exprs);
+        stmt = WriteStmt(args, exprs);
         if (exec)
             stmt->exec(global_vars);
         l.push_back(stmt);
@@ -330,42 +331,30 @@ void parser::optional_eol() {
     }
 }
 
-void parser::string_args(vector<string>& args) {
+void parser::string_args(vector<string>& args, vector<EXPRSP>& e) {
     if (tk == Token::StringConst) {
         args.push_back(lex.getText());
+        e.push_back(nullptr);
         tk = lex.getNextToken();
-        more_string_args(args);
+        more_string_args(args, e);
     } else if (tokenIs(Token::Iden, Token::IntConst, Token::CharConst,
                        Token::StringConst, Token::KwVerdadero,
                        Token::KwFalso, Token::Sub, Token::KwNo,
                        Token::OpenParens)) {
-        try {
-            string tipoExpr = "int";
-            EXPRSP expr = expr0(tipoExpr);
-            int valor = expr->eval(global_vars);
-            if (tipoExpr == "int")
-                args.push_back(to_string(valor));
-            else if (tipoExpr == "bool") {
-                if (valor == 0)
-                    args.push_back("Falso");
-                else
-                    args.push_back("Verdadero");
-            } else {//if (typeExpr == "char")
-                char car = static_cast<char>(valor);
-                args.push_back(string(1, car));
-            }
-        } catch (const string& e) {
-            cout << e << endl;
-        }
-        more_string_args(args);
+        string tipoExpr = "int";
+        EXPRSP expr = expr0(tipoExpr);
+        e.push_back(expr);
+        args.push_back(tipoExpr);
+        more_string_args(args, e);
     } else
         syntaxError("expresion");
 }
 
-void parser::more_string_args(vector<string>& args) {
+void parser::more_string_args(vector<string>& args,
+                              vector<EXPRSP>& e) {
     if (tk == Token::Comma) {
         tk = lex.getNextToken();
-        string_args(args);
+        string_args(args, e);
     } else {
         /*epsilon*/
     }

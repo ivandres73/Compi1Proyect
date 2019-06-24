@@ -150,12 +150,13 @@ using STMTS = vector<STMTSP>;
 
 class WriteStmt : public Statement {
     public:
-        WriteStmt(vector<string>);
+        WriteStmt(vector<string>&, vector<EXPRSP>&);
         void exec(Context&) override;
         string toString() override;
 
     private:
-        vector<string> args;
+        vector<string> exprs_type;
+        vector<EXPRSP> exprs;
 };
 
 class DeclareStmt : public Statement {

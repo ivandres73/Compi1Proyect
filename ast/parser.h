@@ -37,7 +37,7 @@ using std::make_shared;
 #define GTEExpr(x, y) make_shared<GTEExpr>(x, y);
 
 //Statements
-#define WriteStmt(x) make_shared<WriteStmt>(x);
+#define WriteStmt(x, y) make_shared<WriteStmt>(x, y);
 #define DeclStmt(x, y) make_shared<DeclareStmt>(x, y);
 #define AssignStmt(x, y) make_shared<AssignStmt>(x, y);
 #define WhileStmt(x, y) make_shared<WhileStmt>(x, y);
@@ -69,8 +69,8 @@ private:
     void else_if_block(vector<EXPRSP>&, vector<STMTS>&, STMTS&);
     void else_if_block_p(vector<EXPRSP>&, vector<STMTS>&, STMTS&);
     void optional_eol();
-    void string_args(vector<string>&);
-    void more_string_args(vector<string>&);
+    void string_args(vector<string>&, vector<EXPRSP>&);
+    void more_string_args(vector<string>&, vector<EXPRSP>&);
     void more_statements(STMTS&);
     void lvalue();
     void lvalue_p();

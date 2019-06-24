@@ -44,10 +44,31 @@ string IdenExpr::getType(Context& ctx) {
     return ctx.vars[id].tipo;
 }
 
-WriteStmt::WriteStmt(vector<string> v) : args(v) {}
+WriteStmt::WriteStmt(vector<string>& v, vector<EXPRSP>& e) :
+exprs_type(v), exprs(e) {}
 void WriteStmt::exec(Context& ctx) {
-    for (auto i : args)
-        cout << i;
+    int pos = 0;
+    for (auto i : exprs) {
+        if (i == nullptr) {//imprimir constantes string
+            cout << exprs_type[pos];
+        } else {
+            try {
+                if (exprs_type[pos] == "int") {
+                    cout << i->eval(ctx);
+                } else if (exprs_type[pos] == "bool") {
+                    if (i->eval(ctx) == 0)
+                        cout << "Falso";
+                    else
+                        cout << "Verdadero";
+                } else { //if (exprs_type[pos] == "char")
+                    char car = static_cast<char>(i->eval(ctx));
+                    cout << string(1, car);
+                }
+            } catch (const string& e) {
+                cout << e << std::endl;
+            }
+        }
+    }
 }
 string WriteStmt::toString() {
     return "escriba";
