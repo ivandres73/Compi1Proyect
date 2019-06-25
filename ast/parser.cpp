@@ -35,7 +35,9 @@ void parser::subtype_decl() {
     expect(Token::KwTipo, "TIPO");
     expect(Token::Iden, "identifier");
     expect(Token::KwEs, "ES");
-    type();
+    int vacio;
+    string empty;
+    type(vacio, empty);
     expect(Token::EndLine, "end of line");
 }
 
@@ -45,7 +47,9 @@ void parser::var_section() {
                 Token::KwArreglo)) {
         vector<string> vars;
         Token type = tk;
-        var_decl(vars);
+        int arraySize;
+        string arrayType;
+        var_decl(vars, arraySize, arrayType);
         STMTSP stmt;
         switch (type) {
             case Token::KwEntero:
@@ -57,9 +61,18 @@ void parser::var_section() {
             case Token::KwCaracter:
                 stmt = DeclStmt(vars, "char");
                 break;
-            case Token::KwArreglo:
+            case Token::KwArreglo: {
                 stmt = DeclStmt(vars, "arreglo");
+                entry entry;
+                entry.tipo = arrayType;
+                entry.value = UNINITIALIZED;
+                for (auto i : vars) {
+                    for (int v=0; v < arraySize; v++)
+                        global_vars.arreglos[i].push_back(entry);
+                    global_vars.size_arreglos[i] = arraySize;
+                }
                 break;
+            }
             case Token::KwReal:
                 /* TO DO */
                 break;
@@ -110,7 +123,9 @@ void parser::function_header() {
     expect(Token::Iden, "identifier");    
     argument_list();
     expect(Token::Colon, "colon");
-    type();
+    int vacio;
+    string empty;
+    type(vacio, empty);
 }
 
 void parser::procedure_header() {
@@ -130,15 +145,18 @@ void parser::argument_list() {
 }
 
 void parser::argument_decl() {
+    int vacio;
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
                 Token::KwBooleano, Token::KwCaracter,
                 Token::KwArreglo)) {
-        type();
+        string empty;
+        type(vacio, empty);
         expect(Token::Iden, "identifier");
         more_args();
     } else if (tk == Token::KwVar) {
         tk = lex.getNextToken();
-        type();
+        string empty;
+        type(vacio, empty);
         expect(Token::Iden, "identifier");
         more_args();
     } else {
@@ -159,12 +177,16 @@ void parser::more_args_p() {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
                 Token::KwBooleano, Token::KwCaracter,
                 Token::KwArreglo)) {
-        type();
+        int vacio;
+        string empty;
+        type(vacio, empty);
         expect(Token::Iden, "identifier");
         more_args();
     } else if (tk == Token::KwVar) {
         tk = lex.getNextToken();
-        type();
+        int vacio;
+        string empty;
+        type(vacio, empty);
         expect(Token::Iden, "identifier");
         more_args();
     } else
@@ -400,7 +422,7 @@ void parser::lvalue_p() {
 EXPRSP parser::rvalue(string& tipoExpr) {
     EXPRSP expr = nullptr;
     if (tk == Token::Iden) {
-        shared_ptr<IdenExpr> ie = IdExpr(lex.getText());
+        shared_ptr<IdenExpr> ie = IdExpr(lex.getText(), nullptr);
         expr = ie;
         if (ie->getType(global_vars) == "int")
             tipoExpr = "int";
@@ -409,15 +431,16 @@ EXPRSP parser::rvalue(string& tipoExpr) {
         else if (ie->getType(global_vars) == "char")
             tipoExpr = "char";
         tk = lex.getNextToken();
-        rvalue_p();
+        rvalue_p(tipoExpr);
     } else
         syntaxError("identifier");
     
     return expr;
 }
 
-void parser::rvalue_p() {
+void parser::rvalue_p(string& tipoExpr) {
     if (tk == Token::OpenBra) {
+        tipoExpr = "arreglo";
         tk = lex.getNextToken();
         string vacio;
         expr0(vacio);
@@ -609,11 +632,11 @@ EXPRSP parser::expr5(string& tipoExpr) {
     return expr1;
 }
 
-void parser::var_decl(vector<string>& vars) {
+void parser::var_decl(vector<string>& vars, int& intSize, string& s) {
     if (tokenIs(Token::KwEntero, Token::KwReal, Token::KwCadena,
                 Token::KwBooleano, Token::KwCaracter,
                 Token::KwArreglo)) {
-        type();
+        type(intSize, s);
         vars.push_back(lex.getText());
         expect(Token::Iden, "identifier");
         more_var(vars);
@@ -633,30 +656,34 @@ void parser::more_var(vector<string>& vars) {
     }
 }
 
-void parser::type() {
-    if (tk == Token::KwEntero)
+void parser::type(int& arraySize, string& tipo) {
+    if (tk == Token::KwEntero) {
         tk = lex.getNextToken();
-    else if (tk == Token::KwReal)
+        tipo = "int";
+    } else if (tk == Token::KwReal)
         tk = lex.getNextToken();
     else if (tk == Token::KwCadena)
         tk = lex.getNextToken();
-    else if (tk == Token::KwBooleano)
+    else if (tk == Token::KwBooleano) {
         tk = lex.getNextToken();
-    else if (tk == Token::KwCaracter)
+        tipo = "bool";
+    } else if (tk == Token::KwCaracter) {
         tk = lex.getNextToken();
-    else if (tk == Token::KwArreglo)
-        array_type();
+        tipo = "char";
+    } else if (tk == Token::KwArreglo)
+        array_type(arraySize, tipo);
     else
         syntaxError("type");
 }
 
-void parser::array_type() {
+void parser::array_type(int& arraySize, string& tipo) {
     expect(Token::KwArreglo, "arreglo");
     expect(Token::OpenBra, "open bracket");
+    arraySize = stoi(lex.getText());
     expect(Token::IntConst, "int constant");
     expect(Token::CloseBra, "close bracket");
     expect(Token::KwDe, "DE");
-    type();
+    type(arraySize, tipo);
 }
 
 EXPRSP parser::constant(string& tipoExpr) {

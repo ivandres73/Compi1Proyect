@@ -30,14 +30,22 @@ string NotExpr::toString() {
     return "!" + expr->toString();
 }
 
-IdenExpr::IdenExpr(string str) : id(str) {}
+IdenExpr::IdenExpr(string str, EXPRSP e) : id(str), array_expr(e) {}
 int IdenExpr::eval(Context& ctx) {
     if (ctx.vars.find(id) == ctx.vars.end())
         throw id + " was not declared";
     else if (ctx.vars[id].value == UNINITIALIZED)
         throw id + " has not been initialized";
     else
-        return ctx.vars[id].value;
+        if (ctx.vars[id].tipo == "arreglo") {
+            int valor = array_expr->eval(ctx);
+            if (valor >= ctx.size_arreglos[id])
+                throw "out of bounds exception";
+            else {
+                return ctx.arreglos[id][valor].value;
+            }
+        } else
+            return ctx.vars[id].value;
 }
 string IdenExpr::toString() { return id; }
 string IdenExpr::getType(Context& ctx) {
@@ -53,6 +61,7 @@ void WriteStmt::exec(Context& ctx) {
             cout << exprs_type[pos];
         } else {
             try {
+                //cout << exprs_type[pos] << '\n';
                 if (exprs_type[pos] == "int") {
                     cout << i->eval(ctx);
                 } else if (exprs_type[pos] == "bool") {
@@ -60,9 +69,11 @@ void WriteStmt::exec(Context& ctx) {
                         cout << "Falso";
                     else
                         cout << "Verdadero";
-                } else { //if (exprs_type[pos] == "char")
+                } else if (exprs_type[pos] == "char") {
                     char car = static_cast<char>(i->eval(ctx));
                     cout << string(1, car);
+                } else { //if (exprs_type[pos]) == "arreglo")
+                    
                 }
             } catch (const string& e) {
                 cout << e << std::endl;

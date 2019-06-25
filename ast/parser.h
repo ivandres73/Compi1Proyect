@@ -8,7 +8,7 @@ using std::make_shared;
 #define NumExpr(x) make_shared<NumExpr>(stoi(x));
 #define CharExpr(x) make_shared<CharExpr>(x);
 #define BoolExpr(x) make_shared<BoolExpr>(x);
-#define IdExpr(x) make_shared<IdenExpr>(x);
+#define IdExpr(x, y) make_shared<IdenExpr>(x, y);
 
 //operadores de 1ra precedencia
 #define NegExpr(x) make_shared<NegExpr>(x);
@@ -77,7 +77,7 @@ private:
     string lvalue();
     void lvalue_p();
     EXPRSP rvalue(string&);
-    void rvalue_p();
+    void rvalue_p(string&);
     void args_call();
     void arg_decl();
     void more_arg_decl();
@@ -88,10 +88,10 @@ private:
     EXPRSP expr3(string&);
     EXPRSP expr4(string&);
     EXPRSP expr5(string&);
-    void var_decl(vector<string>&);
+    void var_decl(vector<string>&, int&, string&);
     void more_var(vector<string>&);
-    void type();
-    void array_type();
+    void type(int&, string&);
+    void array_type(int&, string&);
     EXPRSP constant(string&);
     EXPRSP bool_const();
     void fin();

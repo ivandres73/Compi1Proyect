@@ -130,12 +130,13 @@ class name##Expr : public Expr {                         \
 
 class IdenExpr : public Expr {
     public:
-        IdenExpr(string);
+        IdenExpr(string, EXPRSP);
         int eval(Context&) override;
         string toString() override;
         string getType(Context&);
     private:
         string id;
+        EXPRSP array_expr;//pos del array declarado
 };
 
 DEFINE_CONSTEXPR(Num, int);
