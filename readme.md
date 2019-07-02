@@ -42,13 +42,13 @@ Some prerequisites to the lexer are:
 Inside "lexer" and "ast" folders, there is a _CMakeList_ file; which creates a _Makefile_, which will create the executable.
 I will assume you have a LPP file in the same folder of the source files.
 
-```
+```diff
 /ast$ mkdir build
 /ast$ cd build
 /ast/build$ cmake ..
 /ast/build$ make
 /ast/build$ ./Lex ../boolTest.txt
-VerdaderoFalso
++VerdaderoFalso
 /ast/build$ 
 ```
 
