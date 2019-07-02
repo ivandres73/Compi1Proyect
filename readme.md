@@ -1,4 +1,4 @@
-#LPP (front-end) Compiler
+# LPP (front-end) Compiler
 
 This proyect consists of a [LPP](https://github.com/mvillatoro/CompiladoresEjemplosLpp) compiler. Being able to run simple LPP programs like:
 
@@ -15,23 +15,23 @@ Fin
 
 The example above would print `92` in the terminal.
 
-###Files Description
+### Files Description
 
 There are 4 main folders in this project:
 
-- fa:
+- **fa**:
     In this folder you will find the Finite Automaton used by the lexer to create the tokens. The files can be opened with [JFLAP](http://www.jflap.org/).
 
-- lexer:
+- **lexer**:
     Source files for the lexer. In summary the lexer is a tremendous _switch_ which goes letter by letter until it finds a token.
 
-- parser:
+- **parser**:
     LL(1) parser, using recursivity.
 
-- ast:
+- **ast**:
     From the parser, the ast is built. Here is were semantic errors are found. Unfortunately I didn't finish this part to handle arrays nor functions (help would be grateful).
 
-###How to run
+### How to run
 
 Some prerequisites to the lexer are:
 
@@ -43,13 +43,13 @@ Inside "lexer" and "ast" folders, there is a _CMakeList_ file; which creates a _
 I will assume you have a LPP file in the same folder of the source files.
 
 ```
-../ast$ mkdir build
-../ast$ cd build
-../ast/build$ cmake ..
-../ast/build$ make
-../ast/build$ ./Lex ../boolTest.txt
+/ast$ mkdir build
+/ast$ cd build
+/ast/build$ cmake ..
+/ast/build$ make
+/ast/build$ ./Lex ../boolTest.txt
 VerdaderoFalso
-../ast/build$ 
+/ast/build$ 
 ```
 
 assuming boolTest.txt contains:
@@ -64,7 +64,7 @@ Inicio
 Fin
 ```
 
-###Other comments
+### Other comments
 
 you could also add the executable writing down `$ export LPP=<absolute route>` in the console, the problem with this is that the variable will be deleted when the instance of the console is destroyed.
 
