@@ -36,8 +36,8 @@ There are 4 main folders in this project:
 Some prerequisites to the lexer are:
 
 1. A linux distro (preferable ubuntu)
-2. cmake          (preferable 3.10.2)
-3. GNU Make       (preferable 4.1)
+2. cmake          (preferable v3.10.2)
+3. GNU Make       (preferable v4.1)
 
 Inside "lexer" and "ast" folders, there is a _CMakeList_ file; which creates a _Makefile_, which will create the executable.
 I will assume you have a LPP file in the same folder of the source files.
